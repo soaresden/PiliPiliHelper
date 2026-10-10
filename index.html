@@ -51,6 +51,10 @@ b,strong{font-weight:900}
 /* ---------- En-tête ---------- */
 #top{position:relative;flex:none;z-index:30;display:flex;align-items:center;gap:10px;padding:6px 14px;
   background:linear-gradient(#240b1ff2,#240b1fd9);backdrop-filter:blur(8px);border-bottom:3px solid var(--line)}
+.hbtn{flex:none;font-family:var(--title);font-size:15px;padding:9px 12px 6px;border-radius:12px;border:3px solid var(--line);background:var(--teal);color:var(--line);box-shadow:0 3px 0 var(--line);cursor:pointer;white-space:nowrap}
+.hbtn.reset{background:var(--orange)}
+.hbtn:active{transform:translateY(3px);box-shadow:0 0 0 var(--line)}
+.linkbtn{background:none;border:0;padding:0;color:var(--mute);text-decoration:underline;cursor:pointer;font-size:inherit}
 .brand{font-family:var(--title);font-size:24px;line-height:.9;color:var(--yellow);cursor:pointer;white-space:nowrap;
   text-shadow:2px 2px 0 var(--red),4px 4px 0 var(--line);padding-top:4px;background:none;border:0}
 .brand small{display:block;font-size:12px;color:var(--orange);text-shadow:1px 1px 0 var(--line);letter-spacing:1px}
@@ -61,10 +65,22 @@ b,strong{font-weight:900}
 .iconbtn{width:46px;height:46px;border-radius:50%;border:3px solid var(--line);background:var(--panel2);font-size:21px;
   cursor:pointer;box-shadow:0 3px 0 var(--line);display:grid;place-items:center;flex:none}
 .iconbtn.on{background:var(--teal)}
+.vols{display:flex;flex-direction:column;gap:2px;flex:none;background:var(--line);border-radius:14px;padding:4px 10px}
+.vols label{display:flex;align-items:center;gap:6px;font-size:14px;line-height:1}
+.vols input{-webkit-appearance:none;appearance:none;width:88px;height:16px;background:transparent;cursor:pointer;margin:0;touch-action:none}
+.vols input::-webkit-slider-runnable-track{height:8px;border-radius:4px;border:2px solid #000;background:linear-gradient(90deg,var(--yellow),var(--orange) var(--v),#ffffff22 var(--v))}
+.vols input::-moz-range-track{height:8px;border-radius:4px;border:2px solid #000;background:linear-gradient(90deg,var(--yellow),var(--orange) var(--v),#ffffff22 var(--v))}
+.vols input::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-8px;border-radius:50%;background:var(--pink);border:3px solid #000}
+.vols input::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--pink);border:3px solid #000}
+@media (max-width:1000px){.vols input{width:70px}}
+#top{gap:8px}
+.tabs{flex-wrap:nowrap;gap:5px}
+.tab{font-size:15px;padding:8px 10px 5px;white-space:nowrap}
+@media (max-width:1180px){#top .brand{display:none}}
 .mini{display:flex;align-items:center;gap:4px;background:var(--line);border:3px solid var(--line);border-radius:999px;padding:3px 4px 3px 4px;flex:none;box-shadow:0 3px 0 #000}
 .mini button{width:36px;height:36px;border-radius:50%;border:0;background:var(--panel2);font-size:15px;cursor:pointer;display:grid;place-items:center;padding:0;color:var(--ink)}
 .mini button.pp{width:40px;height:40px;background:var(--pink);font-size:17px}
-.mini .now{display:flex;flex-direction:column;min-width:0;width:150px;padding:0 6px;cursor:pointer;line-height:1.1}
+.mini .now{display:flex;flex-direction:column;min-width:0;width:112px;padding:0 6px;cursor:pointer;line-height:1.1}
 .mini .now b{font-family:var(--title);font-weight:400;font-size:15px;color:var(--yellow);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mini .now small{font-size:11px;color:var(--mute);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mini .eq{display:flex;align-items:flex-end;gap:2px;height:16px;width:14px;flex:none}
@@ -246,7 +262,7 @@ button.nchip{padding:8px 14px}
 .dragging{opacity:.3}
 .dropover>.mask,.nchip.dropover{outline:4px dashed var(--yellow);outline-offset:4px;border-radius:50%}
 .nchip.dropover{border-radius:999px}
-.ghost{position:fixed;left:0;top:0;z-index:90;pointer-events:none;transform:translate(-50%,-50%) scale(1.15) rotate(-4deg);filter:drop-shadow(0 10px 10px #0008);opacity:.95}
+.dragghost{position:fixed;left:0;top:0;z-index:90;pointer-events:none;transform:translate(-50%,-50%) scale(1.15) rotate(-4deg);filter:drop-shadow(0 10px 10px #0008);opacity:.95}
 .seg{display:flex;border:3px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 3px 0 var(--line)}
 .seg button{flex:1;border:0;background:var(--panel2);padding:11px 8px;font-weight:900;cursor:pointer}
 .seg button+button{border-left:3px solid var(--line)}
@@ -654,7 +670,8 @@ const LS = {
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
 };
 let S = LS.get('pp_state', null) || {};
-S = Object.assign({ game:null, tab:'game', matches:{}, setup:{ players:[], dealer:0, missions:true }, sound:{ music:true, sfx:true, track:0 }, history:[], cardFilter:'missions' }, S);
+S = Object.assign({ game:null, tab:'game', matches:{}, setup:{ players:[], dealer:0, missions:true }, sound:{}, history:[], cardFilter:'missions' }, S);
+S.sound = Object.assign({ music:true, sfx:true, track:0, vm:30, vs:70 }, S.sound);
 let NAMES = LS.get('pp_names', []);
 const save = () => LS.set('pp_state', S);
 const G = () => GAMES[S.game];
@@ -673,8 +690,8 @@ const SND = (() => {
     const comp = ctx.createDynamicsCompressor();
     comp.threshold.value = -16; comp.knee.value = 12; comp.ratio.value = 4; comp.attack.value = .004; comp.release.value = .2;
     out = ctx.createGain(); out.gain.value = .9; out.connect(comp); comp.connect(ctx.destination);
-    mus = ctx.createGain(); mus.gain.value = .36; mus.connect(out);
-    sfxBus = ctx.createGain(); sfxBus.gain.value = .8; sfxBus.connect(out);
+    mus = ctx.createGain(); mus.gain.value = volGain(S.sound.vm, .8); mus.connect(out);
+    sfxBus = ctx.createGain(); sfxBus.gain.value = volGain(S.sound.vs, 1.1); sfxBus.connect(out);
     rev = ctx.createConvolver(); rev.buffer = impulse(1.9, 2.6);
     const rg = ctx.createGain(); rg.gain.value = .28; rev.connect(rg); rg.connect(out);
     noise = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
@@ -940,7 +957,14 @@ const SND = (() => {
     o.connect(g); g.connect(sfxBus); o.start(t); lfo.start(t); o.stop(t + dur + .05); lfo.stop(t + dur + .05);
     nz(t, { type:'bandpass', f:2400, q:4, dur, vel:.12, dest:sfxBus });
   }
-  const on = () => S.sound.sfx && init();
+  function volGain(v, max) { return Math.pow(Math.max(0, Math.min(100, v)) / 100, 2) * max; }
+  function setVolumes() {
+    if (!ctx) return;
+    const t = ctx.currentTime;
+    mus.gain.setTargetAtTime(volGain(S.sound.vm, .8), t, .05);
+    sfxBus.gain.setTargetAtTime(volGain(S.sound.vs, 1.1), t, .05);
+  }
+  const on = () => S.sound.vs > 0 && init();
   const now = () => ctx.currentTime + .01;
   const fx = {
     tap() { if (!on()) return; pluck(now(), [69,72,76,81,84][Math.random() * 5 | 0], .35, sfxBus, .15); },
@@ -992,7 +1016,7 @@ const SND = (() => {
       o.connect(g); g.connect(sfxBus); o.start(t); o.stop(t + .55);
     }
   };
-  return { start, stop, fx, init, TRACKS, get playing() { return playing; }, get track() { return cur; } };
+  return { start, stop, fx, init, setVolumes, TRACKS, get playing() { return playing; }, get track() { return cur; } };
 })();
 const sfx = SND.fx;
 
@@ -1151,10 +1175,14 @@ function tableHTML(players, o = {}) {
 function renderTop() {
   const g = S.game && G();
   const tabs = [['game','🎲 Partie'],['cards','🃏 Cartes'],['rules','📜 Règles'],['log','📒 Historique']];
-  $('#top').innerHTML = `<button class="brand" data-a="home" title="Changer de jeu">PILI PILI${g && g.key === 'spicy' ? '<small>EXTRA SPICY 🌶🌶🌶</small>' : g ? '<small>LE JEU ORIGINAL</small>' : ''}</button>
+  $('#top').innerHTML = `${g ? `<button class="hbtn" data-a="home" title="Revenir au choix du jeu">🏠 Accueil</button>` : ''}<button class="brand" data-a="home" title="Changer de jeu">PILI PILI${g && g.key === 'spicy' ? '<small>EXTRA SPICY 🌶🌶🌶</small>' : g ? '<small>LE JEU ORIGINAL</small>' : ''}</button>
     ${g ? `<nav class="tabs">${tabs.map(([k, l]) => `<button class="tab ${S.tab === k ? 'on' : ''}" data-a="tab" data-v="${k}">${l}</button>`).join('')}</nav>` : '<div style="flex:1"></div>'}
+    ${g && M() ? `<button class="hbtn reset" data-a="reset" title="Remettre la partie à zéro">↺ Reset</button>` : ''}
     ${miniPlayer()}
-    <button class="iconbtn ${S.sound.sfx ? 'on' : ''}" data-a="sfx" title="Bruitages">${S.sound.sfx ? '🔊' : '🔇'}</button>`;
+    <div class="vols">
+      <label title="Volume de la musique"><span>🎵</span><input type="range" min="0" max="100" step="1" value="${S.sound.vm}" data-vol="vm" style="--v:${S.sound.vm}%"></label>
+      <label title="Volume des bruitages"><span>${S.sound.vs > 0 ? '💥' : '🔇'}</span><input type="range" min="0" max="100" step="1" value="${S.sound.vs}" data-vol="vs" style="--v:${S.sound.vs}%"></label>
+    </div>`;
 }
 
 let lastPanelKey = '';
@@ -1180,7 +1208,7 @@ function homeView() {
         <span class="gpn">${g.name}</span><span class="gps">${g.sub} · fin à ${g.limit} Pilis</span>
         ${m && !m.over ? `<span class="gpc">Partie en cours · manche ${m.rounds.length + 1}</span>` : ''}</button>`;
     }).join('')}</div>
-    <p class="muted hp" style="margin-top:26px">🎺 Musique et 🔊 bruitages : boutons en haut à droite.</p></section>`;
+    <p class="muted hp" style="margin-top:26px">🎵 Musique et 💥 bruitages : réglages en haut à droite · <button class="linkbtn" data-a="wipe">Tout effacer (prénoms mémorisés, historique, parties)</button></p></section>`;
 }
 
 /* ----- Onglet Cartes ----- */
@@ -1511,7 +1539,19 @@ function undoRound() {
 }
 
 const ACT = {
-  home() { S.game = null; sfx.tap(); render(); },
+  home() { S.game = null; closeModal(); sfx.tap(); render(); },
+  reset() {
+    const m = M(); if (!m) return;
+    if (!confirm('Remettre la partie à zéro ? Tous les Pilis et l’historique de cette partie seront effacés (les joueurs restent à table).')) return;
+    S.setup.players = m.players.map(p => p.name); S.setup.dealer = m.dealer; S.setup.missions = m.missions;
+    delete S.matches[S.game]; S.tab = 'game'; closeModal(); toast('Partie remise à zéro'); render();
+  },
+  wipe() {
+    if (!confirm('Tout effacer ? Prénoms mémorisés, historique et parties en cours des deux jeux.')) return;
+    NAMES = []; LS.set('pp_names', NAMES);
+    S.matches = {}; S.history = []; S.setup = { players:[], dealer:0, missions:true };
+    toast('Tout est effacé'); render();
+  },
   pickGame(v) { S.game = v; S.tab = 'game'; S.cardFilter = 'missions'; sfx.flip(); render(); },
   tab(v) { S.tab = v; closeModal(); sfx.tap(); render(); toTop(); },
   mToggle() {
@@ -1523,7 +1563,7 @@ const ACT = {
     const n = SND.TRACKS.length; S.sound.track = ((S.sound.track || 0) + (+v) + n) % n; S.sound.music = true;
     SND.start(S.sound.track); renderTop(); save(); toast('🎺 ' + SND.TRACKS[S.sound.track].name);
   },
-  sfx() { S.sound.sfx = !S.sound.sfx; renderTop(); save(); if (S.sound.sfx) sfx.tap(); },
+
   card(v) { if (v) openCard(v); },
   pickFromModal(v) { const m = M(); m.cur.mission = v; m.cur.variant = {}; S._flash = true; closeModal(); S.tab = 'game'; render(); },
   cfilter(v) { S.cardFilter = v; sfx.tap(); render(); },
@@ -1619,7 +1659,7 @@ document.addEventListener('pointermove', e => {
   if (!drag.on) {
     if (Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) < 10) return;
     drag.on = true;
-    const g = drag.el.cloneNode(true); g.classList.add('ghost'); ['data-drag', 'data-dropidx', 'data-a', 'data-pid'].forEach(k => g.removeAttribute(k));
+    const g = drag.el.cloneNode(true); g.classList.add('dragghost'); ['data-drag', 'data-dropidx', 'data-a', 'data-pid'].forEach(k => g.removeAttribute(k));
     const r = drag.el.getBoundingClientRect(); g.style.width = r.width + 'px'; g.style.position = 'fixed';
     document.body.appendChild(g); drag.ghost = g; drag.el.classList.add('dragging'); sfx.tap();
   }
@@ -1675,7 +1715,14 @@ document.addEventListener('click', e => {
   }
   const f = ACT[el.dataset.a]; if (f) f(el.dataset.v, el, e);
 });
+document.addEventListener('input', e => {
+  const el = e.target.closest('[data-vol]'); if (!el) return;
+  S.sound[el.dataset.vol] = +el.value; el.style.setProperty('--v', el.value + '%');
+  if (el.dataset.vol === 'vs') el.previousElementSibling.textContent = +el.value > 0 ? '💥' : '🔇';
+  SND.setVolumes(); save();
+});
 document.addEventListener('change', e => {
+  const v = e.target.closest('[data-vol]'); if (v) { if (v.dataset.vol === 'vs') sfx.tap(); return; }
   const el = e.target.closest('[data-ch]'); if (!el) return;
   CHG[el.dataset.ch](el.value, el.dataset.v); sfx.tap(); render();
 });
