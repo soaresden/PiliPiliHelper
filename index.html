@@ -1,0 +1,1475 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#240b1f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Pili Pili – Compagnon de table</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#240b1f;--panel:#45163b;--panel2:#56204a;--ink:#fff4e3;--mute:#dcbcd2;
+  --pink:#ff2e88;--orange:#ff8a00;--yellow:#ffd23f;--teal:#14c8b4;--purple:#8e44ff;
+  --green:#7bd83a;--red:#e8243c;--blue:#2f9bff;--line:#12040e;
+  --title:'Luckiest Guy','Arial Black',Impact,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;font-size:16px}
+body{min-height:100vh;overflow-x:hidden}
+button{font:inherit;color:inherit;touch-action:manipulation}
+img{user-select:none;-webkit-user-drag:none}
+.muted{color:var(--mute)} .small{font-size:13px}
+b,strong{font-weight:900}
+
+/* ---------- Décor ---------- */
+#bg{position:fixed;inset:0;z-index:-2;background:
+  radial-gradient(circle at 15% 5%,#64194f 0,transparent 42%),
+  radial-gradient(circle at 90% 85%,#5a1230 0,transparent 48%),
+  radial-gradient(circle at 70% 30%,#2b1046 0,transparent 40%),var(--bg)}
+#bg::after{content:"";position:absolute;inset:0;opacity:.06;
+  background-image:radial-gradient(circle,var(--yellow) 0 3px,transparent 4px),
+  conic-gradient(from 45deg,var(--teal) 0 25%,transparent 0 50%,var(--pink) 0 75%,transparent 0);
+  background-size:64px 64px,32px 32px}
+.petal{position:fixed;top:-30px;z-index:-1;width:14px;height:14px;border-radius:60% 0 60% 0;
+  background:radial-gradient(circle at 30% 30%,#ffc04d,var(--orange));opacity:.55;
+  animation:fall linear infinite;pointer-events:none}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(720deg)}}
+
+.papel{position:relative;height:78px;overflow:hidden;pointer-events:none}
+.papel::before{content:"";position:absolute;left:0;right:0;top:7px;height:2px;background:#f3dfb8;opacity:.6}
+.flag{position:absolute;top:7px;width:62px;transform-origin:50% 0;animation:sway 3.4s ease-in-out infinite alternate;filter:drop-shadow(0 3px 0 #0006)}
+.flag svg{display:block;width:100%}
+@keyframes sway{from{transform:rotate(-6deg) skewX(3deg)}to{transform:rotate(6deg) skewX(-3deg)}}
+
+/* ---------- En-tête ---------- */
+#top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;padding:8px 14px;
+  background:linear-gradient(#240b1ff2,#240b1fd9);backdrop-filter:blur(8px);border-bottom:3px solid var(--line)}
+.brand{font-family:var(--title);font-size:24px;line-height:.9;color:var(--yellow);cursor:pointer;white-space:nowrap;
+  text-shadow:2px 2px 0 var(--red),4px 4px 0 var(--line);padding-top:4px;background:none;border:0}
+.brand small{display:block;font-size:12px;color:var(--orange);text-shadow:1px 1px 0 var(--line);letter-spacing:1px}
+.tabs{display:flex;gap:6px;flex:1;justify-content:center;flex-wrap:wrap}
+.tab{font-family:var(--title);font-size:16px;padding:9px 13px 6px;border-radius:12px;border:3px solid var(--line);
+  background:var(--panel2);box-shadow:0 3px 0 var(--line);cursor:pointer;color:var(--ink)}
+.tab.on{background:var(--yellow);color:var(--line);transform:translateY(-2px) rotate(-1.5deg)}
+.iconbtn{width:46px;height:46px;border-radius:50%;border:3px solid var(--line);background:var(--panel2);font-size:21px;
+  cursor:pointer;box-shadow:0 3px 0 var(--line);display:grid;place-items:center;flex:none}
+.iconbtn.on{background:var(--teal)}
+.iconbtn.on.music{animation:wiggle 1s ease-in-out infinite}
+@keyframes wiggle{50%{transform:rotate(-12deg) scale(1.08)}}
+
+main{max-width:1320px;margin:0 auto;padding:18px 14px 90px}
+
+/* ---------- Boutons ---------- */
+.btn{font-family:var(--title);letter-spacing:.5px;font-size:20px;color:var(--line);background:var(--yellow);
+  border:3px solid var(--line);border-radius:14px;padding:12px 20px 8px;box-shadow:0 5px 0 var(--line);cursor:pointer;
+  transition:transform .08s,box-shadow .08s;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--line)}
+.btn.pink{background:var(--pink);color:#fff;text-shadow:1px 1px 0 var(--line)}
+.btn.teal{background:var(--teal)}
+.btn.orange{background:var(--orange)}
+.btn.ghost{background:#ffffff10;color:var(--ink);border-color:#ffffff40;box-shadow:none}
+.btn.big{font-size:26px;padding:15px 28px 11px}
+.btn.sm{font-size:15px;padding:8px 12px 5px;border-radius:10px;box-shadow:0 3px 0 var(--line)}
+.btn:disabled{opacity:.35;pointer-events:none}
+.btn.pulse{animation:pulseBtn 1s ease-in-out infinite alternate}
+@keyframes pulseBtn{to{transform:scale(1.05);box-shadow:0 5px 0 var(--line),0 0 26px var(--yellow)}}
+.actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;align-items:center;margin-top:18px}
+
+.panel{background:var(--panel);border:3px solid var(--line);border-radius:22px;box-shadow:0 6px 0 var(--line);padding:18px;position:relative}
+.panel.anim{animation:slideIn .35s cubic-bezier(.2,1.3,.4,1)}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px) rotate(1deg)}}
+.panel h2,.h2{font-family:var(--title);font-weight:400;margin:0 0 10px;font-size:28px;line-height:1.05;color:var(--yellow);text-shadow:2px 2px 0 var(--line)}
+.panel h3{font-family:var(--title);font-weight:400;font-size:19px;margin:18px 0 8px;color:var(--orange);text-shadow:1px 1px 0 var(--line)}
+.lbl{font-weight:900;font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--mute)}
+
+/* ---------- Accueil ---------- */
+.home{text-align:center;padding-top:8px}
+.hero{font-family:var(--title);font-weight:400;font-size:clamp(64px,13vw,140px);line-height:.85;margin:6px 0 10px;color:#fff;
+  text-shadow:0 0 0 var(--line),4px 4px 0 var(--red),8px 8px 0 var(--line);animation:heroIn .8s cubic-bezier(.2,1.5,.4,1)}
+.hero span{display:inline-block;animation:chili 1.4s ease-in-out infinite alternate}
+@keyframes heroIn{from{transform:scale(.3) rotate(-10deg);opacity:0}}
+@keyframes chili{to{transform:rotate(18deg) scale(1.15)}}
+.lead{font-size:19px;max-width:640px;margin:0 auto 26px}
+.gamepick{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;max-width:860px;margin:0 auto}
+.gp{position:relative;background:var(--panel);border:3px solid var(--line);border-radius:24px;box-shadow:0 7px 0 var(--line);
+  padding:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:transform .2s;animation:pop .5s backwards}
+.gp:nth-child(2){animation-delay:.12s}
+.gp:hover{transform:translateY(-6px) rotate(-1deg)}
+.gp:active{transform:translateY(2px)}
+.gp img{width:100%;max-height:260px;object-fit:contain;border-radius:14px}
+.gpn{font-family:var(--title);font-size:28px;color:var(--yellow);text-shadow:2px 2px 0 var(--line)}
+.gps{color:var(--mute);font-weight:700}
+.gpc{position:absolute;top:-12px;right:-10px;background:var(--pink);color:#fff;font-weight:900;border:3px solid var(--line);
+  border-radius:999px;padding:4px 12px;transform:rotate(6deg);font-size:13px}
+@keyframes pop{from{opacity:0;transform:translateY(24px) scale(.9)}}
+
+/* ---------- Mise en page partie ---------- */
+.game-layout{display:grid;grid-template-columns:minmax(300px,1fr) minmax(360px,1.15fr);gap:22px;align-items:start}
+@media (max-width:900px){.game-layout{grid-template-columns:1fr}}
+.left-col{position:sticky;top:84px}
+@media (max-width:900px){.left-col{position:static}}
+
+/* ---------- Table ronde ---------- */
+.table{position:relative;width:min(100%,560px,62vh);aspect-ratio:1;margin:8px auto;isolation:isolate}
+@media (max-width:900px){.table{width:min(100%,520px)}}
+.felt{position:absolute;inset:19%;border-radius:50%;
+  background:radial-gradient(circle at 40% 32%,#2f9174,#114a3c 72%);border:5px solid var(--line);
+  box-shadow:0 0 0 9px #8a4b1f,0 0 0 12px var(--line),inset 0 0 40px #0009;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3px;padding:8%}
+.felt::before{content:"";position:absolute;inset:-30px;border-radius:50%;z-index:-1;
+  background:repeating-conic-gradient(var(--pink) 0 7.5deg,var(--orange) 7.5deg 15deg,var(--yellow) 15deg 22.5deg,var(--teal) 22.5deg 30deg,var(--purple) 30deg 37.5deg);
+  animation:spin 90s linear infinite;box-shadow:0 0 0 3px var(--line)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.fc-round{font-family:var(--title);font-size:clamp(16px,3.4vmin,24px);color:var(--yellow);text-shadow:2px 2px 0 var(--line)}
+.fc-sub{font-weight:900;font-size:clamp(11px,2.2vmin,14px);text-shadow:1px 1px 0 var(--line)}
+.fc-mission{background:none;border:0;padding:0;cursor:pointer;width:34%;max-width:96px}
+.fc-mission .cface{box-shadow:0 4px 0 var(--line);animation:floaty 3s ease-in-out infinite alternate}
+@keyframes floaty{to{transform:translateY(-4px) rotate(2deg)}}
+.seat{position:absolute;transform:translate(-50%,-50%);width:var(--seat,100px);display:flex;flex-direction:column;align-items:center;gap:2px;
+  background:none;border:0;padding:0;cursor:pointer;z-index:2}
+.seat .mask{width:60%;filter:drop-shadow(0 3px 0 var(--line));transition:transform .2s}
+.seat .nm{font-weight:900;font-size:14px;background:var(--line);padding:2px 9px;border-radius:999px;max-width:118%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.seat .pl{font-family:var(--title);font-size:16px;color:var(--yellow);text-shadow:1px 1px 0 var(--line);line-height:1}
+.seat .pl small{font-size:11px;color:var(--mute)}
+.pbar{width:70%;height:6px;background:#0007;border-radius:3px;overflow:hidden;border:1px solid var(--line)}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--yellow),var(--orange),var(--red));transition:width .6s}
+.seat.danger .pl{color:var(--red);animation:blink 1s infinite alternate}
+@keyframes blink{to{opacity:.55}}
+.seat.active .mask{animation:bob .6s ease-in-out infinite alternate}
+.seat.active::after{content:"";position:absolute;top:-4%;width:66%;aspect-ratio:1;border-radius:50%;z-index:-1;
+  box-shadow:0 0 0 4px var(--yellow),0 0 28px 6px var(--yellow);animation:blink .8s infinite alternate}
+@keyframes bob{to{transform:translateY(-6px) rotate(-5deg)}}
+.seat.sel .mask{transform:scale(1.15) rotate(8deg)}
+.seat.sel::after{content:"";position:absolute;top:-4%;width:66%;aspect-ratio:1;border-radius:50%;z-index:-1;box-shadow:0 0 0 4px var(--pink),0 0 22px var(--pink)}
+.seat.hit .mask{animation:shake .5s}
+@keyframes shake{20%{transform:translateX(-8px) rotate(-10deg)}40%{transform:translateX(8px) rotate(8deg)}60%{transform:translateX(-5px)}80%{transform:translateX(4px)}}
+.bub{position:absolute;top:-6px;right:0;min-width:34px;height:34px;border-radius:17px;background:#fff;color:var(--line);
+  font-family:var(--title);font-size:18px;display:grid;place-items:center;border:3px solid var(--line);padding:3px 6px 0;line-height:1}
+.bub.ok{background:var(--green)} .bub.over{background:var(--orange)} .bub.q{background:#ffffffaa}
+.dchip{position:absolute;top:-8px;left:-2px;background:var(--teal);color:var(--line);font-weight:900;font-size:11px;
+  border:2px solid var(--line);border-radius:8px;padding:2px 6px;transform:rotate(-10deg)}
+.rchip{font-size:10px;font-weight:900;text-transform:uppercase;background:var(--purple);color:#fff;border:2px solid var(--line);border-radius:8px;padding:1px 6px}
+.rchip.sab{background:var(--red)} .rchip.gar{background:var(--blue)} .rchip.pm{background:var(--orange);color:var(--line)} .rchip.hid{background:#333}
+
+.phases{display:flex;justify-content:center;gap:4px;margin-top:6px;flex-wrap:wrap}
+.phases button{border:2px solid var(--line);border-radius:999px;background:#0003;color:var(--mute);font-weight:900;font-size:13px;padding:5px 11px;cursor:pointer}
+.phases button.on{background:var(--yellow);color:var(--line)}
+.phases button.done{color:var(--ink);background:#ffffff1a}
+.phases button:disabled{cursor:default;opacity:.5}
+
+/* ---------- Faces de cartes ---------- */
+.cface{aspect-ratio:5/7;border-radius:14px;border:3px solid var(--line);box-shadow:0 6px 0 var(--line);overflow:hidden;
+  display:grid;place-items:center;background:#fffaf0;position:relative}
+.cface img{width:100%;height:100%;object-fit:contain;display:block}
+.cface.icon{background:#fffaf0}
+.cface.icon img{padding:13% 9%}
+.cface.icon.expert{box-shadow:0 6px 0 var(--line),inset 0 0 0 5px var(--red)}
+.cface.icon.expert::after{content:"EXPERT";position:absolute;bottom:5px;right:7px;font-family:var(--title);font-size:11px;color:var(--red)}
+.mthumb .cface.icon.expert::after,.banner .cface::after,.log .cface::after,.fc-mission .cface::after{font-size:7px;bottom:2px;right:3px}
+.cface.plain{background:#f6efe4}
+.cface.plain img{padding:6%}
+.cface.photo{background:#2a0a20}
+.cface.photo img{padding:4%;border-radius:10px}
+
+/* ---------- Onglet cartes ---------- */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.fchip{border:3px solid var(--line);border-radius:999px;background:var(--panel2);font-weight:900;padding:8px 14px;cursor:pointer;box-shadow:0 3px 0 var(--line)}
+.fchip.on{background:var(--pink);color:#fff}
+.csec{margin-bottom:34px}
+.csec .h2 small{font-family:Nunito;font-size:15px;color:var(--mute);text-shadow:none;font-weight:700;margin-left:8px}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:26px 18px}
+@media (max-width:520px){.cgrid{grid-template-columns:repeat(2,1fr)}}
+.ctile{background:none;border:0;padding:0;cursor:pointer;text-align:center;animation:pop .45s backwards}
+.ctile .cface{transition:transform .25s cubic-bezier(.2,1.5,.4,1)}
+.ctile:hover .cface,.ctile:focus-visible .cface{transform:translateY(-6px) rotate(-2.5deg)}
+.ctile:active .cface{transform:scale(.95)}
+.ctile .ct{font-family:var(--title);font-size:18px;margin-top:11px;line-height:1.05;text-shadow:1px 1px 0 var(--line)}
+.tag{display:inline-block;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.5px;color:var(--line);
+  border-radius:999px;padding:3px 9px;margin-top:6px;border:2px solid var(--line);background:var(--c,var(--teal))}
+
+/* ---------- Modale ---------- */
+.modal{position:fixed;inset:0;z-index:50;background:#12040ed9;backdrop-filter:blur(5px);display:grid;place-items:center;padding:14px;animation:fade .2s}
+.modal.hidden{display:none}
+@keyframes fade{from{opacity:0}}
+.sheet{background:var(--panel);border:3px solid var(--line);border-radius:24px;box-shadow:0 8px 0 var(--line);max-width:880px;width:100%;
+  max-height:92vh;overflow:auto;padding:22px;position:relative;animation:rise .35s cubic-bezier(.2,1.4,.4,1)}
+@keyframes rise{from{transform:translateY(50px) scale(.92);opacity:0}}
+.xbtn{position:absolute;top:10px;right:10px;width:46px;height:46px;border-radius:50%;border:3px solid var(--line);background:var(--yellow);
+  color:var(--line);font-size:24px;font-weight:900;cursor:pointer;box-shadow:0 3px 0 var(--line);z-index:3}
+.card-sheet{display:grid;grid-template-columns:minmax(220px,40%) 1fr;gap:26px;align-items:start}
+@media (max-width:660px){.card-sheet{grid-template-columns:1fr}.card-sheet .cface{max-width:250px;margin:0 auto}}
+.card-sheet .cface{animation:flipIn .7s cubic-bezier(.2,1.25,.4,1)}
+@keyframes flipIn{from{transform:perspective(1000px) rotateY(-150deg) scale(.5);opacity:0}}
+.card-sheet h2{font-family:var(--title);font-weight:400;font-size:34px;margin:6px 50px 4px 0;color:var(--yellow);text-shadow:2px 2px 0 var(--line);line-height:1}
+.count{color:var(--mute);font-weight:700;margin:2px 0 10px}
+.rule{font-size:21px;line-height:1.45}
+.rule b{color:var(--yellow)}
+.rule p{margin:0 0 10px}
+.appnote{margin-top:16px;background:#0003;border-left:5px solid var(--teal);padding:10px 14px;border-radius:10px;font-size:15px}
+.note2{margin-top:12px;background:#ff2e8822;border-left:5px solid var(--pink);padding:10px 14px;border-radius:10px;font-size:15px}
+
+/* ---------- Mise en place ---------- */
+.addrow{display:flex;gap:10px;margin:10px 0}
+.addrow input{flex:1;min-width:0;font:inherit;font-size:20px;font-weight:700;padding:10px 14px;border-radius:12px;border:3px solid var(--line);background:#fff;color:var(--line)}
+.namechips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+.nchip{display:inline-flex;align-items:center;gap:4px;border:3px solid var(--line);border-radius:999px;background:var(--panel2);
+  font-weight:900;font-size:16px;cursor:pointer;box-shadow:0 3px 0 var(--line);padding:0;overflow:hidden}
+.nchip>button,.nchip>span{background:none;border:0;padding:8px 6px 8px 14px;cursor:pointer;font-weight:900}
+.nchip .x{padding:8px 12px 8px 6px;color:var(--mute);font-size:18px}
+button.nchip{padding:8px 14px}
+.nchip.on{background:var(--c,var(--teal));color:var(--line)}
+.seg{display:flex;border:3px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 3px 0 var(--line)}
+.seg button{flex:1;border:0;background:var(--panel2);padding:11px 8px;font-weight:900;cursor:pointer}
+.seg button+button{border-left:3px solid var(--line)}
+.seg button.on{background:var(--yellow);color:var(--line)}
+
+/* ---------- Phases ---------- */
+.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0}
+.mgroup{margin:12px 0}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(66px,1fr));gap:10px;margin-top:6px}
+.mthumb{background:none;border:0;padding:0;cursor:pointer;transition:transform .15s}
+.mthumb .cface{border-width:2px;border-radius:9px;box-shadow:0 3px 0 var(--line)}
+.mthumb.on{transform:scale(1.12) rotate(-3deg)}
+.mthumb.on .cface{box-shadow:0 0 0 4px var(--pink),0 3px 0 var(--line),0 0 18px var(--pink)}
+.mbox{display:grid;grid-template-columns:110px 1fr;gap:16px;background:#0003;border-radius:16px;padding:14px;margin:12px 0;align-items:start;border:2px solid #ffffff22}
+.mbox .cface{cursor:pointer}
+.mbox h4{margin:0 0 4px;font-family:var(--title);font-weight:400;font-size:22px;color:var(--yellow)}
+.mbox .rule{font-size:17px}
+.mbox.flash{animation:flash .6s}
+@keyframes flash{from{background:#ffd23f55}}
+.banner{display:flex;gap:12px;align-items:center;background:#0003;border-radius:14px;padding:8px 12px;margin:10px 0;cursor:pointer;border:2px solid #ffffff22;text-align:left;width:100%}
+.banner .cface{width:52px;flex:none;border-width:2px;border-radius:7px;box-shadow:none}
+.banner b{display:block;color:var(--yellow);font-family:var(--title);font-weight:400;font-size:18px}
+.banner span{font-size:14px;line-height:1.3;display:block}
+.roles{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.step{display:inline-flex;align-items:center;gap:4px}
+.step button{width:38px;height:38px;border-radius:10px;border:3px solid var(--line);background:var(--yellow);color:var(--line);font-weight:900;font-size:22px;line-height:1;cursor:pointer;box-shadow:0 2px 0 var(--line);padding:0}
+.step b{min-width:32px;text-align:center;font-family:var(--title);font-size:24px;font-weight:400}
+.brow{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:16px;margin-bottom:7px;background:#0002;border:3px solid transparent;transition:background .2s}
+.brow.cur{border-color:var(--yellow);background:#ffd23f1f}
+.brow .who{display:flex;align-items:center;gap:7px;width:132px;flex:none;font-weight:900;font-size:17px;overflow:hidden}
+.brow .who svg{width:36px;flex:none}
+.brow .who span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:520px){.brow{flex-direction:column;align-items:flex-start}.brow .who{width:auto}}
+.chips{display:flex;flex-wrap:wrap;gap:7px;flex:1}
+.chip{min-width:48px;height:48px;border-radius:13px;border:3px solid var(--line);background:#fff;color:var(--line);font-family:var(--title);font-size:24px;
+  box-shadow:0 3px 0 var(--line);cursor:pointer;padding:4px 0 0;transition:transform .1s}
+.chip.on{background:var(--pink);color:#fff;transform:scale(1.1) rotate(-4deg);text-shadow:1px 1px 0 var(--line)}
+.chip.no{background:#6b4a62;color:#0007;box-shadow:none;cursor:not-allowed;position:relative}
+.chip.no::after{content:"";position:absolute;left:6px;right:6px;top:50%;height:3px;background:var(--red);transform:rotate(-35deg)}
+.sumline{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:#0003;border-radius:14px;padding:10px 14px;font-weight:900;margin-top:10px}
+.sumline .big{font-family:var(--title);font-size:28px;font-weight:400;color:var(--yellow)}
+.warn{background:#e8243c33;border-left:5px solid var(--red);padding:9px 13px;border-radius:10px;margin:10px 0;font-size:15px}
+.ok{background:#7bd83a26;border-left:5px solid var(--green);padding:9px 13px;border-radius:10px;margin:10px 0;font-size:15px}
+.mods{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.mod{border:3px solid var(--line);border-radius:14px;background:var(--panel2);font-weight:900;padding:9px 13px;cursor:pointer;box-shadow:0 3px 0 var(--line);line-height:1.1}
+.mod small{display:block;font-size:11px;color:var(--mute);font-weight:700}
+.mod.on{background:var(--red);color:#fff;animation:pulseBtn .7s infinite alternate}
+.winners{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px;margin:12px 0}
+.wbtn{border:3px solid var(--line);border-radius:18px;background:linear-gradient(160deg,var(--c),#0000 140%);box-shadow:0 5px 0 var(--line);cursor:pointer;
+  padding:10px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;font-weight:900;transition:transform .1s}
+.wbtn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--line)}
+.wbtn svg{width:50px}
+.wbtn span{background:var(--line);border-radius:999px;padding:1px 9px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wbtn small{font-family:var(--title);font-size:16px;font-weight:400;text-shadow:1px 1px 0 var(--line)}
+.wbtn.lead{outline:4px solid var(--yellow);outline-offset:2px}
+.stat{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.stat span{border-radius:999px;padding:4px 11px;font-weight:900;font-size:14px;border:2px solid var(--line);background:#0003}
+.stat .s-ok{background:var(--green);color:var(--line)} .stat .s-over{background:var(--orange);color:var(--line)}
+.tlog{margin:10px 0 0;padding:0 0 0 4px;list-style:none;display:flex;flex-wrap:wrap;gap:6px;counter-reset:t}
+.tlog li{counter-increment:t;background:#0003;border-radius:10px;padding:4px 10px;font-size:14px;font-weight:700;animation:pop .3s}
+.tlog li::before{content:counter(t) ". ";color:var(--yellow);font-weight:900}
+.prompt{background:#ffd23f22;border:3px dashed var(--yellow);border-radius:16px;padding:12px;margin:12px 0;font-size:17px}
+
+.srow{display:grid;grid-template-columns:150px repeat(var(--cols),auto) 1fr;gap:10px 14px;align-items:center;background:#0002;border-radius:16px;padding:10px 12px;margin-bottom:8px;border:3px solid transparent}
+.srow.perfect{border-color:var(--green)}
+.srow .who{display:flex;align-items:center;gap:7px;font-weight:900;font-size:17px;flex-wrap:wrap}
+.srow .who svg{width:36px}
+.fld{display:flex;flex-direction:column;align-items:center;gap:2px}
+.fld>span{font-size:11px;font-weight:900;text-transform:uppercase;color:var(--mute)}
+.res{text-align:right}
+.delta{font-family:var(--title);font-size:30px;display:block;line-height:1}
+.delta.plus{color:var(--orange)} .delta.zero{color:var(--green)} .delta.minus{color:var(--teal)}
+.tot{font-weight:900;font-size:14px;color:var(--mute)} .tot b{color:var(--ink);font-size:18px}
+.det{grid-column:1/-1;font-size:13px;color:var(--mute)}
+@media (max-width:700px){.srow{grid-template-columns:repeat(3,auto)}.srow .who{grid-column:1/-1}.res{grid-column:1/-1;text-align:left;display:flex;gap:12px;align-items:baseline}}
+.selrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0;font-weight:700}
+select{font:inherit;font-weight:900;font-size:16px;padding:8px 10px;border-radius:10px;border:3px solid var(--line);background:#fff;color:var(--line)}
+
+/* ---------- Historique ---------- */
+.rank{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 16px}
+.rank div{display:flex;align-items:center;gap:8px;background:#0003;border-radius:14px;padding:6px 12px;font-weight:900}
+.rank svg{width:32px}
+.rank .pos{font-family:var(--title);font-size:22px;color:var(--yellow)}
+.logwrap{overflow-x:auto;border-radius:14px}
+table.log{border-collapse:collapse;width:100%;min-width:520px}
+.log th,.log td{padding:8px 8px;text-align:center;border-bottom:1px solid #ffffff1a;white-space:nowrap}
+.log th{font-family:var(--title);font-weight:400;font-size:16px;color:var(--yellow);position:sticky;top:0;background:var(--panel)}
+.log td.ms{display:flex;align-items:center;gap:6px;justify-content:center}
+.log td.ms .cface{width:30px;border-width:2px;border-radius:5px;box-shadow:none;padding:2px}
+.log .lb{font-size:13px;color:var(--mute);font-weight:700}
+.log .ld{font-family:var(--title);font-size:19px;color:var(--orange)}
+.log .ld.z{color:var(--green)}
+.log tfoot td{font-family:var(--title);font-size:22px;color:var(--yellow);border:0}
+.hist li{margin:6px 0}
+
+/* ---------- Règles ---------- */
+.rules ol{list-style:none;padding:0;margin:0;counter-reset:r}
+.rules li{counter-increment:r;position:relative;padding:14px 16px 14px 70px;background:#0002;border-radius:16px;margin-bottom:12px;font-size:18px;line-height:1.45}
+.rules li::before{content:counter(r);position:absolute;left:14px;top:12px;width:42px;height:42px;border-radius:50%;background:var(--yellow);color:var(--line);
+  font-family:var(--title);font-size:26px;display:grid;place-items:center;border:3px solid var(--line);padding-top:4px}
+.rules li h4{margin:0 0 4px;font-family:var(--title);font-weight:400;font-size:22px;color:var(--orange)}
+
+/* ---------- Effets ---------- */
+#fx{position:fixed;inset:0;pointer-events:none;z-index:70;overflow:hidden}
+.fxp{position:absolute;left:0;top:0;font-size:34px;margin:-20px 0 0 -20px;will-change:transform}
+.fxt{position:absolute;left:0;top:0;font-family:var(--title);font-size:38px;color:var(--yellow);text-shadow:3px 3px 0 var(--line);white-space:nowrap;transform:translate(-50%,-50%)}
+.conf{position:absolute;top:-20px;width:12px;height:18px;border-radius:2px}
+.bigtimer{font-family:var(--title);font-size:min(46vmin,340px);color:var(--yellow);text-shadow:8px 8px 0 var(--red),14px 14px 0 var(--line);line-height:1;text-align:center}
+.bigtimer.go{color:var(--green)}
+.tick{animation:tick .9s cubic-bezier(.2,1.6,.4,1)}
+@keyframes tick{from{transform:scale(2.2);opacity:0}}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(140%);z-index:80;background:var(--yellow);color:var(--line);font-weight:900;
+  border:3px solid var(--line);box-shadow:0 4px 0 var(--line);border-radius:14px;padding:11px 18px;transition:transform .3s cubic-bezier(.2,1.4,.4,1);max-width:92vw;text-align:center}
+#toast.show{transform:translateX(-50%) translateY(0)}
+.victory{text-align:center}
+.victory .crown{font-size:70px;animation:chili 1s ease-in-out infinite alternate;display:inline-block}
+.victory h2{font-size:44px!important}
+.vnames{font-family:var(--title);font-size:36px;color:#fff;text-shadow:3px 3px 0 var(--pink),5px 5px 0 var(--line);margin:8px 0 16px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}
+  .petal{display:none}
+}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div class="papel" id="papel" aria-hidden="true"></div>
+<header id="top"></header>
+<main id="app"></main>
+<div id="modal" class="modal hidden"></div>
+<div id="fx"></div>
+<div id="toast"></div>
+
+<script src="cards.js"></script>
+<script>
+'use strict';
+/* =====================================================================
+   PILI PILI – compagnon de table (règles des cartes + suivi des Pilis)
+   ===================================================================== */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const IMG = k => (window.PP_IMG || {})[k] || '';
+const COLORS = ['#ff2e88','#ff8a00','#14c8b4','#8e44ff','#ffd23f','#7bd83a','#2f9bff','#e8243c'];
+const rnd = (a, b) => a + Math.random() * (b - a);
+
+/* ---------------- Données de jeu ---------------- */
+const GAMES = {
+  classic: { key:'classic', name:'Pili Pili', sub:'Le jeu original', limit:6, sumRule:true, playStart:'dealer', logo:'logo_o',
+    deckHint:'= chiffre en bas à gauche de la carte Mission' },
+  spicy:   { key:'spicy', name:'Pili Pili Extra Spicy', sub:'Cartes Spéciales & missions épicées', limit:8, sumRule:false, playStart:'left', logo:'logo_e',
+    deckHint:'= chiffre au dos de la mission SUIVANTE de la pioche' }
+};
+
+const WHEN = {
+  info:['Matériel','#2f9bff'], play:['Quand on la joue','#7bd83a'], deal:['Après la distribution','#14c8b4'],
+  before:['Avant les paris','#14c8b4'], bet:['Pendant les paris','#ffd23f'], after:['Après les paris','#ff8a00'],
+  afterBoth:['Après les paris + chaque pli','#ff8a00'], trick:['À chaque pli','#ff2e88'], afterTrick:['Après chaque pli','#ff2e88'],
+  end:['Fin de manche','#b98bff'], round:['Toute la manche','#e8243c']
+};
+
+const SPECIAL_NOTE = 'Les cartes Spéciales se jouent <b>à la place d’une carte Numérotée</b>. Elles n’ont <b>aucune valeur</b> et ne permettent pas de remporter un pli. Un pli composé uniquement de cartes Spéciales est <b>défaussé</b> : personne ne le remporte.';
+
+const DECK = {
+  classic: [
+    { id:'jeu', title:'Cartes de jeu', cards:[
+      { k:'o_number', t:'Cartes numérotées', w:'info', frame:'plain', count:'55 cartes, de 1 à 55',
+        r:'La carte de <b>plus grande valeur</b> remporte le pli, et son gagnant commence le pli suivant.<p>Les <b>couleurs n’ont aucune importance</b> : seul le nombre compte.</p>' },
+      { k:'o_joker', t:'Joker', w:'play', frame:'plain', count:'1 carte',
+        r:'Quand un joueur pose le Joker, il <b>choisit la valeur</b> qu’il lui donne, <b>entre 0 et 56</b>.<p>Il peut donc perdre à coup sûr (0) ou battre le 55 (56).</p>' },
+      { k:'o_pili', t:'Pili', w:'info', frame:'plain', count:'17 cartes recto verso',
+        r:'Carte de pénalité : <b>1 Pili par écart</b> entre son pari et les plis réellement remportés. Pari réussi = aucun Pili.<p>Dès qu’un joueur atteint <b>6 Pilis</b>, la partie s’arrête : celui qui en a <b>le moins</b> gagne.</p>' },
+      { k:'o_mission', t:'Carte Mission', w:'info', frame:'plain', count:'36 cartes',
+        r:'En début de manche, on retourne la première Mission et on applique son effet.<p>Le <b>chiffre en bas à gauche</b> indique le nombre de cartes à distribuer à chaque joueur.</p><p>Les <b>missions expertes</b> ont un cadre rouge.</p>' }
+    ]},
+    { id:'missions', title:'Missions', cards:[
+      { k:'o_give', m:1, t:'Donnez X cartes', w:'after', frame:'icon',
+        r:'Chaque joueur donne <b>X cartes</b> au joueur à sa <b>gauche ou à sa droite</b> (selon le sens de la flèche).' },
+      { k:'o_giveall', m:1, t:'Passez votre main', w:'after', frame:'icon',
+        r:'Chaque joueur donne <b>l’intégralité de ses cartes</b> à son voisin (selon le sens de la flèche).' },
+      { k:'o_forbid', m:1, t:'Pari interdit', w:'bet', frame:'icon', fx:{forbid:1}, variants:{forbid:[0,1]},
+        r:'<b>Interdiction d’annoncer un pari de 0 ou de 1</b> (selon le chiffre inscrit sur la carte).',
+        a:'Choisissez le chiffre de la carte : il sera grisé pour tout le monde pendant les paris.' },
+      { k:'o_front', m:1, t:'Cartes sur le front', w:'before', frame:'icon',
+        r:'<b>Sans regarder ses cartes</b>, chaque joueur les place sur son front (les autres les voient).<p>On ne découvre ses cartes <b>qu’après avoir parié</b>.</p>' },
+      { k:'o_draw', m:1, t:'Une carte en plus', w:'after', frame:'icon', fx:{extra:1},
+        r:'Chaque joueur <b>pioche une carte au hasard</b> et l’ajoute à son jeu.<p>Les paris se font donc en sachant qu’on jouera une carte de plus (ex. : 2 cartes distribuées → on parie sur <b>3</b> plis).</p>',
+        a:'Le nombre de plis passe automatiquement à « cartes distribuées + 1 ».' },
+      { k:'o_visible', m:1, t:'Jeu sur table', w:'after', frame:'icon',
+        r:'Chaque joueur pose ses cartes <b>face visible</b> devant lui.' },
+      { k:'o_minus', m:1, t:'Pari réussi = soulagement', w:'end', frame:'icon', fx:{minus:1},
+        r:'<b>Pari réussi ?</b> Le joueur <b>défausse autant de Pilis que la valeur de son pari</b>.',
+        a:'Les Pilis sont retirés automatiquement au décompte.' },
+      { k:'o_simul', m:1, t:'Tous en même temps', w:'trick', frame:'icon',
+        r:'À chaque pli, les joueurs jouent leur carte <b>en même temps</b>.' }
+    ]},
+    { id:'expert', title:'Missions expertes', note:'cadre rouge', cards:[
+      { k:'o_invert', m:1, x:1, t:'Valeurs inversées', w:'round', frame:'icon',
+        r:'Toutes les valeurs sont inversées : le <b>55 devient la plus faible</b> et le <b>1 la plus forte</b>.' },
+      { k:'o_3s', m:1, x:1, t:'3 secondes', w:'before', frame:'icon', fx:{timer:3},
+        r:'Les joueurs n’ont que <b>3 secondes</b> pour regarder leurs cartes avant de parier. Le donneur fait le décompte à voix haute.',
+        a:'Bouton chrono 3 s pendant les paris.' },
+      { k:'o_firstlast', m:1, x:1, t:'Premier & dernier pli', w:'end', frame:'icon', fx:{firstLast:1},
+        r:'Les joueurs qui remportent le <b>premier et/ou le dernier pli</b> reçoivent <b>1 Pili</b> en pénalité.',
+        a:'Ajouté automatiquement (gagnants des plis 1 et dernier, modifiables au décompte).' },
+      { k:'o_5s', m:1, x:1, t:'5 secondes à l’aveugle', w:'before', frame:'icon', fx:{timer:5},
+        r:'Les joueurs ont <b>5 secondes</b> pour regarder leurs cartes, puis les posent <b>face cachée</b> : les paris et les plis se font <b>à l’aveugle</b>.',
+        a:'Bouton chrono 5 s pendant les paris.' },
+      { k:'o_nocopy', m:1, x:1, t:'Pas de copie', w:'bet', frame:'icon', fx:{nocopy:1},
+        r:'<b>Interdiction de copier le pari du joueur précédent.</b>',
+        a:'Le pari du joueur précédent est grisé.' },
+      { k:'o_designate', m:1, x:1, t:'Âmes liées', w:'after', frame:'icon', fx:{designate:1},
+        r:'Chaque joueur <b>désigne un autre joueur</b>. À la fin de la manche, chacun reçoit <b>ses propres Pilis + ceux du joueur désigné</b> (un même joueur peut être désigné plusieurs fois).',
+        a:'Indiquez au décompte qui chacun a désigné : l’appli ajoute ses Pilis.' },
+      { k:'o_hilo', m:1, x:1, t:'Tout ou rien', w:'trick', frame:'icon',
+        r:'Les joueurs doivent <b>TOUJOURS</b> jouer leur carte <b>la plus forte ou la plus faible</b>.' },
+      { k:'o_numbers', m:1, x:1, t:'Numéros piégés', w:'trick', frame:'icon', fx:{trap:1},
+        r:'Le joueur qui remporte un pli contenant <b>l’un des numéros présents sur la carte Mission</b> reçoit <b>1 Pili</b> en pénalité.',
+        a:'Bouton « 🎯 Numéro piégé » à chaque pli.' },
+      { k:'o_swap1', m:1, x:1, t:'Troc', w:'afterTrick', frame:'icon',
+        r:'Chaque fois qu’un joueur remporte un pli, il <b>échange une carte</b> avec le joueur de son choix. <b>Chacun des deux</b> choisit la carte qu’il donne.' }
+    ]}
+  ],
+  spicy: [
+    { id:'jeu', title:'Cartes de jeu', cards:[
+      { k:'e_number', t:'Cartes numérotées', w:'info', frame:'photo', count:'52 cartes',
+        r:'Les numéros sont <b>uniques et vont de 1 à 55</b>. La carte de <b>plus grande valeur</b> remporte le pli et son gagnant commence le suivant.<p>Les <b>couleurs n’ont pas d’importance</b>, seul le nombre compte.</p>' },
+      { k:'e_double', t:'Cartes doubles', w:'play', frame:'photo', count:'parmi les numérotées',
+        r:'Quand un joueur pose une <b>carte Numérotée double</b>, il <b>choisit immédiatement</b> laquelle des deux valeurs s’applique pour ce pli.<p>Ex. : la carte <b>25/52</b> peut valoir 25 ou 52.</p>' },
+      { k:'m_pili', t:'Pilis', w:'info', frame:'photo', count:'23 cartes recto verso',
+        r:'<b>1 Pili par écart</b> entre son pari et les plis réellement remportés. Pari réussi = aucun Pili.<p>Dès qu’un joueur atteint <b>8 Pilis</b>, la partie s’arrête : le ou les joueurs avec <b>le moins</b> de Pilis gagnent.</p>' },
+      { k:'m_back', t:'Cartes Mission', w:'info', frame:'photo', count:'18 cartes',
+        r:'On pioche la première Mission et on applique son effet.<p>Le <b>chiffre au dos de la mission SUIVANTE</b> de la pioche indique le nombre de cartes de Jeu à distribuer à chacun.</p>' },
+      { k:'m_rappel', t:'Rappel des paris', w:'info', frame:'photo', count:'8 cartes',
+        r:'Astuce : gardez votre carte de Rappel devant vous et posez dessus une carte de Jeu non distribuée, <b>face cachée</b>, pour marquer votre mise.' }
+    ]},
+    { id:'spec', title:'Cartes Spéciales', note:'8 cartes, à jouer à la place d’une numérotée', cards:[
+      { k:'s_eye', sp:1, t:'L’Œil', w:'play', frame:'photo',
+        r:'Obligez immédiatement <b>un joueur à révéler son jeu</b> face visible <b>pour le reste de la manche</b> (lui comme les autres voient toutes ses cartes).<p>Le jeu reste visible <b>même s’il est échangé</b>.</p>' },
+      { k:'s_invert', sp:1, t:'Inversion', w:'play', frame:'photo',
+        r:'Inversez l’ordre de valeur des cartes Numérotées <b>pour ce pli</b> : <b>la plus petite l’emporte</b> sur la plus grande.<p>Si <b>deux</b> cartes d’inversion sont jouées dans le même pli, leur effet <b>s’annule</b>.</p>' },
+      { k:'s_piment', sp:1, t:'Piment', w:'play', frame:'photo',
+        r:'Cette carte donne <b>1 ou 2 Pilis</b> de la pioche (selon la carte) <b>au gagnant du pli</b>.',
+        a:'Pendant les plis, touchez « 🌶 Piment +1 / +2 » avant de désigner le gagnant.' },
+      { k:'s_swap', sp:1, t:'Échange de main', w:'play', frame:'photo',
+        r:'<b>Échangez votre main</b> avec celle du joueur de votre choix <b>à la fin du pli en cours</b>.<p>Si deux joueurs jouent un échange dans le même pli <b>en se ciblant mutuellement</b>, les deux effets s’annulent : personne n’échange.</p>' }
+    ]},
+    { id:'missions', title:'Missions', cards:[
+      { k:'e_up', m:1, t:'Toujours plus haut', w:'trick', frame:'photo',
+        r:'À chaque pli, les joueurs doivent jouer une carte de valeur <b>strictement supérieure</b> au joueur précédent (s’ils le peuvent).<p>Une carte double est considérée comme supérieure dès que <b>l’une</b> de ses deux valeurs l’est.</p><p>Cas particulier : les cartes <b>Spéciales</b> peuvent être jouées à tout moment.</p>' },
+      { k:'e_hidden', m:1, t:'Carte mystère', w:'after', frame:'photo',
+        r:'Chaque joueur place devant lui, <b>face cachée</b>, la carte de son choix. Cette carte sera <b>jouée lors du dernier pli</b> et ne pourra pas être affectée par les cartes Spéciales.' },
+      { k:'e_plus2', m:1, t:'+2 cartes', w:'after', frame:'photo', fx:{extra:2},
+        r:'Chaque joueur <b>pioche 2 cartes de Jeu supplémentaires</b> au hasard et les ajoute à sa main.',
+        a:'Le nombre de plis passe automatiquement à « cartes distribuées + 2 ».' },
+      { k:'e_unsorted', m:1, t:'En vrac', w:'deal', frame:'photo',
+        r:'Les joueurs ramassent leurs cartes <b>sans les trier</b>.<p>À chaque pli, ils doivent <b>TOUJOURS</b> jouer la carte <b>la plus à droite ou la plus à gauche</b> de leur main.</p>' },
+      { k:'e_pgive', m:1, t:'Cadeau piquant', w:'afterTrick', frame:'photo', fx:{pgive:1},
+        r:'Après chaque pli, le joueur qui le remporte <b>peut donner l’un de ses Pilis</b> au joueur de son choix.',
+        a:'Après chaque pli saisi, l’appli demande à qui le gagnant donne un Pili.' },
+      { k:'e_guard', m:1, t:'Les Gardiens', w:'before', frame:'photo', fx:{guard:1},
+        r:'Chacun pose ses Pilis visibles devant lui. Le ou les joueurs qui en ont <b>le moins</b> deviennent <b>Gardiens</b> (si tout le monde est à égalité, c’est le donneur).<p>Pendant la manche, les joueurs qui ne sont pas Gardiens peuvent <b>tricher</b> et se débarrasser discrètement d’<b>1 carte Pili</b>. Si un Gardien les voit, ils reçoivent <b>1 Pili</b> en pénalité.</p>',
+        a:'Gardiens marqués sur la table. Au décompte : « Ajust. » −1 pour une triche réussie, +1 pour un tricheur pris.' },
+      { k:'e_simul', m:1, t:'Tous en même temps', w:'trick', frame:'photo',
+        r:'À chaque pli, les joueurs jouent leurs cartes <b>en même temps</b>.' },
+      { k:'e_pm1', m:1, t:'±1', w:'after', frame:'photo', fx:{pm1:1},
+        r:'Le ou les joueurs qui ont <b>le plus de Pilis</b> peuvent <b>modifier de +1 ou −1 le pari</b> du joueur de leur choix.<p>Si tous les joueurs ont le même nombre de Pilis, c’est le <b>donneur</b> qui bénéficie de l’effet.</p>',
+        a:'Bénéficiaires marqués « ±1 » ; modifiez le pari concerné en touchant une autre valeur.' },
+      { k:'e_give1', m:1, t:'La carte qui tourne', w:'afterBoth', frame:'photo',
+        r:'Après les paris, <b>et après chaque pli</b>, tous les joueurs donnent <b>une carte de leur choix</b> à gauche ou à droite (selon le sens de la flèche).' },
+      { k:'e_giveall', m:1, t:'Mains tournantes', w:'afterTrick', frame:'photo',
+        r:'Après chaque pli, les joueurs donnent <b>toutes les cartes de leur main</b> au joueur de gauche ou de droite (selon le sens de la flèche).' },
+      { k:'e_swappili', m:1, t:'Échange de Pilis', w:'end', frame:'photo', fx:{swapPilis:1},
+        r:'Le joueur qui remporte le <b>dernier pli</b> <b>échange tous ses Pilis</b> avec un autre joueur de son choix.<p>L’effet s’applique <b>AVANT</b> la distribution des Pilis de fin de manche.</p>',
+        a:'Au décompte, choisissez avec qui il échange : l’appli échange les totaux puis ajoute les pénalités.' },
+      { k:'e_visible', m:1, t:'Cartes sur table', w:'after', frame:'photo', fx:{visible:1},
+        r:'Chaque joueur place ses cartes <b>face visible</b> devant lui, <b>sauf celui ou ceux qui ont le plus de Pilis</b>.',
+        a:'Les joueurs qui gardent leur jeu caché sont marqués sur la table.' },
+      { k:'e_front', m:1, t:'Cartes sur le front', w:'before', frame:'photo',
+        r:'<b>Sans regarder ses cartes</b>, chaque joueur place <b>2 ou 3 cartes</b> sur son front (selon le chiffre inscrit sur la mission).<p>Après les paris, ils prennent leurs cartes en main et la manche se déroule normalement.</p>' },
+      { k:'e_x2', m:1, t:'Pilis ×2', w:'round', frame:'photo', fx:{x2:1},
+        r:'<b>TOUS</b> les Pilis reçus durant cette manche sont <b>doublés</b>.',
+        a:'Pénalités et piments doublés automatiquement.' },
+      { k:'e_sabot', m:1, t:'Les Saboteurs', w:'bet', frame:'photo', fx:{sabot:1},
+        r:'Le ou les joueurs qui ont <b>le plus de Pilis</b> deviennent <b>Saboteurs</b> (si tous ont le même nombre de Pilis, c’est le donneur).<p>Ils <b>n’annoncent pas de pari</b>, reçoivent <b>2 cartes supplémentaires</b> et tentent de faire échouer les paris des autres.</p><p>À la fin de la manche, les Saboteurs <b>ne reçoivent pas de Pilis de pénalité</b> (sauf cartes Spéciales).</p>',
+        a:'Saboteurs désignés automatiquement, exclus des paris et des pénalités (les piments comptent).' }
+    ]}
+  ]
+};
+const CARD = {};
+Object.values(DECK).forEach(secs => secs.forEach(s => s.cards.forEach(c => { CARD[c.k] = c; })));
+
+const RULES = {
+  classic: [
+    ['Préparez la manche', 'Mélangez les <b>55 cartes numérotées avec le Joker</b> pour former la pioche. Formez 2 autres pioches : les <b>Missions</b> et les <b>Pilis</b>.<div class="ok">Premières parties : jouez <b>sans les Missions</b>, distribuez <b>5 cartes</b> à chacun et passez directement aux paris.</div>'],
+    ['Découvrez la mission et distribuez', 'Piochez la première Mission et lisez son effet (onglet <b>Cartes</b>). Le <b>chiffre en bas à gauche</b> indique combien de cartes numérotées distribuer à chacun. Les cartes restantes sont mises de côté, face cachée.'],
+    ['Pariez', 'Après avoir regardé ses cartes et <b>en commençant par le donneur</b>, chaque joueur parie sur le nombre de plis qu’il pense remporter.<div class="warn">⚠️ Pour qu’il y ait toujours un perdant, <b>la somme des paris doit être différente du nombre de cartes distribuées</b> à chacun : si nécessaire, le <b>dernier à parier ajuste</b> son pari.<br><i>Ex. : 5 cartes chacun, les 4 premiers ont parié 4 au total → le dernier ne peut pas dire 1. Il peut dire 0, 2, 3, 4 ou 5.</i></div>Astuce (échelle de Scoville) : posez devant vous, face cachée, autant de cartes inutilisées que votre pari.'],
+    ['Remportez des plis', '<b>En commençant par le donneur</b>, chacun pose une carte. La <b>plus forte</b> remporte le pli et son gagnant commence le suivant. On continue jusqu’à ce que toutes les cartes distribuées soient jouées.<br>• Les couleurs n’ont pas d’importance, seul le nombre compte.<br>• Le <b>Joker</b> prend la valeur choisie par son joueur, <b>de 0 à 56</b>.'],
+    ['Distribuez les Pilis en pénalité', 'Chaque joueur reçoit <b>1 Pili par écart</b> entre son pari et les plis réellement remportés. Pari réussi : aucun Pili.<br><i>Ex. : pari de 1, 3 plis remportés → 2 Pilis.</i>'],
+    ['Nouvelle manche et victoire', 'Mélangez toutes les cartes numérotées avec le Joker, piochez une nouvelle Mission. <b>Dès qu’un joueur atteint 6 Pilis, la partie s’arrête</b> : le joueur qui a <b>le moins de Pilis</b> gagne.']
+  ],
+  spicy: [
+    ['Préparez la manche', 'Mélangez les <b>cartes Numérotées avec les cartes Spéciales</b> : c’est la pioche des cartes de Jeu. Formez 2 autres pioches : les <b>Missions</b> et les <b>Pilis</b>.<div class="ok">Premières parties : jouez <b>sans les Missions</b>, distribuez <b>5 cartes Numérotées</b> à chacun et passez directement aux paris.</div>'],
+    ['Découvrez la mission et distribuez', 'Piochez la première Mission et lisez son effet (onglet <b>Cartes</b>). Le <b>chiffre au dos de la mission SUIVANTE</b> de la pioche indique combien de cartes de Jeu distribuer à chacun. Mettez de côté, face cachée, les cartes restantes.'],
+    ['Pariez', 'Après avoir regardé ses cartes et <b>en commençant par le donneur</b>, chaque joueur parie sur le nombre de plis qu’il pense remporter.<div class="ok">✅ Avis aux joueurs de la 1<sup>re</sup> édition : la somme des paris n’a <b>plus besoin d’être différente</b> du nombre de cartes distribuées. <b>Les paris sont totalement libres !</b></div>Astuce : posez sur votre carte de Rappel des paris une carte de Jeu non distribuée, face cachée, pour marquer votre mise.'],
+    ['Remportez des plis', '<b>En commençant par le joueur à gauche du donneur</b>, chacun pose une carte. La <b>plus grande valeur</b> remporte le pli et son gagnant commence le suivant, jusqu’à ce que toutes les cartes distribuées soient jouées (sauf si une Mission modifie cette règle).<br>• Les couleurs n’ont pas d’importance, seul le nombre compte.<br>• Les numéros sont uniques, de 1 à 55.<br>• <b>Carte double</b> : son joueur choisit immédiatement laquelle des deux valeurs s’applique (ex. 25/52).<div class="note2">' + SPECIAL_NOTE + '</div>'],
+    ['Distribuez les Pilis en pénalité', 'Chaque joueur reçoit <b>1 Pili par écart</b> entre son pari et les plis réellement remportés. Pari réussi : aucun Pili.<br><i>Ex. : pari de 1, 3 plis remportés → 2 Pilis.</i>'],
+    ['Nouvelle manche et victoire', 'Le <b>joueur à gauche du donneur précédent</b> mélange toutes les cartes de Jeu et pioche une nouvelle Mission. <b>Dès qu’un joueur atteint 8 Pilis, la partie s’arrête</b> : le ou les joueurs ayant <b>le moins de Pilis</b> gagnent.']
+  ]
+};
+
+/* ---------------- État & sauvegarde ---------------- */
+const LS = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+let S = LS.get('pp_state', null) || {};
+S = Object.assign({ game:null, tab:'game', matches:{}, setup:{ players:[], dealer:0, missions:true }, sound:{ music:false, sfx:true }, history:[], cardFilter:'all' }, S);
+let NAMES = LS.get('pp_names', []);
+const save = () => LS.set('pp_state', S);
+const G = () => GAMES[S.game];
+const M = () => S.matches[S.game];
+
+/* ---------------- Audio : musique mariachi + bruitages ---------------- */
+const SND = (() => {
+  let ctx = null, out, mus, sfxBus, rev, noise, playing = false, tid = null, nextT = 0, step = 0, bar = 0, loop = 0;
+  const ks = {};
+  const BPM = 128, S16 = 60 / BPM / 4;
+  const mtof = m => 440 * Math.pow(2, (m - 69) / 12);
+
+  function init() {
+    if (ctx) { if (ctx.state === 'suspended') ctx.resume(); return true; }
+    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return false;
+    ctx = new AC();
+    const comp = ctx.createDynamicsCompressor();
+    comp.threshold.value = -16; comp.knee.value = 12; comp.ratio.value = 4; comp.attack.value = .004; comp.release.value = .2;
+    out = ctx.createGain(); out.gain.value = .9; out.connect(comp); comp.connect(ctx.destination);
+    mus = ctx.createGain(); mus.gain.value = .36; mus.connect(out);
+    sfxBus = ctx.createGain(); sfxBus.gain.value = .8; sfxBus.connect(out);
+    rev = ctx.createConvolver(); rev.buffer = impulse(1.9, 2.6);
+    const rg = ctx.createGain(); rg.gain.value = .28; rev.connect(rg); rg.connect(out);
+    noise = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+    const d = noise.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    return true;
+  }
+  function impulse(sec, decay) {
+    const sr = ctx.sampleRate, len = sr * sec, b = ctx.createBuffer(2, len, sr);
+    for (let c = 0; c < 2; c++) { const d = b.getChannelData(c); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, decay); }
+    return b;
+  }
+  // Corde pincée (Karplus-Strong) : vihuela, guitare, guitarrón
+  function ksBuf(midi) {
+    if (ks[midi]) return ks[midi];
+    const sr = ctx.sampleRate, f = mtof(midi), N = Math.max(2, Math.round(sr / f)), low = midi < 50;
+    const len = Math.floor(sr * (low ? 1.5 : 1.1)), b = ctx.createBuffer(1, len, sr), d = b.getChannelData(0);
+    let last = 0;
+    for (let i = 0; i < N; i++) { last = last * (low ? .7 : .35) + (Math.random() * 2 - 1) * (low ? .3 : .65); d[i] = last; }
+    const damp = low ? .997 : .993;
+    for (let i = N; i < len; i++) d[i] = damp * .5 * (d[i - N] + (i - N - 1 >= 0 ? d[i - N - 1] : 0));
+    return (ks[midi] = b);
+  }
+  function pluck(t, midi, vel, dest = mus, wet = .25) {
+    const s = ctx.createBufferSource(); s.buffer = ksBuf(midi);
+    const g = ctx.createGain(); g.gain.value = vel; s.connect(g); g.connect(dest);
+    if (wet) { const w = ctx.createGain(); w.gain.value = wet; g.connect(w); w.connect(rev); }
+    s.start(t);
+  }
+  function strum(t, notes, vel, up, dest = mus) {
+    const ns = up ? [...notes].reverse() : notes;
+    ns.forEach((n, i) => pluck(t + i * .012, n, vel * (up ? .7 : 1) * (1 - i * .05), dest, .22));
+  }
+  function nz(t, o) {
+    const { type = 'highpass', f = 6000, q = 1, dur = .05, vel = .2, dest = mus } = o;
+    const s = ctx.createBufferSource(); s.buffer = noise;
+    const fl = ctx.createBiquadFilter(); fl.type = type; fl.frequency.value = f; fl.Q.value = q;
+    const g = ctx.createGain(); g.gain.setValueAtTime(vel, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    s.connect(fl); fl.connect(g); g.connect(dest); s.start(t, Math.random() * 1.5); s.stop(t + dur + .03);
+  }
+  function kick(t, vel = .9, dest = mus) {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(42, t + .12);
+    g.gain.setValueAtTime(vel, t); g.gain.exponentialRampToValueAtTime(.0001, t + .32);
+    o.connect(g); g.connect(dest); o.start(t); o.stop(t + .34);
+  }
+  function clap(t) { for (let i = 0; i < 3; i++) nz(t + i * .011, { type:'bandpass', f:1500, q:.9, dur:.08 + i * .04, vel:.32 }); }
+  function sub(t, midi, vel = .35) {
+    const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'sine'; o.frequency.value = mtof(midi);
+    g.gain.setValueAtTime(vel, t); g.gain.exponentialRampToValueAtTime(.0001, t + .4);
+    o.connect(g); g.connect(mus); o.start(t); o.stop(t + .42);
+  }
+  // Trompette mariachi : scies désaccordées, attaque cuivrée, large vibrato
+  function brass(t, midi, dur, vel, dest = mus) {
+    const f = mtof(midi), end = t + dur;
+    const g = ctx.createGain(), fl = ctx.createBiquadFilter(), pk = ctx.createBiquadFilter();
+    fl.type = 'lowpass'; fl.Q.value = 1.4;
+    fl.frequency.setValueAtTime(f * 1.4, t);
+    fl.frequency.exponentialRampToValueAtTime(Math.min(f * 7, 9000), t + .045);
+    fl.frequency.exponentialRampToValueAtTime(Math.min(f * 4.2, 7000), t + .25);
+    pk.type = 'peaking'; pk.frequency.value = 1400; pk.gain.value = 7; pk.Q.value = 1;
+    g.gain.setValueAtTime(.0001, t);
+    g.gain.exponentialRampToValueAtTime(vel, t + .025);
+    g.gain.exponentialRampToValueAtTime(vel * .72, t + .13);
+    g.gain.setValueAtTime(vel * .72, Math.max(t + .13, end - .04));
+    g.gain.exponentialRampToValueAtTime(.0001, end + .09);
+    const lfo = ctx.createOscillator(), lg = ctx.createGain(); lfo.frequency.value = 6;
+    lg.gain.setValueAtTime(0, t); if (dur > .22) lg.gain.linearRampToValueAtTime(f * .02, t + Math.min(.5, dur));
+    lfo.connect(lg);
+    [-6, 6].forEach(det => {
+      const o = ctx.createOscillator(); o.type = 'sawtooth';
+      o.frequency.setValueAtTime(f * .955, t); o.frequency.exponentialRampToValueAtTime(f, t + .05); o.detune.value = det;
+      lg.connect(o.frequency); o.connect(fl); o.start(t); o.stop(end + .12);
+    });
+    lfo.start(t); lfo.stop(end + .12);
+    fl.connect(pk); pk.connect(g); g.connect(dest);
+    const w = ctx.createGain(); w.gain.value = .4; g.connect(w); w.connect(rev);
+  }
+
+  // Grille : cadence andalouse (Am G F E7) puis Dm Am E7 Am
+  const CH = { Am:{b:45,n:[57,60,64,69]}, G:{b:43,n:[55,59,62,67]}, F:{b:41,n:[53,57,60,65]}, E7:{b:40,n:[52,56,59,62,64]}, Dm:{b:38,n:[50,53,57,62]} };
+  const PROG = ['Am','G','F','E7','Am','G','F','E7','Dm','Am','E7','Am','Dm','Am','E7','Am'];
+  const A0=[[0,76,2],[2,76,2],[4,77,2],[6,76,2],[8,74,2],[10,72,2],[12,71,2],[14,72,2]],
+        A1=[[0,74,6],[6,71,2],[8,67,4],[12,71,2],[14,74,2]],
+        A2=[[0,72,4],[4,69,2],[6,72,2],[8,77,4],[12,76,2],[14,74,2]],
+        A3=[[0,71,2],[2,72,2],[4,74,2],[6,76,2],[8,76,4],[12,68,2],[14,71,2]],
+        A7=[[0,76,8],[10,74,2],[12,71,2],[14,68,2]],
+        B0=[[0,69,2],[2,74,2],[4,77,4],[8,76,2],[10,74,2],[12,77,4]],
+        B1=[[0,76,4],[4,72,2],[6,69,2],[8,76,4],[12,81,4]],
+        B2=[[0,80,2],[2,77,2],[4,76,2],[6,74,2],[8,71,2],[10,74,2],[12,68,2],[14,71,2]],
+        B3=[[0,69,6],[6,72,2],[8,76,2],[10,81,6]],
+        B7=[[0,81,8],[8,76,2],[10,72,2],[12,69,4]];
+  const MEL = [A0,A1,A2,A3,A0,A1,A2,A7,B0,B1,B2,B3,B0,B1,B2,B7];
+  const STRUM = {0:[1,0],2:[.5,1],4:[.8,0],6:[.55,1],7:[.45,1],8:[.9,0],10:[.5,1],12:[.8,0],14:[.55,1],15:[.4,1]};
+  function third(m, chord) {
+    const sc = chord === 'E7' ? [9,11,0,2,4,5,8] : [9,11,0,2,4,5,7];
+    const i = sc.indexOf(m % 12); if (i < 0) return m - 3;
+    const tp = sc[(i + 5) % 7];
+    for (let d = 3; d <= 4; d++) if ((m - d) % 12 === tp) return m - d;
+    return m - 3;
+  }
+  function schedStep(t) {
+    const s = step % 16, b = bar % 16, chName = PROG[b], ch = CH[chName];
+    const intro = loop === 0 && bar < 4, brk = loop % 2 === 1 && (b === 8 || b === 9);
+    nz(t, { f:7000, dur: s % 4 === 2 ? .06 : .03, vel: s % 2 ? .045 : .085 });            // maracas
+    if (!intro) {
+      if (s % 4 === 0 && !brk) kick(t, s === 0 ? .9 : .75);
+      if (s === 4 || s === 12) clap(t);
+      if (s % 4 === 2) nz(t, { f:9000, dur:.11, vel:.06 });                                 // charleston ouvert
+    }
+    if (s === 0) { pluck(t, ch.b, .9, mus, 0); sub(t, ch.b); }                                 // guitarrón
+    if (s === 6) pluck(t, ch.b, .45, mus, 0);
+    if (s === 8) { pluck(t, ch.b + 7, .75, mus, 0); sub(t, ch.b + 7, .25); }
+    if (s === 12) pluck(t, ch.b + 12, .5, mus, 0);
+    const st = STRUM[s]; if (st) strum(t, ch.n, st[0] * .3, st[1]);                          // vihuela
+    if (!intro) {
+      const ev = MEL[b].find(e => e[0] === s);
+      if (ev) { const dur = ev[2] * S16 * .92; brass(t, ev[1], dur, .15); brass(t + .006, third(ev[1], chName), dur, .1); }
+    }
+  }
+  function tick() {
+    while (nextT < ctx.currentTime + .15) {
+      schedStep(nextT); nextT += S16; step++;
+      if (step % 16 === 0) { bar++; if (bar % 16 === 0) loop++; }
+    }
+  }
+  function start() {
+    if (!init() || playing) return;
+    playing = true; step = 0; bar = 0; loop = 0; nextT = ctx.currentTime + .08;
+    tid = setInterval(tick, 25);
+  }
+  function stop() { playing = false; clearInterval(tid); }
+
+  const on = () => S.sound.sfx && init();
+  const now = () => ctx.currentTime + .01;
+  const fx = {
+    tap() { if (!on()) return; pluck(now(), [69,72,76,81,84][Math.random() * 5 | 0], .35, sfxBus, .15); },
+    flip() {
+      if (!on()) return; const t = now();
+      const s = ctx.createBufferSource(); s.buffer = noise;
+      const f = ctx.createBiquadFilter(); f.type = 'bandpass'; f.Q.value = 1.2;
+      f.frequency.setValueAtTime(500, t); f.frequency.exponentialRampToValueAtTime(5000, t + .18);
+      const g = ctx.createGain(); g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.35, t + .05); g.gain.exponentialRampToValueAtTime(.0001, t + .22);
+      s.connect(f); f.connect(g); g.connect(sfxBus); s.start(t); s.stop(t + .25);
+      pluck(t + .12, 81, .2, sfxBus, .2);
+    },
+    deal() { if (!on()) return; const t = now(); for (let i = 0; i < 8; i++) nz(t + i * .055 + rnd(0, .015), { type:'bandpass', f:rnd(2500, 4000), q:.8, dur:.045, vel:.35, dest:sfxBus }); },
+    bet() { if (!on()) return; const t = now(); pluck(t, 76, .4, sfxBus, .2); pluck(t + .07, 81, .35, sfxBus, .2); },
+    trick() { if (!on()) return; const t = now(); strum(t, [57,61,64,69,73], .35, false, sfxBus); kick(t, .5, sfxBus); },
+    pili() { fx.burn(1); },
+    // « Ça pique ! » : souffle de flamme + crépitements + cri « aïe » + bouilloire + trompette triste
+    burn(n = 1) {
+      if (!on()) return; const t = now(); n = Math.min(4, Math.max(1, n));
+      const s = ctx.createBufferSource(); s.buffer = noise;
+      const f = ctx.createBiquadFilter(); f.type = 'lowpass';
+      f.frequency.setValueAtTime(250, t); f.frequency.exponentialRampToValueAtTime(3200, t + .22); f.frequency.exponentialRampToValueAtTime(500, t + 1.1);
+      const g = ctx.createGain(); g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.45 + n * .1, t + .14); g.gain.exponentialRampToValueAtTime(.0001, t + 1.2);
+      s.connect(f); f.connect(g); g.connect(sfxBus); s.start(t); s.stop(t + 1.25);
+      for (let i = 0; i < 14 + n * 8; i++) nz(t + rnd(0, 1.4), { type:'highpass', f:rnd(1800, 5500), dur:rnd(.008, .03), vel:rnd(.12, .4), dest:sfxBus });
+      yelp(t + .1, 1);
+      if (n >= 2) { yelp(t + .55, 1.25); whistle(t + .35, .9); }
+      if (n >= 3) whistle(t + .9, 1.1);
+      const d = n >= 2 ? 1.3 : .95;
+      brass(t + d, 64, .15, .1, sfxBus); brass(t + d + .17, 63, .15, .1, sfxBus); brass(t + d + .34, 62, .5, .1, sfxBus);
+    },
+    perfect() {
+      if (!on()) return; const t = now();
+      [69,73,76,81].forEach((m, i) => brass(t + i * .09, m, i === 3 ? .45 : .1, .13, sfxBus));
+      strum(t + .27, [57,61,64,69], .35, false, sfxBus);
+    },
+    fanfare() {
+      if (!on()) return; const t = now();
+      const seq = [[0,76,73,.14],[.16,76,73,.14],[.32,81,76,.14],[.48,80,76,.1],[.6,81,78,.1],[.72,83,80,.1],[.84,85,81,1.2]];
+      seq.forEach(([d, a, b2, l]) => { brass(t + d, a, l, .15, sfxBus); brass(t + d, b2, l, .11, sfxBus); });
+      [0,.84,1.1,1.36].forEach((d, i) => { strum(t + d, [57,61,64,69,73], .4, i % 2 === 1, sfxBus); kick(t + d, .6, sfxBus); });
+    },
+    tick(hi) {
+      if (!on()) return; const t = now(); const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = hi ? 'square' : 'sine'; o.frequency.value = hi ? 1320 : 1000;
+      g.gain.setValueAtTime(.3, t); g.gain.exponentialRampToValueAtTime(.0001, t + (hi ? .5 : .1));
+      o.connect(g); g.connect(sfxBus); o.start(t); o.stop(t + .55);
+    }
+  };
+  return { start, stop, fx, init, get playing() { return playing; } };
+})();
+const sfx = SND.fx;
+
+/* ---------------- Logique de partie ---------------- */
+const pById = (m, id) => m.players.find(p => p.id === id);
+const nameOf = (m, id) => (pById(m, id) || {}).name || '?';
+const rot = (m, start) => m.players.map((_, k) => m.players[(start + k) % m.players.length]);
+const missionOf = c => c.mission ? CARD[c.mission] : null;
+const fxOf = (c, f) => { const mi = missionOf(c); return mi && mi.fx ? mi.fx[f] : undefined; };
+const tricksTarget = m => m.cur.cards + (fxOf(m.cur, 'extra') || 0) + (m.cur.extraTricks || 0);
+
+function newRound(m) {
+  return { phase: m.missions ? 'mission' : 'bets', mission:null, variant:{}, cards: m.lastCards || 5, extraTricks:0,
+    bets:{}, tricks:[], mod:{}, won:{}, recv:{}, adj:{}, designate:{}, firstW:null, lastW:null, swapWith:null, pendingGive:null };
+}
+function extremes(m, most) {
+  const vals = m.players.map(p => m.totals[p.id]);
+  const mx = Math.max(...vals), mn = Math.min(...vals);
+  if (mx === mn) return [m.players[m.dealer].id];
+  const target = most ? mx : mn;
+  return m.players.filter(p => m.totals[p.id] === target).map(p => p.id);
+}
+function rolesOf(m) {
+  const c = m.cur, r = {};
+  const add = (ids, label, cls) => ids.forEach(id => (r[id] = r[id] || []).push({ label, cls }));
+  if (fxOf(c, 'sabot')) add(extremes(m, true), 'Saboteur', 'sab');
+  if (fxOf(c, 'guard')) add(extremes(m, false), 'Gardien', 'gar');
+  if (fxOf(c, 'pm1')) add(extremes(m, true), '±1 pari', 'pm');
+  if (fxOf(c, 'visible')) add(extremes(m, true), 'Jeu caché', 'hid');
+  return r;
+}
+const isSab = (m, id) => !!fxOf(m.cur, 'sabot') && extremes(m, true).includes(id);
+const betOrder = m => rot(m, m.dealer).filter(p => !isSab(m, p.id));
+const curBettor = m => betOrder(m).find(p => m.cur.bets[p.id] == null);
+
+function betOptions(m, pid) {
+  const c = m.cur, N = tricksTarget(m), order = betOrder(m), i = order.findIndex(p => p.id === pid), res = [];
+  for (let v = 0; v <= N; v++) {
+    let why = '';
+    if (fxOf(c, 'forbid') && v === (c.variant.forbid ?? 0)) why = 'Interdit par la mission';
+    if (!why && fxOf(c, 'nocopy') && i > 0 && c.bets[order[i - 1].id] === v) why = 'Copie du pari précédent';
+    if (!why && G().sumRule && order.length > 1 && i === order.length - 1) {
+      const others = order.slice(0, -1).map(p => c.bets[p.id]);
+      if (others.every(x => x != null) && others.reduce((a, b) => a + b, 0) + v === N) why = 'La somme des paris ferait ' + N + ' = nombre de plis';
+    }
+    res.push({ v, why });
+  }
+  return res;
+}
+function leaderId(m) {
+  const c = m.cur, n = m.players.length;
+  let lead = G().playStart === 'dealer' ? m.players[m.dealer].id : m.players[(m.dealer + 1) % n].id;
+  c.tricks.forEach(t => { if (t.winner) lead = t.winner; });
+  return lead;
+}
+function livePilis(m, id) {
+  let v = m.totals[id];
+  m.cur.tricks.forEach(t => {
+    if (t.winner === id) v += (t.piment || 0) + (t.trap ? 1 : 0);
+    if (t.giveTo === id) v++;
+    if (t.giveTo && t.winner === id) v--;
+  });
+  return v;
+}
+function wonLive(m) {
+  const w = {}; m.players.forEach(p => (w[p.id] = 0));
+  m.cur.tricks.forEach(t => { if (t.winner) w[t.winner]++; });
+  return w;
+}
+function initScore(fromTricks) {
+  const m = M(), c = m.cur;
+  if (fromTricks && c.tricks.length) {
+    c.won = {}; c.recv = {};
+    m.players.forEach(p => { c.won[p.id] = 0; c.recv[p.id] = 0; });
+    c.tricks.forEach(t => { if (!t.winner) return; c.won[t.winner]++; c.recv[t.winner] += (t.piment || 0) + (t.trap ? 1 : 0); });
+    c.firstW = c.tricks[0].winner || null;
+    c.lastW = c.tricks[c.tricks.length - 1].winner || null;
+  }
+  m.players.forEach(p => { c.won[p.id] ??= 0; c.recv[p.id] ??= 0; c.adj[p.id] ??= 0; if (!isSab(m, p.id)) c.bets[p.id] ??= 0; });
+}
+function computeScore(m) {
+  const c = m.cur, ids = m.players.map(p => p.id), mult = fxOf(c, 'x2') ? 2 : 1, out = {};
+  const xfer = {}; ids.forEach(id => (xfer[id] = 0));
+  c.tricks.forEach(t => { if (t.winner && t.giveTo) { xfer[t.winner]--; xfer[t.giveTo]++; } });
+  const live = {};
+  ids.forEach(id => {
+    const o = out[id] = { before: m.totals[id], lines: [], perfect: false };
+    const r = (c.recv[id] || 0) * mult;
+    live[id] = m.totals[id] + r + xfer[id];
+    if (r) o.lines.push(`🌶 reçus pendant la manche +${r}${mult > 1 ? ' (×2)' : ''}`);
+    if (xfer[id] > 0) o.lines.push(`🎁 Pilis offerts par les autres +${xfer[id]}`);
+    if (xfer[id] < 0) o.lines.push(`🎁 Pilis donnés ${xfer[id]}`);
+  });
+  if (fxOf(c, 'swapPilis') && c.lastW && c.swapWith && c.lastW !== c.swapWith && live[c.lastW] != null && live[c.swapWith] != null) {
+    [live[c.lastW], live[c.swapWith]] = [live[c.swapWith], live[c.lastW]];
+    out[c.lastW].lines.push(`🔄 échange ses Pilis avec ${nameOf(m, c.swapWith)}`);
+    out[c.swapWith].lines.push(`🔄 échange ses Pilis avec ${nameOf(m, c.lastW)}`);
+  }
+  const base = {};
+  ids.forEach(id => { base[id] = isSab(m, id) ? 0 : Math.abs((c.bets[id] ?? 0) - (c.won[id] || 0)); });
+  ids.forEach(id => {
+    const o = out[id]; let pen = base[id];
+    if (isSab(m, id)) o.lines.push('Saboteur : pas de pénalité de pari');
+    else if (base[id] === 0) { o.perfect = true; o.lines.push('Pari réussi ✔'); }
+    else o.lines.push(`Écart de ${base[id]} → +${base[id]}`);
+    if (fxOf(c, 'designate') && c.designate[id]) {
+      const d = c.designate[id]; pen += base[d] || 0;
+      o.lines.push(`+${base[d] || 0} de ${nameOf(m, d)} (désigné)`);
+    }
+    if (fxOf(c, 'firstLast')) {
+      if (c.firstW === id) { pen++; o.lines.push('1er pli +1'); }
+      if (c.lastW === id) { pen++; o.lines.push('Dernier pli +1'); }
+    }
+    if (mult > 1 && pen) { pen *= mult; o.lines.push('Pénalités ×2'); }
+    let minus = 0;
+    if (fxOf(c, 'minus') && o.perfect && (c.bets[id] || 0) > 0) { minus = c.bets[id]; o.lines.push(`Pari réussi : défausse ${minus} Pili${minus > 1 ? 's' : ''}`); }
+    const adj = c.adj[id] || 0; if (adj) o.lines.push(`Ajustement ${adj > 0 ? '+' : ''}${adj}`);
+    o.after = Math.max(0, live[id] + pen - minus + adj);
+    o.delta = o.after - o.before;
+  });
+  return out;
+}
+
+/* ---------------- Rendu : éléments communs ---------------- */
+function maskSVG(color) {
+  return `<svg class="mask" viewBox="0 0 48 54" aria-hidden="true">
+  <path d="M24 2C11 2 4 12 4 25c0 13 8 23 20 27 12-4 20-14 20-27C44 12 37 2 24 2Z" fill="${color}" stroke="#12040e" stroke-width="2.5"/>
+  <path d="M24 5l4 8-4 8-4-8z" fill="#fff4e3"/><path d="M4 28c6 2 10 6 12 12M44 28c-6 2-10 6-12 12" stroke="#12040e" stroke-width="1.5" fill="none" opacity=".45"/>
+  <path d="M6.5 23.5c4-6.5 11.5-6.5 15 .5-3.5 6-11 6-15-.5Z" fill="#fff4e3" stroke="#12040e" stroke-width="1.6"/>
+  <path d="M41.5 23.5c-4-6.5-11.5-6.5-15 .5 3.5 6 11 6 15-.5Z" fill="#fff4e3" stroke="#12040e" stroke-width="1.6"/>
+  <circle cx="14.5" cy="24" r="2.8" fill="#12040e"/><circle cx="33.5" cy="24" r="2.8" fill="#12040e"/>
+  <path d="M16 37c4 4.5 12 4.5 16 0-1.5 6.5-14.5 6.5-16 0Z" fill="#fff4e3" stroke="#12040e" stroke-width="1.6"/></svg>`;
+}
+function face(cd, extra = '') {
+  const cls = cd.frame === 'icon' ? `icon${cd.x ? ' expert' : ''}` : cd.frame;
+  return `<div class="cface ${cls} ${extra}"><img src="${IMG(cd.k)}" alt="${esc(cd.t)}" draggable="false"></div>`;
+}
+const tag = w => `<span class="tag" style="--c:${WHEN[w][1]}">${WHEN[w][0]}</span>`;
+function stepper(field, val, pid = '') {
+  return `<span class="step"><button data-a="stp" data-v="${field}|${pid}|-1" aria-label="moins">−</button><b>${val}</b><button data-a="stp" data-v="${field}|${pid}|1" aria-label="plus">+</button></span>`;
+}
+function tableHTML(players, o = {}) {
+  const n = players.length, seat = n > 6 ? 82 : n > 4 ? 96 : 110;
+  const seats = players.map((p, k) => {
+    const a = (90 + k * 360 / Math.max(n, 1)) * Math.PI / 180, R = 41;
+    const x = 50 + R * Math.cos(a), y = 50 + R * Math.sin(a);
+    return `<button class="seat ${o.cls ? o.cls(p, k) : ''}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%" data-pid="${p.id}" ${o.act ? o.act(p, k) : ''}>
+      ${maskSVG(p.color)}<span class="nm">${esc(p.name)}</span>${o.seat ? o.seat(p, k) : ''}</button>`;
+  }).join('');
+  return `<div class="table" style="--seat:${seat}px"><div class="felt">${o.center || ''}</div>${seats}</div>`;
+}
+
+/* ---------------- Vues ---------------- */
+function renderTop() {
+  const g = S.game && G();
+  const tabs = [['game','🎲 Partie'],['cards','🃏 Cartes'],['rules','📜 Règles'],['log','📒 Historique']];
+  $('#top').innerHTML = `<button class="brand" data-a="home" title="Changer de jeu">PILI PILI${g && g.key === 'spicy' ? '<small>EXTRA SPICY 🌶🌶🌶</small>' : g ? '<small>LE JEU ORIGINAL</small>' : ''}</button>
+    ${g ? `<nav class="tabs">${tabs.map(([k, l]) => `<button class="tab ${S.tab === k ? 'on' : ''}" data-a="tab" data-v="${k}">${l}</button>`).join('')}</nav>` : '<div style="flex:1"></div>'}
+    <button class="iconbtn music ${S.sound.music ? 'on' : ''}" data-a="music" title="Musique">🎺</button>
+    <button class="iconbtn ${S.sound.sfx ? 'on' : ''}" data-a="sfx" title="Bruitages">${S.sound.sfx ? '🔊' : '🔇'}</button>`;
+}
+
+let lastPanelKey = '';
+function render() {
+  renderTop();
+  const app = $('#app');
+  if (!S.game) app.innerHTML = homeView();
+  else if (S.tab === 'cards') app.innerHTML = cardsView();
+  else if (S.tab === 'rules') app.innerHTML = rulesView();
+  else if (S.tab === 'log') app.innerHTML = logView();
+  else app.innerHTML = M() ? gameView() : setupView();
+  save();
+}
+
+function homeView() {
+  return `<section class="home">
+    <h1 class="hero">PILI PILI <span>🌶️</span></h1>
+    <p class="lead">Le compagnon de table : la règle de chaque carte en un tap, et les paris, plis et Pilis comptés pour vous.</p>
+    <div class="gamepick">${Object.values(GAMES).map(g => {
+      const m = S.matches[g.key];
+      return `<button class="gp" data-a="pickGame" data-v="${g.key}"><img src="${IMG(g.logo)}" alt="">
+        <span class="gpn">${g.name}</span><span class="gps">${g.sub} · fin à ${g.limit} Pilis</span>
+        ${m && !m.over ? `<span class="gpc">Partie en cours · manche ${m.rounds.length + 1}</span>` : ''}</button>`;
+    }).join('')}</div>
+    <p class="muted" style="margin-top:26px">🎺 Musique et 🔊 bruitages : boutons en haut à droite.</p></section>`;
+}
+
+/* ----- Onglet Cartes ----- */
+function cardsView() {
+  const secs = DECK[S.game], f = S.cardFilter;
+  const filters = [['all','Tout'], ...secs.map(s => [s.id, s.title])];
+  const m = M(), picking = m && !m.over && m.cur.phase === 'mission';
+  let i = 0;
+  return `<div class="filters">${filters.map(([k, l]) => `<button class="fchip ${f === k ? 'on' : ''}" data-a="cfilter" data-v="${k}">${l}</button>`).join('')}</div>
+    ${picking ? '<div class="ok">Manche en préparation : ouvrez une Mission puis « Mission de cette manche » pour la choisir.</div>' : ''}
+    ${secs.filter(s => f === 'all' || f === s.id).map(s => `<section class="csec"><div class="h2">${s.title}${s.note ? `<small>${s.note}</small>` : ''}</div>
+      <div class="cgrid">${s.cards.map(cd => `<button class="ctile" style="animation-delay:${(i++ * .03).toFixed(2)}s" data-a="card" data-v="${cd.k}">
+        ${face(cd)}<div class="ct">${esc(cd.t)}</div>${tag(cd.w)}</button>`).join('')}</div></section>`).join('')}`;
+}
+function openCard(k) {
+  const cd = CARD[k]; if (!cd) return;
+  const m = M(), canPick = cd.m && m && !m.over && m.cur.phase === 'mission' && DECK[S.game].some(s => s.cards.includes(cd));
+  openModal(`<div class="sheet"><button class="xbtn" data-a="closeModal">×</button><div class="card-sheet">
+    <div>${face(cd)}</div>
+    <div>${tag(cd.w)}<h2>${esc(cd.t)}</h2>${cd.count ? `<div class="count">${cd.count}</div>` : ''}
+      <div class="rule">${cd.r}</div>
+      ${cd.sp ? `<div class="note2">${SPECIAL_NOTE}</div>` : ''}
+      ${cd.a ? `<div class="appnote">📱 <b>Dans l’appli :</b> ${cd.a}</div>` : ''}
+      ${canPick ? `<div class="actions"><button class="btn pink" data-a="pickFromModal" data-v="${cd.k}">Mission de cette manche ✔</button></div>` : ''}
+    </div></div></div>`);
+  sfx.flip();
+}
+
+/* ----- Onglet Règles ----- */
+function rulesView() {
+  const other = S.game === 'classic' ? GAMES.spicy : GAMES.classic;
+  return `<div class="panel rules anim"><h2>Comment jouer à ${G().name}</h2>
+    <p class="muted">Le but : deviner combien de plis vous allez gagner… et vous y tenir ! Un pli = les cartes jouées pendant un tour, ramassées par celui qui a posé la plus forte.</p>
+    <ol>${RULES[S.game].map(([h, t]) => `<li><h4>${h}</h4>${t}</li>`).join('')}</ol>
+    <h3>Différences avec ${other.name}</h3>
+    <ul>${S.game === 'classic'
+      ? '<li>Ici la somme des paris ne doit pas égaler le nombre de cartes ; dans Extra Spicy les paris sont libres.</li><li>Ici le donneur ouvre le 1er pli ; dans Extra Spicy c’est le joueur à sa gauche.</li><li>Ici le Joker (0 à 56) ; dans Extra Spicy des cartes doubles et 8 cartes Spéciales.</li><li>Fin à 6 Pilis ici, 8 dans Extra Spicy.</li>'
+      : '<li>Paris libres ici ; dans l’original la somme des paris ne doit pas égaler le nombre de cartes.</li><li>Ici le joueur à gauche du donneur ouvre le 1er pli ; dans l’original c’est le donneur.</li><li>Cartes doubles et Spéciales ici ; Joker (0 à 56) dans l’original.</li><li>Fin à 8 Pilis ici, 6 dans l’original.</li>'}</ul></div>`;
+}
+
+/* ----- Mise en place ----- */
+function setupView() {
+  const st = S.setup, avail = NAMES.filter(n => !st.players.includes(n));
+  const players = st.players.map((n, i) => ({ id:'s' + i, name:n, color:COLORS[i % 8] }));
+  const table = tableHTML(players, {
+    center: `<div class="fc-round">${players.length ? players.length + ' joueur' + (players.length > 1 ? 's' : '') : 'Table vide'}</div><div class="fc-sub">${players.length > 1 ? 'Touchez 2 joueurs<br>pour les échanger' : 'Ajoutez des joueurs'}</div>`,
+    cls: (p, k) => st.swapSel === k ? 'sel' : '',
+    act: (p, k) => `data-a="swapSeat" data-v="${k}"`,
+    seat: (p, k) => st.dealer === k ? '<span class="dchip">🂠 DONNE</span>' : ''
+  });
+  return `<div class="game-layout"><div class="left-col">${table}</div>
+  <div class="panel anim"><h2>¿Quién juega?</h2>
+    <p class="muted">Ajoutez les joueurs <b>dans l’ordre où ils sont assis</b>, en tournant vers la gauche (sens horaire sur la table).</p>
+    <div class="addrow"><input id="newname" maxlength="16" placeholder="Prénom…" autocomplete="off" enterkeyhint="done"><button class="btn sm pink" data-a="addName">Ajouter</button></div>
+    ${avail.length ? `<div class="lbl">Joueurs mémorisés : touchez pour les asseoir</div><div class="namechips">${avail.map(n => `<span class="nchip"><button data-a="seatName" data-v="${esc(n)}">${esc(n)}</button><button class="x" data-a="forget" data-v="${esc(n)}" title="Oublier">×</button></span>`).join('')}</div>` : ''}
+    ${st.players.length ? `<div class="lbl">Autour de la table</div><div class="namechips">${st.players.map((n, i) => `<span class="nchip on" style="--c:${COLORS[i % 8]}"><span>${i + 1}. ${esc(n)}</span><button class="x" data-a="unseat" data-v="${i}" title="Retirer">×</button></span>`).join('')}</div>` : ''}
+    <h3>Qui distribue en premier ?</h3>
+    <div class="namechips">${st.players.map((n, i) => `<button class="nchip ${st.dealer === i ? 'on' : ''}" data-a="setDealer" data-v="${i}">🂠 ${esc(n)}</button>`).join('') || '<span class="muted">Ajoutez d’abord des joueurs.</span>'}</div>
+    <h3>Cartes Mission</h3>
+    <div class="seg"><button class="${st.missions ? 'on' : ''}" data-a="setMissions" data-v="1">Avec missions</button><button class="${!st.missions ? 'on' : ''}" data-a="setMissions" data-v="0">Sans (premières parties)</button></div>
+    <div class="actions"><button class="btn big pink" data-a="start" ${st.players.length < 2 ? 'disabled' : ''}>¡Vámonos! 🌶</button></div>
+  </div></div>`;
+}
+
+/* ----- Partie ----- */
+function gameTable(m) {
+  const c = m.cur, g = G(), mi = missionOf(c), roles = rolesOf(m), wl = wonLive(m);
+  const lead = c.phase === 'play' ? leaderId(m) : null, cb = c.phase === 'bets' ? curBettor(m) : null;
+  const center = m.over
+    ? `<div class="fc-round">¡Fin!</div><div class="fc-sub">${m.rounds.length} manches</div>`
+    : `<div class="fc-round">Manche ${m.rounds.length + 1}</div>
+      ${mi ? `<button class="fc-mission" data-a="card" data-v="${mi.k}" title="Voir la mission">${face(mi)}</button>` : (m.missions ? '<div class="fc-sub">Mission ?</div>' : '')}
+      <div class="fc-sub">${c.cards} carte${c.cards > 1 ? 's' : ''} chacun${c.phase === 'play' ? ` · pli ${Math.min(c.tricks.length + 1, tricksTarget(m))}/${tricksTarget(m)}` : ''}</div>`;
+  return tableHTML(m.players, {
+    center,
+    cls: (p) => [
+      (cb && cb.id === p.id) || (lead === p.id && c.tricks.length < tricksTarget(m)) ? 'active' : '',
+      m.totals[p.id] >= g.limit - 1 ? 'danger' : ''].join(' '),
+    act: (p) => c.phase === 'play' && !m.over && c.pendingGive == null && c.tricks.length < tricksTarget(m) ? `data-a="trick" data-v="${p.id}"` : `data-a="card" data-v=""`,
+    seat: (p, k) => {
+      let h = '';
+      if (k === m.dealer && !m.over) h += '<span class="dchip">🂠 DONNE</span>';
+      if (!m.over) (roles[p.id] || []).forEach(r => (h += `<span class="rchip ${r.cls}">${r.label}</span>`));
+      h += `<span class="pl">🌶 ${m.totals[p.id]}<small>/${g.limit}</small></span><span class="pbar"><i style="width:${Math.min(100, m.totals[p.id] / g.limit * 100)}%"></i></span>`;
+      if (!m.over && (c.phase === 'bets' || c.phase === 'play' || c.phase === 'score') && !isSab(m, p.id)) {
+        const b = c.bets[p.id];
+        if (c.phase === 'bets') h += `<span class="bub ${b == null ? 'q' : ''}">${b == null ? '?' : b}</span>`;
+        else {
+          const w = c.phase === 'score' ? (c.won[p.id] || 0) : wl[p.id], bb = b ?? 0;
+          h += `<span class="bub ${w === bb ? 'ok' : w > bb ? 'over' : ''}">${w}/${bb}</span>`;
+        }
+      }
+      return h;
+    }
+  });
+}
+function phaseNav(m) {
+  const order = ['mission','bets','play','score'], labels = { mission:'Mission', bets:'Paris', play:'Plis', score:'Décompte' };
+  const list = m.missions ? order : order.slice(1), cur = order.indexOf(m.cur.phase);
+  return `<div class="phases">${list.map(p => { const i = order.indexOf(p);
+    return `<button class="${i === cur ? 'on' : i < cur ? 'done' : ''}" ${i < cur ? `data-a="goPhase" data-v="${p}"` : 'disabled'}>${labels[p]}</button>`; }).join('<span class="muted">›</span>')}</div>`;
+}
+function missionBanner(m) {
+  const mi = missionOf(m.cur); if (!mi) return '';
+  const txt = mi.r.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  return `<button class="banner" data-a="card" data-v="${mi.k}">${face(mi)}<div><b>${esc(mi.t)}</b><span>${esc(txt.length > 150 ? txt.slice(0, 147) + '…' : txt)}</span></div></button>`;
+}
+function rolesBanner(m) {
+  const r = rolesOf(m), items = Object.entries(r);
+  if (!items.length) return '';
+  return `<div class="roles">${items.map(([id, rs]) => rs.map(x => `<span class="rchip ${x.cls}" style="font-size:13px;padding:4px 10px">${x.label} : ${esc(nameOf(m, id))}</span>`).join('')).join('')}</div>`;
+}
+function gameView() {
+  const m = M(), c = m.cur;
+  const key = m.over ? 'over' : c.phase + m.rounds.length;
+  const anim = key !== lastPanelKey ? 'anim' : ''; lastPanelKey = key;
+  const body = m.over ? overPanel(m) : { mission:missionPhase, bets:betsPhase, play:playPhase, score:scorePhase }[c.phase](m);
+  return `<div class="game-layout"><div class="left-col">${gameTable(m)}${m.over ? '' : phaseNav(m)}</div><div class="panel ${anim}">${body}</div></div>`;
+}
+
+function missionPhase(m) {
+  const c = m.cur, g = G(), sel = missionOf(c), dealer = m.players[m.dealer];
+  const groups = DECK[S.game].map(s => ({ title:s.title, cards:s.cards.filter(cd => cd.m) })).filter(x => x.cards.length);
+  let h = `<h2>Manche ${m.rounds.length + 1} · La mission</h2>
+    <p class="muted"><b>${esc(dealer.name)}</b> mélange et distribue. Retournez la mission et touchez-la ci-dessous.</p>
+    ${groups.map(gr => `<div class="mgroup"><div class="lbl">${gr.title}</div><div class="mgrid">${gr.cards.map(cd =>
+      `<button class="mthumb ${c.mission === cd.k ? 'on' : ''}" data-a="selMission" data-v="${cd.k}" title="${esc(cd.t)}">${face(cd)}</button>`).join('')}</div></div>`).join('')}`;
+  if (sel) {
+    h += `<div class="mbox ${S._flash ? 'flash' : ''}"><div data-a="card" data-v="${sel.k}">${face(sel)}</div><div>${tag(sel.w)}<h4>${esc(sel.t)}</h4><div class="rule">${sel.r}</div>
+      ${sel.variants ? Object.entries(sel.variants).map(([k, vals]) => `<div class="row"><span class="lbl">Chiffre sur la carte :</span>${vals.map(v => `<button class="chip ${(c.variant[k] ?? vals[0]) === v ? 'on' : ''}" data-a="variant" data-v="${k}|${v}">${v}</button>`).join('')}</div>`).join('') : ''}
+      ${sel.a ? `<div class="appnote">📱 ${sel.a}</div>` : ''}</div></div>`;
+    S._flash = false;
+  } else h += '<div class="muted" style="margin:10px 0">Aucune mission choisie (manche sans mission).</div>';
+  h += `<div class="row"><span class="lbl">Cartes à distribuer</span>${stepper('cards', c.cards)}<span class="muted small">${g.deckHint}</span></div>
+    ${fxOf(c, 'extra') ? `<div class="ok">Avec cette mission : <b>${tricksTarget(m)} plis</b> à jouer.</div>` : ''}
+    <div class="actions">${sel ? '<button class="btn ghost sm" data-a="noMission">Sans mission</button>' : ''}<button class="btn big pink" data-a="toBets">Distribuer ➜ Paris</button></div>`;
+  return h;
+}
+
+function betsPhase(m) {
+  const c = m.cur, g = G(), N = tricksTarget(m), order = betOrder(m), cb = curBettor(m);
+  const sum = order.reduce((a, p) => a + (c.bets[p.id] ?? 0), 0), all = !cb;
+  let h = `<h2>Les paris</h2>${missionBanner(m)}${rolesBanner(m)}`;
+  if (!m.missions) h += `<div class="row"><span class="lbl">Cartes par joueur</span>${stepper('cards', c.cards)}</div>`;
+  const tm = fxOf(c, 'timer');
+  if (tm) h += `<div class="actions" style="justify-content:flex-start;margin:6px 0 12px"><button class="btn orange" data-a="timer" data-v="${tm}">⏱ Chrono ${tm} secondes</button></div>`;
+  h += `<p class="muted">En commençant par le donneur : ${order.map(p => esc(p.name)).join(' → ')}</p>`;
+  h += order.map(p => {
+    const opts = betOptions(m, p.id), b = c.bets[p.id];
+    return `<div class="brow ${cb && cb.id === p.id ? 'cur' : ''}"><div class="who">${maskSVG(p.color)}<span>${esc(p.name)}</span></div>
+      <div class="chips">${opts.map(o => `<button class="chip ${b === o.v ? 'on' : ''} ${o.why && b !== o.v ? 'no' : ''}" ${o.why && b !== o.v ? `title="${esc(o.why)}" data-a="betNo" data-v="${esc(o.why)}"` : `data-a="bet" data-v="${p.id}|${o.v}"`}>${o.v}</button>`).join('')}</div></div>`;
+  }).join('');
+  m.players.filter(p => isSab(m, p.id)).forEach(p => {
+    h += `<div class="brow"><div class="who">${maskSVG(p.color)}<span>${esc(p.name)}</span></div><span class="rchip sab" style="font-size:13px;padding:4px 10px">Saboteur : pas de pari, +2 cartes</span></div>`;
+  });
+  h += `<div class="sumline"><span>Total des paris</span><span class="big">${sum}</span><span>pour</span><span class="big">${N}</span><span>pli${N > 1 ? 's' : ''}</span>
+    <span class="muted small">${all ? (sum > N ? '→ ça va se battre !' : sum < N ? '→ quelqu’un va ramasser des plis en trop' : '→ tout le monde peut réussir') : ''}</span></div>`;
+  if (g.sumRule && order.length > 1) {
+    const last = order[order.length - 1];
+    h += `<div class="warn">Règle de l’original : le dernier à parier (<b>${esc(last.name)}</b>) ne peut pas faire une somme égale à ${N}.</div>`;
+  } else if (!g.sumRule) h += '<div class="ok">Extra Spicy : paris totalement libres.</div>';
+  h += `<div class="actions"><button class="btn ghost sm" data-a="toScoreDirect">Saisir les plis à la fin</button>
+    <button class="btn big pink ${all ? 'pulse' : ''}" data-a="toPlay" ${all ? '' : 'disabled'}>Jouer les plis ➜</button></div>`;
+  return h;
+}
+
+function playPhase(m) {
+  const c = m.cur, N = tricksTarget(m), k = c.tricks.length, done = k >= N, lead = leaderId(m), spicy = S.game === 'spicy', wl = wonLive(m);
+  let h = `<h2>${done ? '¡Todos los plis!' : `Pli ${k + 1} / ${N}`}</h2>${missionBanner(m)}`;
+  if (c.pendingGive != null) {
+    const t = c.tricks[c.pendingGive];
+    h += `<div class="prompt">🎁 <b>${esc(nameOf(m, t.winner))}</b> peut donner 1 de ses Pilis à :<div class="namechips">${m.players.filter(p => p.id !== t.winner).map(p => `<button class="nchip" data-a="give" data-v="${p.id}">${esc(p.name)}</button>`).join('')}<button class="nchip" data-a="give" data-v="">Personne</button></div></div>`;
+  } else if (!done) {
+    h += `<p>Commence : <b style="color:var(--yellow)">${esc(nameOf(m, lead))}</b>. Touchez <b>le gagnant du pli</b> (ici ou sur la table).</p>`;
+    if (spicy) h += `<div class="mods"><button class="mod ${c.mod.piment === 1 ? 'on' : ''}" data-a="piment" data-v="1">🌶 Piment +1<small>au gagnant</small></button>
+      <button class="mod ${c.mod.piment === 2 ? 'on' : ''}" data-a="piment" data-v="2">🌶🌶 Piment +2<small>au gagnant</small></button>
+      <button class="mod" data-a="discard">🗑 Pli défaussé<small>que des Spéciales</small></button></div>`;
+    if (fxOf(c, 'trap')) h += `<div class="mods"><button class="mod ${c.mod.trap ? 'on' : ''}" data-a="trap">🎯 Numéro piégé<small>+1 Pili au gagnant</small></button></div>`;
+    h += `<div class="winners">${m.players.map(p => `<button class="wbtn ${p.id === lead ? 'lead' : ''}" data-a="trick" data-v="${p.id}" style="--c:${p.color}">${maskSVG(p.color)}<span>${esc(p.name)}</span><small>${wl[p.id]} / ${isSab(m, p.id) ? '—' : (c.bets[p.id] ?? 0)}</small></button>`).join('')}</div>`;
+  }
+  h += `<div class="stat">${m.players.map(p => {
+    if (isSab(m, p.id)) return `<span>${esc(p.name)} : saboteur</span>`;
+    const d = wl[p.id] - (c.bets[p.id] ?? 0);
+    return `<span class="${d === 0 ? 's-ok' : d > 0 ? 's-over' : ''}">${esc(p.name)} : ${d === 0 ? 'pile ✔' : d > 0 ? `+${d} de trop` : `encore ${-d}`}</span>`;
+  }).join('')}</div>`;
+  if (k) h += `<ol class="tlog">${c.tricks.map(t => `<li>${t.winner ? esc(nameOf(m, t.winner)) : '🗑 défaussé'}${t.piment ? ` 🌶+${t.piment}` : ''}${t.trap ? ' 🎯+1' : ''}${t.giveTo ? ` 🎁→${esc(nameOf(m, t.giveTo))}` : ''}</li>`).join('')}</ol>`;
+  h += `<div class="actions">${k ? '<button class="btn ghost sm" data-a="undoTrick">↶ Annuler le dernier pli</button>' : ''}
+    ${done ? '<button class="btn ghost sm" data-a="moreTrick">+ un pli</button>' : ''}
+    <button class="btn big ${done ? 'pink pulse' : 'ghost'}" data-a="toScore">Décompte ➜</button></div>`;
+  return h;
+}
+
+function scorePhase(m) {
+  const c = m.cur, sc = computeScore(m), N = tricksTarget(m), spicy = S.game === 'spicy';
+  const showRecv = spicy || fxOf(c, 'trap') || m.players.some(p => c.recv[p.id]);
+  const cols = 3 + (showRecv ? 1 : 0);
+  const sumWon = m.players.reduce((a, p) => a + (c.won[p.id] || 0), 0);
+  const realTricks = c.tricks.length ? c.tricks.filter(t => t.winner).length : null;
+  const opts = (sel, ex) => m.players.filter(p => p.id !== ex).map(p => `<option value="${p.id}" ${sel === p.id ? 'selected' : ''}>${esc(p.name)}</option>`).join('');
+  let h = `<h2>Décompte des Pilis</h2>${missionBanner(m)}`;
+  if (fxOf(c, 'firstLast')) h += `<div class="selrow">1er pli gagné par <select data-ch="firstW"><option value="">—</option>${opts(c.firstW)}</select> · dernier pli par <select data-ch="lastW"><option value="">—</option>${opts(c.lastW)}</select></div>`;
+  if (fxOf(c, 'swapPilis')) h += `<div class="selrow">Dernier pli : <select data-ch="lastW"><option value="">—</option>${opts(c.lastW)}</select> échange ses Pilis avec <select data-ch="swapWith"><option value="">personne</option>${opts(c.swapWith, c.lastW)}</select></div>`;
+  h += m.players.map(p => {
+    const s = sc[p.id], sab = isSab(m, p.id);
+    return `<div class="srow ${s.perfect ? 'perfect' : ''}" style="--cols:${cols}">
+      <div class="who">${maskSVG(p.color)}${esc(p.name)}${sab ? '<span class="rchip sab">Saboteur</span>' : ''}</div>
+      <div class="fld"><span>Pari</span>${sab ? '<b>—</b>' : stepper('bet', c.bets[p.id] ?? 0, p.id)}</div>
+      <div class="fld"><span>Plis</span>${stepper('won', c.won[p.id] || 0, p.id)}</div>
+      ${showRecv ? `<div class="fld"><span>🌶 en jeu</span>${stepper('recv', c.recv[p.id] || 0, p.id)}</div>` : ''}
+      <div class="fld"><span>Ajust.</span>${stepper('adj', c.adj[p.id] || 0, p.id)}</div>
+      <div class="res"><span class="delta ${s.delta > 0 ? 'plus' : s.delta < 0 ? 'minus' : 'zero'}">${s.delta > 0 ? '+' + s.delta : s.delta}</span><span class="tot">${s.before} ➜ <b>${s.after}</b></span></div>
+      ${fxOf(c, 'designate') ? `<div class="selrow det" style="font-size:14px">a désigné <select data-ch="designate" data-v="${p.id}"><option value="">—</option>${opts(c.designate[p.id], p.id)}</select></div>` : ''}
+      <div class="det">${s.lines.join(' · ')}</div></div>`;
+  }).join('');
+  if (realTricks != null ? sumWon !== realTricks : sumWon !== N)
+    h += `<div class="warn">Total des plis saisis : <b>${sumWon}</b> (attendu : ${realTricks ?? N}). Vérifiez avant de valider.</div>`;
+  h += `<p class="muted small">« 🌶 en jeu » = Pilis reçus pendant la manche (piments, numéros piégés…). « Ajust. » = correction libre (triche, oubli…).</p>
+    <div class="actions"><button class="btn ghost sm" data-a="goPhase" data-v="${c.tricks.length ? 'play' : 'bets'}">← Retour</button>
+    <button class="btn big pink pulse" data-a="validate">Valider la manche 🌶</button></div>`;
+  return h;
+}
+
+function ranking(m) { return [...m.players].sort((a, b) => m.totals[a.id] - m.totals[b.id]); }
+function winnersOf(m) { const mn = Math.min(...m.players.map(p => m.totals[p.id])); return m.players.filter(p => m.totals[p.id] === mn); }
+function overPanel(m) {
+  const w = winnersOf(m);
+  return `<div class="victory"><div class="crown">👑</div><h2>¡Fin de la partida!</h2>
+    <div class="vnames">${w.map(p => esc(p.name)).join(' & ')}</div>
+    <div class="rank" style="justify-content:center">${ranking(m).map((p, i) => `<div><span class="pos">${i + 1}</span>${maskSVG(p.color)}${esc(p.name)} · 🌶 ${m.totals[p.id]}</div>`).join('')}</div>
+    <div class="actions" style="justify-content:center"><button class="btn ghost sm" data-a="undoRound">↶ Annuler la dernière manche</button>
+    <button class="btn ghost sm" data-a="tab" data-v="log">📒 Historique</button>
+    <button class="btn teal" data-a="quit">Nouveaux joueurs</button><button class="btn big pink" data-a="rematch">¡Revancha! 🌶</button></div></div>`;
+}
+
+/* ----- Historique ----- */
+function logView() {
+  const m = M();
+  const hist = S.history.filter(x => x.game === S.game);
+  const histHTML = hist.length ? `<h3>Parties terminées</h3><ul class="hist">${hist.slice(0, 15).map(x => `<li><b>${new Date(x.date).toLocaleDateString('fr-FR')}</b> · 👑 ${x.winners.map(esc).join(' & ')} · ${x.players.map(p => `${esc(p.name)} ${p.total}`).join(', ')} (${x.rounds} manches)</li>`).join('')}</ul>` : '';
+  if (!m) return `<div class="panel anim"><h2>Historique</h2><p class="muted">Aucune partie en cours.</p>${histHTML}</div>`;
+  const ids = m.players.map(p => p.id);
+  return `<div class="panel anim"><h2>Historique de la partie</h2>
+    <div class="rank">${ranking(m).map((p, i) => `<div><span class="pos">${i + 1}</span>${maskSVG(p.color)}${esc(p.name)} · 🌶 ${m.totals[p.id]}</div>`).join('')}</div>
+    ${m.rounds.length ? `<div class="logwrap"><table class="log"><thead><tr><th>#</th><th>Donneur</th><th>Mission</th><th>Cartes</th>${m.players.map(p => `<th>${esc(p.name)}</th>`).join('')}</tr></thead>
+    <tbody>${m.rounds.map(r => `<tr><td><b>${r.n}</b></td><td>${esc(nameOf(m, r.dealer))}</td>
+      <td class="ms">${r.mission && CARD[r.mission] ? `<span data-a="card" data-v="${r.mission}" style="cursor:pointer;display:flex;gap:6px;align-items:center">${face(CARD[r.mission])}<span class="small">${esc(CARD[r.mission].t)}</span></span>` : '<span class="muted">—</span>'}</td>
+      <td>${r.cards}</td>
+      ${ids.map(id => `<td><span class="lb">${r.bets[id] == null ? '—' : r.bets[id]}/${r.won[id] ?? 0}</span> <span class="ld ${r.delta[id] ? '' : 'z'}">${r.delta[id] > 0 ? '+' + r.delta[id] : r.delta[id] || '✔'}</span></td>`).join('')}</tr>`).join('')}</tbody>
+    <tfoot><tr><td colspan="4" style="text-align:right">Total</td>${ids.map(id => `<td>${m.totals[id]}</td>`).join('')}</tr></tfoot></table></div>
+    <p class="muted small">Chaque case : pari/plis remportés, puis Pilis reçus (✔ = pari réussi sans Pili).</p>` : '<p class="muted">Pas encore de manche terminée.</p>'}
+    <div class="actions">${m.rounds.length ? '<button class="btn ghost sm" data-a="undoRound">↶ Annuler la dernière manche</button>' : ''}
+      <button class="btn ghost sm" data-a="quit">Abandonner la partie</button></div>
+    ${histHTML}</div>`;
+}
+
+/* ---------------- Actions ---------------- */
+function seatName(n) {
+  n = n.trim().slice(0, 16); if (!n) return;
+  const st = S.setup;
+  if (st.players.includes(n)) { toast(n + ' est déjà à table'); return; }
+  if (st.players.length >= 8) { toast('8 joueurs maximum'); return; }
+  st.players.push(n);
+  NAMES = [n, ...NAMES.filter(x => x !== n)].slice(0, 40); LS.set('pp_names', NAMES);
+  sfx.tap(); render();
+  const i = $('#newname'); if (i) i.focus();
+}
+function startMatch() {
+  const st = S.setup;
+  const players = st.players.map((n, i) => ({ id:'p' + i + '_' + Date.now().toString(36), name:n, color:COLORS[i % 8] }));
+  const m = { game:S.game, players, dealer:Math.min(st.dealer, players.length - 1), totals:{}, rounds:[], missions:!!st.missions, over:false, started:Date.now() };
+  players.forEach(p => (m.totals[p.id] = 0));
+  m.cur = newRound(m);
+  S.matches[S.game] = m;
+  sfx.deal(); render();
+}
+function award(pid) {
+  const m = M(), c = m.cur;
+  if (m.over || c.phase !== 'play' || c.pendingGive != null || c.tricks.length >= tricksTarget(m)) return;
+  const t = { winner:pid, piment:c.mod.piment || 0, trap:!!c.mod.trap };
+  c.tricks.push(t); c.mod = {};
+  if (fxOf(c, 'pgive') && livePilis(m, pid) > 0) c.pendingGive = c.tricks.length - 1;
+  sfx.trick(); if (t.piment || t.trap) sfx.pili();
+  render();
+  const seat = $(`.seat[data-pid="${pid}"]`);
+  if (seat) { burstAt(seat, '🃏', 3); floatText(seat, t.piment || t.trap ? `+🌶${(t.piment || 0) + (t.trap ? 1 : 0)}` : '+1 pli'); }
+  if (c.tricks.length >= tricksTarget(m) && c.pendingGive == null) toast('Tous les plis sont joués : passez au décompte !');
+}
+function validateRound() {
+  const m = M(), c = m.cur, sc = computeScore(m), g = G();
+  const rec = { n:m.rounds.length + 1, dealer:m.players[m.dealer].id, mission:c.mission, cards:c.cards, bets:{}, won:{}, delta:{},
+    before:{ ...m.totals }, cur:JSON.parse(JSON.stringify(c)) };
+  m.players.forEach(p => {
+    rec.bets[p.id] = isSab(m, p.id) ? null : (c.bets[p.id] ?? 0);
+    rec.won[p.id] = c.won[p.id] || 0;
+    rec.delta[p.id] = sc[p.id].delta;
+  });
+  m.players.forEach(p => (m.totals[p.id] = sc[p.id].after));
+  m.rounds.push(rec); m.lastCards = c.cards;
+  const max = Math.max(...m.players.map(p => m.totals[p.id]));
+  if (max >= g.limit) {
+    m.over = true;
+    const w = winnersOf(m);
+    S.history.unshift({ game:S.game, date:Date.now(), rounds:m.rounds.length, winners:w.map(p => p.name), players:m.players.map(p => ({ name:p.name, total:m.totals[p.id] })) });
+    S.history = S.history.slice(0, 40);
+  } else {
+    m.dealer = (m.dealer + 1) % m.players.length;
+    m.cur = newRound(m);
+  }
+  render();
+  window.scrollTo({ top:0, behavior:'smooth' });
+  let anyPili = false, anyPerfect = false;
+  m.players.forEach((p, i) => {
+    const seat = $(`.seat[data-pid="${p.id}"]`); if (!seat) return;
+    const d = sc[p.id].delta;
+    if (d > 0) { anyPili = true; setTimeout(() => { chiliRain(seat, d); floatText(seat, '+' + d + ' 🌶'); seat.classList.add('hit'); }, 250 + i * 160); }
+    else if (sc[p.id].perfect) { anyPerfect = true; setTimeout(() => { burstAt(seat, '✨', 8); floatText(seat, '¡Perfecto!'); }, 250 + i * 160); }
+    else if (d < 0) setTimeout(() => floatText(seat, d + ' 🌶'), 250 + i * 160);
+  });
+  if (m.over) { setTimeout(() => { sfx.fanfare(); confetti(); }, 600); }
+  else if (anyPili) sfx.pili(); else if (anyPerfect) sfx.perfect();
+}
+function undoRound() {
+  const m = M(); if (!m || !m.rounds.length) return;
+  const rec = m.rounds.pop();
+  m.totals = { ...rec.before };
+  m.dealer = Math.max(0, m.players.findIndex(p => p.id === rec.dealer));
+  m.cur = Object.assign(newRound(m), rec.cur, { phase:'score' });
+  if (m.over && S.history[0] && S.history[0].game === S.game && S.history[0].rounds === rec.n) S.history.shift();
+  m.over = false;
+  S.tab = 'game'; toast('Manche ' + rec.n + ' annulée : retour au décompte'); render();
+}
+
+const ACT = {
+  home() { S.game = null; sfx.tap(); render(); },
+  pickGame(v) { S.game = v; S.tab = 'game'; S.cardFilter = 'all'; sfx.flip(); render(); },
+  tab(v) { S.tab = v; closeModal(); sfx.tap(); render(); window.scrollTo({ top:0 }); },
+  music() { S.sound.music = !S.sound.music; S.sound.music ? SND.start() : SND.stop(); renderTop(); save(); },
+  sfx() { S.sound.sfx = !S.sound.sfx; renderTop(); save(); if (S.sound.sfx) sfx.tap(); },
+  card(v) { if (v) openCard(v); },
+  pickFromModal(v) { const m = M(); m.cur.mission = v; m.cur.variant = {}; S._flash = true; closeModal(); S.tab = 'game'; render(); },
+  cfilter(v) { S.cardFilter = v; sfx.tap(); render(); },
+  closeModal() { closeModal(); },
+  addName() { const i = $('#newname'); if (i) seatName(i.value); },
+  seatName(v) { seatName(v); },
+  forget(v) { NAMES = NAMES.filter(x => x !== v); LS.set('pp_names', NAMES); render(); },
+  unseat(v) { const st = S.setup; st.players.splice(+v, 1); if (st.dealer >= st.players.length) st.dealer = 0; st.swapSel = null; render(); },
+  swapSeat(v) {
+    const st = S.setup; v = +v;
+    if (st.swapSel == null || st.swapSel === v) st.swapSel = st.swapSel === v ? null : v;
+    else {
+      const a = st.swapSel; [st.players[a], st.players[v]] = [st.players[v], st.players[a]];
+      if (st.dealer === a) st.dealer = v; else if (st.dealer === v) st.dealer = a;
+      st.swapSel = null; sfx.flip();
+    }
+    sfx.tap(); render();
+  },
+  setDealer(v) { S.setup.dealer = +v; sfx.tap(); render(); },
+  setMissions(v) { S.setup.missions = v === '1'; sfx.tap(); render(); },
+  start() { startMatch(); },
+  selMission(v) { const c = M().cur; c.mission = c.mission === v ? null : v; c.variant = {}; S._flash = true; sfx.flip(); render(); },
+  noMission() { const c = M().cur; c.mission = null; c.variant = {}; render(); },
+  variant(v) { const [k, val] = v.split('|'); M().cur.variant[k] = +val; sfx.tap(); render(); },
+  stp(v) {
+    const [f, pid, d] = v.split('|'), m = M(), c = m.cur, dd = +d;
+    const N = tricksTarget(m);
+    if (f === 'cards') c.cards = Math.min(20, Math.max(1, c.cards + dd));
+    else if (f === 'bet') c.bets[pid] = Math.min(N + 4, Math.max(0, (c.bets[pid] ?? 0) + dd));
+    else if (f === 'won') c.won[pid] = Math.min(30, Math.max(0, (c.won[pid] || 0) + dd));
+    else if (f === 'recv') c.recv[pid] = Math.min(30, Math.max(0, (c.recv[pid] || 0) + dd));
+    else if (f === 'adj') c.adj[pid] = Math.min(30, Math.max(-30, (c.adj[pid] || 0) + dd));
+    sfx.tap(); render();
+  },
+  toBets() { const c = M().cur; c.phase = 'bets'; sfx.deal(); render(); },
+  bet(v) {
+    const [pid, val] = v.split('|'), m = M(), c = m.cur;
+    c.bets[pid] = +val; sfx.bet(); render();
+    const nx = curBettor(m);
+    if (!nx) toast('Tous les paris sont faits : ¡a jugar!');
+  },
+  betNo(v) { toast('🚫 ' + v); },
+  timer(v) { runTimer(+v); },
+  toPlay() { M().cur.phase = 'play'; sfx.flip(); render(); },
+  toScoreDirect() { initScore(false); M().cur.phase = 'score'; render(); },
+  trick(v) { award(v); },
+  discard() {
+    const m = M(), c = m.cur; if (c.tricks.length >= tricksTarget(m)) return;
+    c.tricks.push({ winner:null, discarded:true, piment:0 }); c.mod = {}; sfx.flip(); render();
+  },
+  piment(v) { const c = M().cur; c.mod.piment = c.mod.piment === +v ? 0 : +v; sfx.tap(); render(); },
+  trap() { const c = M().cur; c.mod.trap = !c.mod.trap; sfx.tap(); render(); },
+  give(v) {
+    const m = M(), c = m.cur, t = c.tricks[c.pendingGive];
+    if (t && v) { t.giveTo = v; sfx.pili(); }
+    c.pendingGive = null; render();
+    if (t && v) { const s = $(`.seat[data-pid="${v}"]`); if (s) { chiliRain(s, 1); floatText(s, '+1 🎁'); } }
+  },
+  undoTrick() { const c = M().cur; c.tricks.pop(); c.pendingGive = null; sfx.tap(); render(); },
+  moreTrick() { const c = M().cur; c.extraTricks = (c.extraTricks || 0) + 1; render(); },
+  toScore() { initScore(true); M().cur.phase = 'score'; sfx.flip(); render(); window.scrollTo({ top:0, behavior:'smooth' }); },
+  goPhase(v) { const c = M().cur; if (v === 'score') initScore(false); c.phase = v; c.pendingGive = null; sfx.tap(); render(); },
+  validate() { validateRound(); },
+  undoRound() { if (confirm('Annuler la dernière manche et revenir à son décompte ?')) { closeModal(); undoRound(); } },
+  rematch() {
+    const m = M();
+    S.setup.players = m.players.map(p => p.name);
+    S.setup.dealer = (m.dealer + 1) % m.players.length; S.setup.missions = m.missions;
+    startMatch(); toast('¡Revancha! Même table, donneur suivant.');
+  },
+  quit() {
+    const m = M(); if (!m) return;
+    if (!m.over && !confirm('Abandonner la partie en cours ?')) return;
+    S.setup.players = m.players.map(p => p.name); S.setup.dealer = 0; S.setup.missions = m.missions;
+    delete S.matches[S.game]; S.tab = 'game'; render();
+  }
+};
+const CHG = {
+  firstW(v) { M().cur.firstW = v || null; },
+  lastW(v) { M().cur.lastW = v || null; },
+  swapWith(v) { M().cur.swapWith = v || null; },
+  designate(v, pid) { M().cur.designate[pid] = v || null; }
+};
+
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-a]'); if (!el) {
+    if (e.target.id === 'modal') closeModal();
+    return;
+  }
+  const f = ACT[el.dataset.a]; if (f) f(el.dataset.v, el, e);
+});
+document.addEventListener('change', e => {
+  const el = e.target.closest('[data-ch]'); if (!el) return;
+  CHG[el.dataset.ch](el.value, el.dataset.v); sfx.tap(); render();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.id === 'newname') seatName(e.target.value);
+  if (e.key === 'Escape') closeModal();
+});
+
+/* ---------------- Modale, chrono, toast ---------------- */
+function openModal(html) { const md = $('#modal'); md.innerHTML = html; md.classList.remove('hidden'); }
+function closeModal() { const md = $('#modal'); md.classList.add('hidden'); md.innerHTML = ''; clearInterval(timerId); }
+let timerId = null;
+function runTimer(sec) {
+  let n = sec;
+  const draw = () => {
+    openModal(`<div class="sheet" style="max-width:520px;text-align:center" data-a="closeModal"><div class="lbl">${n > 0 ? 'Regardez vos cartes !' : 'Cartes en bas !'}</div>
+      <div class="bigtimer tick ${n > 0 ? '' : 'go'}">${n > 0 ? n : '¡YA!'}</div><div class="muted small">Touchez pour fermer</div></div>`);
+  };
+  clearInterval(timerId); draw(); sfx.tick(false);
+  timerId = setInterval(() => {
+    n--; draw();
+    if (n > 0) sfx.tick(false);
+    else { sfx.tick(true); clearInterval(timerId); setTimeout(() => { if ($('.bigtimer.go')) closeModal(); }, 1600); }
+  }, 1000);
+}
+let toastT = null;
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2400); }
+
+/* ---------------- Effets visuels ---------------- */
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function centerOf(el) { const r = el.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height * .35]; }
+function chiliRain(seat, n) {
+  if (RM) return;
+  const felt = $('.felt'); const [sx, sy] = felt ? centerOf(felt) : [innerWidth / 2, innerHeight / 2];
+  const [tx, ty] = centerOf(seat);
+  for (let i = 0; i < Math.min(12, n * 3); i++) {
+    const el = document.createElement('div'); el.className = 'fxp'; el.textContent = '🌶️'; $('#fx').appendChild(el);
+    const mx = (sx + tx) / 2 + rnd(-80, 80), my = Math.min(sy, ty) - rnd(60, 140);
+    el.animate([
+      { transform:`translate(${sx}px,${sy}px) scale(.3) rotate(0deg)`, opacity:0 },
+      { transform:`translate(${mx}px,${my}px) scale(1.3) rotate(${rnd(-180, 180)}deg)`, opacity:1, offset:.45 },
+      { transform:`translate(${tx + rnd(-20, 20)}px,${ty + rnd(-10, 10)}px) scale(.9) rotate(${rnd(-360, 360)}deg)`, opacity:1, offset:.85 },
+      { transform:`translate(${tx}px,${ty + 30}px) scale(.4)`, opacity:0 }
+    ], { duration:1100, delay:i * 90, easing:'cubic-bezier(.3,.7,.4,1)', fill:'both' }).onfinish = () => el.remove();
+  }
+}
+function burstAt(seat, emoji, n) {
+  if (RM) return;
+  const [x, y] = centerOf(seat);
+  for (let i = 0; i < n; i++) {
+    const el = document.createElement('div'); el.className = 'fxp'; el.textContent = emoji; el.style.fontSize = '24px'; $('#fx').appendChild(el);
+    const a = rnd(0, Math.PI * 2), d = rnd(40, 90);
+    el.animate([
+      { transform:`translate(${x}px,${y}px) scale(.2)`, opacity:1 },
+      { transform:`translate(${x + Math.cos(a) * d}px,${y + Math.sin(a) * d}px) scale(1) rotate(${rnd(-90, 90)}deg)`, opacity:0 }
+    ], { duration:700, delay:i * 30, easing:'cubic-bezier(.2,.8,.3,1)', fill:'both' }).onfinish = () => el.remove();
+  }
+}
+function floatText(seat, txt) {
+  const [x, y] = centerOf(seat);
+  const el = document.createElement('div'); el.className = 'fxt'; el.textContent = txt; el.style.left = x + 'px'; el.style.top = y + 'px'; $('#fx').appendChild(el);
+  el.animate([{ transform:'translate(-50%,-50%) scale(.4)', opacity:0 }, { transform:'translate(-50%,-110%) scale(1.15)', opacity:1, offset:.25 }, { transform:'translate(-50%,-260%) scale(1)', opacity:0 }],
+    { duration:1500, easing:'ease-out', fill:'both' }).onfinish = () => el.remove();
+}
+function confetti() {
+  if (RM) return;
+  const cols = ['#ff2e88','#ff8a00','#ffd23f','#14c8b4','#8e44ff','#7bd83a','#2f9bff'];
+  for (let i = 0; i < 140; i++) {
+    const el = document.createElement('div'); el.className = 'conf';
+    el.style.left = rnd(0, 100) + 'vw'; el.style.background = cols[i % cols.length]; $('#fx').appendChild(el);
+    el.animate([{ transform:`translate(0,0) rotate(0deg)` }, { transform:`translate(${rnd(-120, 120)}px,${innerHeight + 60}px) rotate(${rnd(360, 1440)}deg)` }],
+      { duration:rnd(2200, 4200), delay:rnd(0, 900), easing:'cubic-bezier(.25,.5,.5,1)', fill:'both' }).onfinish = () => el.remove();
+  }
+}
+
+/* ---------------- Décor : papel picado & pétales ---------------- */
+function buildPapel() {
+  const cols = ['#ff2e88','#ff8a00','#14c8b4','#ffd23f','#8e44ff','#7bd83a','#2f9bff','#e8243c'];
+  const holesA = 'M21 26a9 9 0 1 0 18 0a9 9 0 1 0-18 0ZM26 26a4 4 0 1 0 8 0a4 4 0 1 0-8 0ZM30 5l4 6-4 6-4-6ZM30 37l4 6-4 6-4-6ZM8 26l6-4 6 4-6 4ZM40 26l6-4 6 4-6 4ZM6 6h7l-7 7ZM54 6h-7l7 7ZM6 46a3 3 0 1 0 6 0a3 3 0 1 0-6 0ZM48 46a3 3 0 1 0 6 0a3 3 0 1 0-6 0Z';
+  const holesB = 'M18 14h24l-12 14ZM18 38h24l-12-14ZM8 8a4 4 0 1 0 8 0a4 4 0 1 0-8 0ZM44 8a4 4 0 1 0 8 0a4 4 0 1 0-8 0ZM8 26l5-5 5 5-5 5ZM42 26l5-5 5 5-5 5ZM26 48a4 4 0 1 0 8 0a4 4 0 1 0-8 0Z';
+  const outer = 'M0 0H60V54L55 62L50 54L45 62L40 54L35 62L30 54L25 62L20 54L15 62L10 54L5 62L0 54Z';
+  const w = innerWidth, n = Math.ceil(w / 74) + 1;
+  $('#papel').innerHTML = Array.from({ length:n }, (_, i) =>
+    `<div class="flag" style="left:${i * 74 - 6}px;animation-delay:${(-i * .37).toFixed(2)}s;animation-duration:${(3 + (i % 3) * .5).toFixed(1)}s"><svg viewBox="0 0 60 62"><path fill-rule="evenodd" fill="${cols[i % cols.length]}" d="${outer}${i % 2 ? holesB : holesA}"/></svg></div>`).join('');
+}
+function petals() {
+  if (RM) return;
+  for (let i = 0; i < 9; i++) {
+    const p = document.createElement('div'); p.className = 'petal';
+    p.style.left = rnd(0, 100) + 'vw'; p.style.setProperty('--dx', rnd(-140, 140) + 'px');
+    p.style.animationDuration = rnd(14, 26) + 's'; p.style.animationDelay = -rnd(0, 26) + 's';
+    p.style.transform = `scale(${rnd(.6, 1.2)})`;
+    document.body.appendChild(p);
+  }
+}
+
+/* ---------------- Écran toujours allumé + démarrage audio ---------------- */
+let wakeLock = null;
+async function keepAwake() {
+  try { if ('wakeLock' in navigator && !wakeLock) { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => (wakeLock = null)); } } catch (e) {}
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') keepAwake(); });
+document.addEventListener('pointerdown', () => {
+  keepAwake();
+  if (S.sound.music && !SND.playing) SND.start();
+}, { passive:true });
+
+let rzT = null;
+addEventListener('resize', () => { clearTimeout(rzT); rzT = setTimeout(buildPapel, 200); });
+buildPapel(); petals(); render();
+</script>
+</body>
+</html>
