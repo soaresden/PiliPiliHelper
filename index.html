@@ -144,7 +144,7 @@ main{flex:1;min-height:0;width:100%;max-width:1440px;margin:0 auto;padding:10px 
 
 /* ---------- Mise en page partie ---------- */
 .game-layout{height:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(400px,1.1fr);gap:16px}
-@media (orientation:portrait),(max-width:899px){.game-layout{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,46%) minmax(0,1fr);gap:10px}}
+@media (orientation:portrait),(max-width:899px){.game-layout{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,41%) minmax(0,1fr);gap:10px}}
 .left-col{height:100%;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;container-type:size}
 .game-layout>.panel{height:100%;min-height:0;padding:14px 16px}
 
@@ -459,6 +459,73 @@ table.log{border-collapse:collapse;width:100%;min-width:520px}
 .step button{width:34px;height:34px;font-size:20px}
 .panel h2{font-size:clamp(20px,3.2vh,28px);margin-bottom:6px}
 .card-sheet{grid-template-columns:min(40%,calc(78vh * 5 / 7)) 1fr}
+/* --- Têtes --- */
+.avpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:8px;margin-top:6px}
+.avb{background:var(--panel2);border:3px solid var(--line);border-radius:14px;padding:6px 4px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;box-shadow:0 3px 0 var(--line)}
+.avb svg{width:48px}
+.avb small{font-size:11px;font-weight:900;color:var(--mute)}
+.avb.on{background:var(--pink);box-shadow:0 0 0 3px var(--yellow),0 3px 0 var(--line)} .avb.on small{color:#fff}
+.pf-head{display:flex;align-items:center;gap:14px;margin:0 50px 10px 0}
+.pf-head svg{width:76px}
+.pf-head .h2{margin:0}
+.pf-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:18px}
+@media (orientation:portrait){.pf-grid{grid-template-columns:1fr}}
+.pf-sec{background:#0003;border-radius:14px;padding:10px 12px;margin-bottom:10px}
+.pf-sec .lbl{margin-bottom:6px}
+.step.big button{width:52px;height:52px;font-size:30px;border-radius:14px}
+.step.big b{min-width:56px;font-size:40px}
+/* --- Nombre de cartes bien visible --- */
+.cbadge{display:inline-block;vertical-align:middle;margin-left:8px;font-size:.78em;background:var(--yellow);color:var(--line);border:3px solid var(--line);border-radius:12px;padding:4px 10px 1px;text-shadow:none;transform:rotate(-2deg);box-shadow:0 3px 0 var(--line)}
+.cardsrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--yellow);color:var(--line);border:3px solid var(--line);border-radius:16px;padding:6px 12px;margin:0 0 10px;box-shadow:0 4px 0 var(--line)}
+.cardsrow>span:first-child{font-family:var(--title);font-size:22px}
+.cardsrow .muted{color:#12040ebb}
+.cardsrow .step.big button{background:#fff}
+.fc-row{display:flex;align-items:center;justify-content:center;gap:calc(var(--tw) * .025)}
+.fc-mission{width:calc(var(--tw) * .17);max-width:none}
+.fc-q{font-weight:900;font-size:calc(var(--tw) * .03)}
+.fc-cards{display:flex;flex-direction:column;align-items:center;background:var(--yellow);color:var(--line);border:3px solid var(--line);border-radius:12px;padding:calc(var(--tw) * .012) calc(var(--tw) * .02) calc(var(--tw) * .008);box-shadow:0 4px 0 var(--line);transform:rotate(4deg)}
+.fc-cards b{font-family:var(--title);font-weight:400;font-size:calc(var(--tw) * .1);line-height:1}
+.fc-cards span{font-weight:900;font-size:calc(var(--tw) * .026);text-transform:uppercase}
+/* --- Bandeau de mission plus gros --- */
+.banner{padding:8px 12px}
+.banner .cface{width:62px}
+.banner.short .cface{width:38px}
+.banner b{font-size:22px}
+.banner b .tag{vertical-align:middle;margin:0 0 0 6px}
+.banner span{display:block;-webkit-line-clamp:unset;font-size:16px;line-height:1.35}
+/* --- Plis par joueur --- */
+.pliprog{display:flex;align-items:center;gap:10px;margin:6px 0 8px;font-weight:900}
+.pliprog .big{font-family:var(--title);font-size:34px;color:var(--yellow);line-height:1}
+.pliprog .bar{flex:1;height:12px;background:#0005;border:2px solid var(--line);border-radius:6px;overflow:hidden}
+.pliprog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--green));transition:width .3s}
+.ptiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:8px 0}
+.ptile{border:3px solid var(--line);border-radius:18px;background:linear-gradient(160deg,var(--c),#0000 160%);box-shadow:0 4px 0 var(--line);overflow:hidden;display:flex;flex-direction:column}
+.ptile.ok{box-shadow:0 0 0 3px var(--green),0 4px 0 var(--line)}
+.ptile.over{box-shadow:0 0 0 3px var(--orange),0 4px 0 var(--line)}
+.ptap{background:none;border:0;cursor:pointer;display:grid;grid-template-columns:46px minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;gap:0 6px;padding:8px;text-align:left}
+.ptap svg{width:46px;grid-row:1/3}
+.ptap .pn{grid-column:2/4;grid-row:1;font-weight:900;background:var(--line);border-radius:999px;padding:1px 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;justify-self:start;max-width:100%}
+.ptap .pb{font-size:12px;font-weight:900;color:#fff;text-shadow:1px 1px 0 var(--line);grid-column:2;grid-row:2}
+.ptap .pc{grid-row:2;grid-column:3;font-family:var(--title);font-size:44px;color:#fff;text-shadow:3px 3px 0 var(--line);line-height:1}
+.ptap:active{background:#ffffff22}
+.pm{display:flex;border-top:3px solid var(--line)}
+.pm button{flex:1;border:0;background:#0005;font-size:26px;font-weight:900;padding:4px 0;cursor:pointer;color:#fff}
+.pm button+button{border-left:3px solid var(--line);background:#ffffff26}
+.pm button:disabled{opacity:.3}
+/* --- Amoureux --- */
+.lovers{background:#ff2e8822;border:3px dashed var(--pink);border-radius:16px;padding:10px;margin:10px 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:2px 14px}
+.lovers .lbl{grid-column:1/-1}
+.lrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:4px 0}
+.lrow svg{width:28px}
+.lrow .nchip{padding:5px 11px;font-size:14px}
+/* --- Carte en grand au centre + bandeau de règle --- */
+.cardmodal{max-width:980px}
+.card-sheet{display:flex!important;flex-direction:column;align-items:center;gap:16px}
+.card-sheet .bigcard{height:min(44vh,440px);aspect-ratio:5/7;flex:none}
+.card-sheet .bigcard .cface{width:100%;height:100%}
+.rband{width:100%;background:linear-gradient(100deg,#ff2e8833,#ff8a0030 60%,#ffd23f2a);border:3px solid var(--line);border-radius:20px;padding:12px 20px 14px;box-shadow:0 6px 0 var(--line)}
+.rband h2{margin:4px 0 6px!important}
+.rband .rule{font-size:24px;line-height:1.4}
 .bigtimer{font-family:var(--title);font-size:min(46vmin,340px);color:var(--yellow);text-shadow:8px 8px 0 var(--red),14px 14px 0 var(--line);line-height:1;text-align:center}
 .bigtimer.go{color:var(--green)}
 .tick{animation:tick .9s cubic-bezier(.2,1.6,.4,1)}
@@ -564,9 +631,9 @@ const DECK = {
       { k:'o_nocopy', m:1, x:1, t:'Pas de copie', w:'bet', frame:'icon', fx:{nocopy:1},
         r:'<b>Interdiction de copier le pari du joueur précédent.</b>',
         a:'Le pari du joueur précédent est grisé.' },
-      { k:'o_designate', m:1, x:1, t:'Âmes liées', w:'after', frame:'icon', fx:{designate:1},
+      { k:'o_designate', m:1, x:1, t:'Les Amoureux', w:'after', frame:'icon', fx:{designate:1},
         r:'Chaque joueur <b>désigne un autre joueur</b>. À la fin de la manche, chacun reçoit <b>ses propres Pilis + ceux du joueur désigné</b> (un même joueur peut être désigné plusieurs fois).',
-        a:'Indiquez en fin de manche qui chacun a désigné : l’appli ajoute ses Pilis.' },
+        a:'Juste après les paris, l’appli demande à chacun qui il désigne ; ses Pilis sont ajoutés en fin de manche.' },
       { k:'o_hilo', m:1, x:1, t:'Tout ou rien', w:'trick', frame:'icon',
         r:'Les joueurs doivent <b>TOUJOURS</b> jouer leur carte <b>la plus forte ou la plus faible</b>.' },
       { k:'o_numbers', m:1, x:1, t:'Numéros piégés', w:'trick', frame:'icon', fx:{trap:1},
@@ -1152,6 +1219,67 @@ function maskSVG(color) {
   <g class="mo-s"><ellipse cx="24" cy="40.5" rx="6.5" ry="8" fill="#12040e" stroke="#fff4e3" stroke-width="1.6"/><ellipse cx="24" cy="44" rx="3.6" ry="3" fill="#e8243c"/>
   <path d="M9 17l9 4M39 17l-9 4" stroke="#12040e" stroke-width="2.4" stroke-linecap="round"/></g></svg>`;
 }
+/* ---------------- Têtes des joueurs ---------------- */
+const AVATARS = [
+  { k:'lucha', n:'Luchador' }, { k:'lucha2', n:'El Rayo' }, { k:'calavera', n:'Calavera' }, { k:'charro', n:'Charro' }, { k:'catrina', n:'Catrina' },
+  { k:'e:🌵', n:'Nopal' }, { k:'e:🌮', n:'Taco' }, { k:'e:🪅', n:'Piñata' }, { k:'e:🌶️', n:'Chile' }, { k:'e:🥑', n:'Aguacate' },
+  { k:'e:🐓', n:'Gallo' }, { k:'e:🎸', n:'Guitarra' }, { k:'e:🦎', n:'Lagartija' }, { k:'e:🌽', n:'Elote' }, { k:'e:🐴', n:'Caballo' }, { k:'e:🦂', n:'Alacrán' }
+];
+let AVS = LS.get('pp_avatars', {});
+function assignAvs(names) {
+  const used = [];
+  return names.map((n, i) => {
+    let k = AVS[n];
+    if (!k) { const free = AVATARS.find(a => !used.includes(a.k)); k = (free || AVATARS[i % AVATARS.length]).k; }
+    used.push(k); return k;
+  });
+}
+const avSVG = p => avatarSVG(p.av || 'lucha', p.color);
+function avatarSVG(k, color) {
+  const D = '#12040e', W = '#fff4e3';
+  const scream = (cy = 40.5) => `<g class="mo-s"><ellipse cx="24" cy="${cy}" rx="6" ry="7.5" fill="${D}" stroke="${W}" stroke-width="1.5"/><ellipse cx="24" cy="${cy + 3.5}" rx="3.4" ry="2.8" fill="#e8243c"/></g>`;
+  let b;
+  if (k.startsWith('e:')) {
+    const e = k.slice(2);
+    b = `<circle cx="24" cy="27" r="21.5" fill="${color}" stroke="${D}" stroke-width="2.5"/><circle cx="24" cy="27" r="16.5" fill="${W}" opacity=".28"/>
+      <g class="mo-n"><text x="24" y="36.5" text-anchor="middle" font-size="25">${e}</text></g><g class="mo-s"><text x="24" y="36.5" text-anchor="middle" font-size="25">😱</text></g>`;
+  } else if (k === 'lucha2') {
+    b = `<path d="M24 2C11 2 4 12 4 25c0 13 8 23 20 27 12-4 20-14 20-27C44 12 37 2 24 2Z" fill="${color}" stroke="${D}" stroke-width="2.5"/>
+      <path d="M4.5 30 13 28 8 35ZM43.5 30 35 28 40 35Z" fill="#ffd23f" stroke="${D}" stroke-width="1"/>
+      <path d="M26.5 3.5 20 13h4.5L21 20l8.5-10H25l3-6.5Z" fill="#ffd23f" stroke="${D}" stroke-width="1.2" stroke-linejoin="round"/>
+      <path d="M6 25 21 21 19 29Z" fill="${W}" stroke="${D}" stroke-width="1.5" stroke-linejoin="round"/><path d="M42 25 27 21 29 29Z" fill="${W}" stroke="${D}" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="16.5" cy="25" r="2.4" fill="${D}"/><circle cx="31.5" cy="25" r="2.4" fill="${D}"/>
+      <path class="mo-n" d="M17 37h14l-2.5 5h-9Z" fill="${W}" stroke="${D}" stroke-width="1.5" stroke-linejoin="round"/>${scream()}`;
+  } else if (k === 'calavera') {
+    b = `<path d="M24 3C12 3 5 11 5 22c0 7 3 12 8 14v8c0 3 2 5 5 5h12c3 0 5-2 5-5v-8c5-2 8-7 8-14C43 11 36 3 24 3Z" fill="${W}" stroke="${D}" stroke-width="2.5"/>
+      <circle cx="15" cy="22" r="7" fill="${color}" stroke="#ffd23f" stroke-width="2" stroke-dasharray="3 2"/><circle cx="33" cy="22" r="7" fill="${color}" stroke="#ffd23f" stroke-width="2" stroke-dasharray="3 2"/>
+      <circle cx="15" cy="22" r="2.6" fill="${D}"/><circle cx="33" cy="22" r="2.6" fill="${D}"/>
+      <path d="M24 28.5c-1.5-2.5-5-.5 0 4.5 5-5 1.5-7 0-4.5Z" fill="${D}"/>
+      <circle cx="24" cy="10" r="3" fill="${color}" stroke="${D}" stroke-width="1"/><circle cx="18" cy="11" r="1.4" fill="#14c8b4"/><circle cx="30" cy="11" r="1.4" fill="#14c8b4"/>
+      <g class="mo-n" stroke="${D}" stroke-width="1.5" fill="none"><path d="M15 40.5h18M18.5 37.5v6M22.5 37.5v6M26.5 37.5v6M30.5 37.5v6"/></g>${scream(41)}`;
+  } else if (k === 'charro') {
+    b = `<ellipse cx="24" cy="31" rx="14.5" ry="16.5" fill="#d9965f" stroke="${D}" stroke-width="2.5"/>
+      <path d="M13 16C13 3 35 3 35 16Z" fill="${color}" stroke="${D}" stroke-width="2"/>
+      <ellipse cx="24" cy="17" rx="23" ry="5.5" fill="${color}" stroke="${D}" stroke-width="2"/><path d="M13.6 12.5h20.8" stroke="#ffd23f" stroke-width="2.5"/>
+      <circle cx="19" cy="28" r="2.2" fill="${D}"/><circle cx="29" cy="28" r="2.2" fill="${D}"/>
+      <path d="M15.5 24.5l6-1M32.5 24.5l-6-1" stroke="${D}" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M12 37.5c4-5.5 9-4.5 12-1.5 3-3 8-4 12 1.5-4 .5-8 2.5-12 1-4 1.5-8-.5-12-1Z" fill="${D}"/>
+      <path class="mo-n" d="M20 42q4 3 8 0" stroke="${D}" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <g class="mo-s"><ellipse cx="24" cy="43.5" rx="4.2" ry="5" fill="${D}"/><ellipse cx="24" cy="45.5" rx="2.4" ry="2" fill="#e8243c"/></g>`;
+  } else if (k === 'catrina') {
+    b = `<path d="M24 6C13 6 6 13 6 23c0 7 3 11 8 13v7c0 3 2 5 5 5h10c3 0 5-2 5-5v-7c5-2 8-6 8-13C42 13 35 6 24 6Z" fill="${W}" stroke="${D}" stroke-width="2.5"/>
+      <path d="M5 13c3-2 6-2 8 0M43 13c-3-2-6-2-8 0" stroke="#7bd83a" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="11" cy="9" r="5" fill="${color}" stroke="${D}" stroke-width="1.5"/><circle cx="24" cy="5.5" r="5.5" fill="#e8243c" stroke="${D}" stroke-width="1.5"/><circle cx="37" cy="9" r="5" fill="${color}" stroke="${D}" stroke-width="1.5"/>
+      <circle cx="11" cy="9" r="1.8" fill="${D}" opacity=".3"/><circle cx="24" cy="5.5" r="2" fill="${D}" opacity=".3"/><circle cx="37" cy="9" r="1.8" fill="${D}" opacity=".3"/>
+      <circle cx="16" cy="24" r="6" fill="${D}" stroke="${color}" stroke-width="2"/><circle cx="32" cy="24" r="6" fill="${D}" stroke="${color}" stroke-width="2"/>
+      <circle cx="16" cy="24" r="1.6" fill="${W}"/><circle cx="32" cy="24" r="1.6" fill="${W}"/><path d="M24 29.5l-1.6 3h3.2Z" fill="${D}"/>
+      <path class="mo-n" d="M18.5 39.5q5.5 3.5 11 0q-5.5-2.5-11 0Z" fill="#e8243c" stroke="${D}" stroke-width="1"/>${scream(41)}`;
+  } else return maskSVG(color);
+  return `<svg class="mask" viewBox="0 0 48 54" aria-hidden="true">${b}</svg>`;
+}
+function avPicker(sel, color, act, id) {
+  return `<div class="avpick">${AVATARS.map(a => `<button class="avb ${sel === a.k ? 'on' : ''}" data-a="${act}" data-v="${esc(id)}|${a.k}">${avatarSVG(a.k, color)}<small>${a.n}</small></button>`).join('')}</div>`;
+}
 function face(cd, extra = '') {
   const cls = cd.frame === 'icon' ? `icon${cd.x ? ' expert' : ''}` : cd.frame;
   return `<div class="cface ${cls} ${extra}"><img src="${IMG(cd.k)}" alt="${esc(cd.t)}" draggable="false"></div>`;
@@ -1166,7 +1294,7 @@ function tableHTML(players, o = {}) {
     const a = (90 + k * 360 / Math.max(n, 1)) * Math.PI / 180, R = 39;
     const x = 50 + R * Math.cos(a), y = 50 + R * Math.sin(a);
     return `<button class="seat ${o.cls ? o.cls(p, k) : ''}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%" data-pid="${p.id}" ${o.act ? o.act(p, k) : ''}>
-      ${maskSVG(p.color)}<span class="nm">${esc(p.name)}</span>${o.seat ? o.seat(p, k) : ''}</button>`;
+      ${avSVG(p)}<span class="nm">${esc(p.name)}</span>${o.seat ? o.seat(p, k) : ''}</button>`;
   }).join('');
   return `<div class="table" style="--sf:${sf}"><div class="felt">${o.center || ''}</div>${seats}</div>`;
 }
@@ -1225,9 +1353,9 @@ function cardsView() {
 function openCard(k) {
   const cd = CARD[k]; if (!cd) return;
   const m = M(), canPick = cd.m && m && !m.over && m.cur.phase === 'mission' && DECK[S.game].some(s => s.cards.includes(cd));
-  openModal(`<div class="sheet fit"><button class="xbtn" data-a="closeModal">×</button><div class="fitin"><div class="card-sheet">
-    <div>${face(cd)}</div>
-    <div>${tag(cd.w)}<h2>${esc(cd.t)}</h2>${cd.count ? `<div class="count">${cd.count}</div>` : ''}
+  openModal(`<div class="sheet fit cardmodal"><button class="xbtn" data-a="closeModal">×</button><div class="fitin"><div class="card-sheet">
+    <div class="bigcard">${face(cd)}</div>
+    <div class="rband">${tag(cd.w)}<h2>${esc(cd.t)}</h2>${cd.count ? `<div class="count">${cd.count}</div>` : ''}
       <div class="rule">${cd.r}</div>
       ${cd.sp ? `<div class="note2">${SPECIAL_NOTE}</div>` : ''}
       ${cd.a ? `<div class="appnote">📱 <b>Dans l’appli :</b> ${cd.a}</div>` : ''}
@@ -1250,16 +1378,16 @@ function rulesView() {
 /* ----- Mise en place ----- */
 function setupView() {
   const st = S.setup, avail = NAMES.filter(n => !st.players.includes(n));
-  const players = st.players.map((n, i) => ({ id:'s' + i, name:n, color:COLORS[i % 8] }));
+  const avs = assignAvs(st.players);
+  const players = st.players.map((n, i) => ({ id:'s' + i, name:n, color:COLORS[i % 8], av:avs[i] }));
   const table = tableHTML(players, {
-    center: `<div class="fc-round">${players.length ? players.length + ' joueur' + (players.length > 1 ? 's' : '') : 'Table vide'}</div><div class="fc-sub">${players.length > 1 ? 'Touchez 2 joueurs<br>pour les échanger' : 'Ajoutez des joueurs'}</div>`,
-    cls: (p, k) => st.swapSel === k ? 'sel' : '',
-    act: (p, k) => `data-a="swapSeat" data-v="${k}" data-drag="seat|${k}" data-dropidx="${k}"`,
+    center: `<div class="fc-round">${players.length ? players.length + ' joueur' + (players.length > 1 ? 's' : '') : 'Table vide'}</div><div class="fc-sub">${players.length ? 'Touchez un joueur<br>pour changer sa tête' : 'Ajoutez des joueurs'}</div>`,
+    act: (p, k) => `data-a="avSetup" data-v="${k}" data-drag="seat|${k}" data-dropidx="${k}"`,
     seat: (p, k) => st.dealer === k ? '<span class="dchip">🂠 DONNE</span>' : ''
   });
   return `<div class="game-layout"><div class="left-col">${table}</div>
   <div class="panel fit"><div class="fitin"><h2>¿Quién juega?</h2>
-    <p class="muted" style="margin:0 0 6px">Ordre = sens du jeu (vers la gauche, sens horaire). <b>Glissez</b> un joueur sur la table ou dans la liste pour changer sa place ; glissez un prénom mémorisé sur la table pour l’asseoir, ou renvoyez un joueur dans « Pas à table » pour le retirer.</p>
+    <p class="muted" style="margin:0 0 6px">Ordre = sens du jeu (vers la gauche, sens horaire). <b>Touchez</b> un joueur sur la table pour changer sa tête. <b>Glissez</b> un joueur sur la table ou dans la liste pour changer sa place ; glissez un prénom mémorisé sur la table pour l’asseoir, ou renvoyez un joueur dans « Pas à table » pour le retirer.</p>
     <div class="addrow"><input id="newname" maxlength="16" placeholder="Prénom…" autocomplete="off" enterkeyhint="done"><button class="btn sm pink" data-a="addName">Ajouter</button></div>
     ${st.players.length ? `<div class="lbl">Autour de la table</div><div class="namechips seated">${st.players.map((n, i) => `<span class="nchip on" style="--c:${COLORS[i % 8]}" data-drag="seat|${i}" data-dropidx="${i}"><span>⠿ ${i + 1}. ${esc(n)}</span><button class="x" data-a="unseat" data-v="${i}" title="Retirer">×</button></span>`).join('')}</div>` : ''}
     ${avail.length || st.players.length ? `<div class="lbl">Pas à table : touchez ou glissez sur la table pour asseoir</div><div class="namechips avail" data-dropzone="unseat">${avail.map(n => `<span class="nchip" data-drag="name|${esc(n)}"><button data-a="seatName" data-v="${esc(n)}">${esc(n)}</button><button class="x" data-a="forget" data-v="${esc(n)}" title="Oublier">×</button></span>`).join('') || '<span class="muted small">Glissez un joueur ici pour le retirer de la table.</span>'}</div>` : ''}
@@ -1278,14 +1406,15 @@ function gameTable(m) {
   const center = m.over
     ? `<div class="fc-round">¡Fin!</div><div class="fc-sub">${m.rounds.length} manches</div>`
     : `<div class="fc-round">Manche ${m.rounds.length + 1}</div>
-      ${mi ? `<button class="fc-mission" data-a="card" data-v="${mi.k}" title="Voir la mission">${face(mi)}</button>` : (m.missions ? '<div class="fc-sub">Mission ?</div>' : '')}
-      <div class="fc-sub">${c.cards} carte${c.cards > 1 ? 's' : ''} chacun${c.phase === 'play' ? ` · pli ${Math.min(c.tricks.length + 1, tricksTarget(m))}/${tricksTarget(m)}` : ''}</div>`;
+      <div class="fc-row">${mi ? `<button class="fc-mission" data-a="card" data-v="${mi.k}" title="Voir la mission">${face(mi)}</button>` : (m.missions ? '<div class="fc-q">Mission ?</div>' : '')}
+      <div class="fc-cards"><b>${c.cards}</b><span>carte${c.cards > 1 ? 's' : ''}</span></div></div>
+      ${c.phase === 'play' ? `<div class="fc-sub">${Math.min(c.tricks.length, tricksTarget(m))} / ${tricksTarget(m)} plis joués</div>` : ''}`;
   return tableHTML(m.players, {
     center,
     cls: (p) => [
-      (cb && cb.id === p.id) || (lead === p.id && c.tricks.length < tricksTarget(m)) ? 'active' : '',
+      (cb && cb.id === p.id) || (lead === p.id && c.tricks.length === 0) ? 'active' : '',
       m.totals[p.id] >= g.limit - 1 ? 'danger' : ''].join(' '),
-    act: (p) => c.phase === 'play' && !m.over && c.pendingGive == null && c.tricks.length < tricksTarget(m) ? `data-a="trick" data-v="${p.id}"` : `data-a="card" data-v=""`,
+    act: (p) => `data-a="profile" data-v="${p.id}"`,
     seat: (p, k) => {
       let h = '';
       if (k === m.dealer && !m.over) h += '<span class="dchip">🂠 DONNE</span>';
@@ -1309,10 +1438,10 @@ function phaseNav(m) {
   return `<div class="phases">${list.map(p => { const i = order.indexOf(p);
     return `<button class="${i === cur ? 'on' : i < cur ? 'done' : ''}" ${i < cur ? `data-a="goPhase" data-v="${p}"` : 'disabled'}>${labels[p]}</button>`; }).join('<span class="muted">›</span>')}</div>`;
 }
-function missionBanner(m) {
+function missionBanner(m, short) {
   const mi = missionOf(m.cur); if (!mi) return '';
   const txt = mi.r.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-  return `<button class="banner" data-a="card" data-v="${mi.k}">${face(mi)}<div><b>${esc(mi.t)}</b><span>${esc(txt.length > 150 ? txt.slice(0, 147) + '…' : txt)}</span></div></button>`;
+  return `<button class="banner ${short ? 'short' : ''}" data-a="card" data-v="${mi.k}">${face(mi)}<div><b>${esc(mi.t)} ${tag(mi.w)}</b>${short ? '<span class="muted">Touchez pour revoir la règle</span>' : `<span>${esc(txt)}</span>`}</div></button>`;
 }
 function rolesBanner(m) {
   const r = rolesOf(m), items = Object.entries(r);
@@ -1327,10 +1456,14 @@ function gameView() {
   return `<div class="game-layout"><div class="left-col">${gameTable(m)}${m.over ? '' : phaseNav(m)}</div><div class="panel fit ${anim}"><div class="fitin">${body}</div></div></div>`;
 }
 
+const cardsBadge = c => `<span class="cbadge">🂠 ${c.cards} carte${c.cards > 1 ? 's' : ''}</span>`;
 function missionPhase(m) {
   const c = m.cur, g = G(), sel = missionOf(c), dealer = m.players[m.dealer];
   const all = DECK[S.game].flatMap(s => s.cards.filter(cd => cd.m));
   let h = `<h2>Manche ${m.rounds.length + 1} · La mission</h2>
+    <div class="cardsrow"><span>🂠 Cartes à distribuer</span><span class="step big">
+      <button data-a="stp" data-v="cards||-1" aria-label="moins">−</button><b>${c.cards}</b><button data-a="stp" data-v="cards||1" aria-label="plus">+</button></span>
+      <span class="muted small">${g.deckHint}</span></div>
     <p class="muted" style="margin:0 0 8px"><b>${esc(dealer.name)}</b> distribue. Retournez la mission et touchez-la ci-dessous${S.game === 'classic' ? ' (cadre rouge = experte)' : ''}.</p>
     <div class="mgrid">${all.map(cd => `<button class="mthumb ${c.mission === cd.k ? 'on' : ''}" data-a="selMission" data-v="${cd.k}" title="${esc(cd.t)}">${face(cd)}</button>`).join('')}</div>`;
   if (sel) {
@@ -1339,52 +1472,61 @@ function missionPhase(m) {
       ${sel.a ? `<div class="appnote">📱 ${sel.a}</div>` : ''}</div></div></div></div>`;
     S._flash = false;
   } else h += '<div class="mbox fit empty">Touchez la mission retournée ci-dessus pour afficher sa règle (ou jouez sans mission).</div>';
-  h += `<div class="row"><span class="lbl">Cartes à distribuer</span>${stepper('cards', c.cards)}<span class="muted small">${g.deckHint}</span></div>
-    ${fxOf(c, 'extra') ? `<div class="ok">Avec cette mission : <b>${tricksTarget(m)} plis</b> à jouer.</div>` : ''}
-    <div class="actions"><button class="btn ghost sm" data-a="noMission" style="visibility:${sel ? 'visible' : 'hidden'}">Sans mission</button><button class="btn big pink" data-a="toBets">Distribuer ➜ Paris</button></div>`;
+  h += `${fxOf(c, 'extra') ? `<div class="ok">Avec cette mission : <b>${tricksTarget(m)} plis</b> à jouer.</div>` : ''}
+    <div class="actions">${m.rounds.length ? '<button class="btn ghost sm" data-a="undoRound">↶ Corriger la manche précédente</button>' : ''}
+    <button class="btn ghost sm" data-a="noMission" style="visibility:${sel ? 'visible' : 'hidden'}">Sans mission</button><button class="btn big pink" data-a="toBets">Distribuer ➜ Paris</button></div>`;
   return h;
 }
 
 function betsPhase(m) {
   const c = m.cur, g = G(), N = tricksTarget(m), order = betOrder(m), cb = curBettor(m);
   const sum = order.reduce((a, p) => a + (c.bets[p.id] ?? 0), 0), all = !cb;
-  let h = `<h2>Les paris</h2>${missionBanner(m)}${rolesBanner(m)}`;
-  if (!m.missions) h += `<div class="row"><span class="lbl">Cartes par joueur</span>${stepper('cards', c.cards)}</div>`;
+  let h = `<h2>Les paris ${cardsBadge(c)}</h2>${missionBanner(m, fxOf(c, 'designate') && all)}${rolesBanner(m)}`;
+  if (!m.missions) h += `<div class="cardsrow"><span>🂠 Cartes par joueur</span><span class="step big"><button data-a="stp" data-v="cards||-1">−</button><b>${c.cards}</b><button data-a="stp" data-v="cards||1">+</button></span></div>`;
   const tm = fxOf(c, 'timer');
   if (tm) h += `<div class="actions" style="justify-content:flex-start;margin:6px 0 12px"><button class="btn orange" data-a="timer" data-v="${tm}">⏱ Chrono ${tm} secondes</button></div>`;
   h += order.map(p => {
     const opts = betOptions(m, p.id), b = c.bets[p.id];
-    return `<div class="brow ${cb && cb.id === p.id ? 'cur' : ''}"><div class="who">${maskSVG(p.color)}<span>${esc(p.name)}</span></div>
+    return `<div class="brow ${cb && cb.id === p.id ? 'cur' : ''}"><div class="who">${avSVG(p)}<span>${esc(p.name)}</span></div>
       <div class="chips">${opts.map(o => `<button class="chip ${b === o.v ? 'on' : ''} ${o.why && b !== o.v ? 'no' : ''}" ${o.why && b !== o.v ? `title="${esc(o.why)}" data-a="betNo" data-v="${esc(o.why)}"` : `data-a="bet" data-v="${p.id}|${o.v}"`}>${o.v}</button>`).join('')}</div></div>`;
   }).join('');
   m.players.filter(p => isSab(m, p.id)).forEach(p => {
-    h += `<div class="brow"><div class="who">${maskSVG(p.color)}<span>${esc(p.name)}</span></div><span class="rchip sab" style="font-size:13px;padding:4px 10px">Saboteur : pas de pari, +2 cartes</span></div>`;
+    h += `<div class="brow"><div class="who">${avSVG(p)}<span>${esc(p.name)}</span></div><span class="rchip sab" style="font-size:13px;padding:4px 10px">Saboteur : pas de pari, +2 cartes</span></div>`;
   });
   h += `<div class="sumline"><span>Total des paris</span><span class="big">${sum}</span><span>pour</span><span class="big">${N}</span><span>pli${N > 1 ? 's' : ''}</span>
     <span class="muted small">${all ? (sum > N ? '→ ça va se battre !' : sum < N ? '→ quelqu’un va ramasser des plis en trop' : '→ tout le monde peut réussir') : ''}</span></div>`;
   if (g.sumRule && order.length > 1) h += `<div class="warn">Le dernier à parier (<b>${esc(order[order.length - 1].name)}</b>) ne peut pas faire une somme égale à ${N}.</div>`;
-  h += `<div class="actions"><button class="btn ghost sm" data-a="toScoreDirect">Saisir les plis à la fin</button>
+  if (fxOf(c, 'designate') && all) {
+    h += `<div class="lovers"><div class="lbl">💘 Les Amoureux : maintenant, chacun désigne quelqu’un</div>${m.players.map(p => `<div class="lrow">${avSVG(p)}<b>${esc(p.name)}</b><span>→</span>${m.players.filter(q => q.id !== p.id).map(q => `<button class="nchip ${c.designate[p.id] === q.id ? 'on' : ''}" style="--c:${q.color}" data-a="desig" data-v="${p.id}|${q.id}">${esc(q.name)}</button>`).join('')}</div>`).join('')}</div>`;
+  }
+  h += `<div class="actions">${m.missions ? '<button class="btn ghost sm" data-a="goPhase" data-v="mission">← Retour à la mission</button>' : (m.rounds.length ? '<button class="btn ghost sm" data-a="undoRound">↶ Corriger la manche précédente</button>' : '')}
     <button class="btn big pink ${all ? 'pulse' : ''}" data-a="toPlay" ${all ? '' : 'disabled'}>Jouer les plis ➜</button></div>`;
   return h;
 }
 
 function playPhase(m) {
-  const c = m.cur, N = tricksTarget(m), k = c.tricks.length, done = k >= N, lead = leaderId(m), spicy = S.game === 'spicy', wl = wonLive(m);
-  let h = `<h2>${done ? '¡Todos los plis!' : `Pli ${k + 1} / ${N}`}</h2>${missionBanner(m)}`;
+  const c = m.cur, N = tricksTarget(m), k = c.tricks.length, done = k >= N, spicy = S.game === 'spicy', wl = wonLive(m);
+  let h = `<h2>Les plis ${cardsBadge(c)}</h2>${missionBanner(m)}`;
+  h += `<div class="pliprog"><span class="big">${Math.min(k, N)}</span><span>/ ${N} plis joués</span><span class="bar"><i style="width:${Math.min(100, k / N * 100)}%"></i></span></div>`;
   if (c.pendingGive != null) {
     const t = c.tricks[c.pendingGive];
     h += `<div class="prompt">🎁 <b>${esc(nameOf(m, t.winner))}</b> peut donner 1 de ses Pilis à :<div class="namechips">${m.players.filter(p => p.id !== t.winner).map(p => `<button class="nchip" data-a="give" data-v="${p.id}">${esc(p.name)}</button>`).join('')}<button class="nchip" data-a="give" data-v="">Personne</button></div></div>`;
   } else if (!done) {
-    h += `<p>Commence : <b style="color:var(--yellow)">${esc(nameOf(m, lead))}</b>. Touchez <b>le gagnant du pli</b> (ici ou sur la table).</p>`;
-    if (spicy) h += `<div class="mods"><button class="mod ${c.mod.piment === 1 ? 'on' : ''}" data-a="piment" data-v="1">🌶 Piment +1<small>au gagnant</small></button>
-      <button class="mod ${c.mod.piment === 2 ? 'on' : ''}" data-a="piment" data-v="2">🌶🌶 Piment +2<small>au gagnant</small></button>
+    if (spicy) h += `<div class="mods"><button class="mod ${c.mod.piment === 1 ? 'on' : ''}" data-a="piment" data-v="1">🌶 Piment +1<small>au prochain gagnant</small></button>
+      <button class="mod ${c.mod.piment === 2 ? 'on' : ''}" data-a="piment" data-v="2">🌶🌶 Piment +2<small>au prochain gagnant</small></button>
       <button class="mod" data-a="discard">🗑 Pli défaussé<small>que des Spéciales</small></button></div>`;
-    if (fxOf(c, 'trap')) h += `<div class="mods"><button class="mod ${c.mod.trap ? 'on' : ''}" data-a="trap">🎯 Numéro piégé<small>+1 Pili au gagnant</small></button></div>`;
-    h += `<div class="winners">${m.players.map(p => `<button class="wbtn ${p.id === lead ? 'lead' : ''}" data-a="trick" data-v="${p.id}" style="--c:${p.color}">${maskSVG(p.color)}<span>${esc(p.name)}</span><small>${wl[p.id]} / ${isSab(m, p.id) ? '—' : (c.bets[p.id] ?? 0)}</small></button>`).join('')}</div>`;
+    if (fxOf(c, 'trap')) h += `<div class="mods"><button class="mod ${c.mod.trap ? 'on' : ''}" data-a="trap">🎯 Numéro piégé<small>+1 Pili au prochain gagnant</small></button></div>`;
   }
+  h += `<div class="ptiles">${m.players.map(p => {
+    const sab = isSab(m, p.id), b = c.bets[p.id] ?? 0, w = wl[p.id], st = sab ? '' : (w === b ? 'ok' : w > b ? 'over' : '');
+    return `<div class="ptile ${st}" style="--c:${p.color}"><button class="ptap" data-a="trick" data-v="${p.id}">${avSVG(p)}<span class="pn">${esc(p.name)}</span>
+      <span class="pb">${sab ? 'saboteur' : 'pari ' + b}${st === 'ok' ? ' ✔' : ''}</span><span class="pc">${w}</span></button>
+      <div class="pm"><button data-a="untrick" data-v="${p.id}" ${w ? '' : 'disabled'} aria-label="un pli de moins">−</button><button data-a="trick" data-v="${p.id}" aria-label="un pli de plus">+</button></div></div>`;
+  }).join('')}</div>`;
+  h += `<p class="muted small" style="margin:4px 0">Touchez un joueur à chaque pli qu’il remporte, ou réglez directement son total avec − / +.${k === 0 ? ` 1er pli : <b>${esc(nameOf(m, leaderId(m)))}</b> commence.` : ''}</p>`;
   if (k) h += `<ol class="tlog">${c.tricks.map(t => `<li>${t.winner ? esc(nameOf(m, t.winner)) : '🗑 défaussé'}${t.piment ? ` 🌶+${t.piment}` : ''}${t.trap ? ' 🎯+1' : ''}${t.giveTo ? ` 🎁→${esc(nameOf(m, t.giveTo))}` : ''}</li>`).join('')}</ol>`;
-  h += `<div class="actions">${k ? '<button class="btn ghost sm" data-a="undoTrick">↶ Annuler le dernier pli</button>' : ''}
-    ${done ? '<button class="btn ghost sm" data-a="moreTrick">+ un pli</button>' : ''}
+  h += `<div class="actions"><button class="btn ghost sm" data-a="goPhase" data-v="bets">← Retour aux paris</button>
+    ${k ? '<button class="btn ghost sm" data-a="undoTrick">↶ Dernier pli</button>' : ''}
     <button class="btn big ${done ? 'pink pulse' : 'ghost'}" data-a="toScore">Fin de manche ➜</button></div>`;
   return h;
 }
@@ -1395,14 +1537,14 @@ function scorePhase(m) {
   const sumWon = m.players.reduce((a, p) => a + (c.won[p.id] || 0), 0);
   const realTricks = c.tricks.length ? c.tricks.filter(t => t.winner).length : null;
   const opts = (sel, ex) => m.players.filter(p => p.id !== ex).map(p => `<option value="${p.id}" ${sel === p.id ? 'selected' : ''}>${esc(p.name)}</option>`).join('');
-  let h = `<h2>Fin de manche : les Pilis</h2>${missionBanner(m)}`;
+  let h = `<h2>Fin de manche ${cardsBadge(c)}</h2>${missionBanner(m)}`;
   if (fxOf(c, 'firstLast')) h += `<div class="selrow">1er pli gagné par <select data-ch="firstW"><option value="">—</option>${opts(c.firstW)}</select> · dernier pli par <select data-ch="lastW"><option value="">—</option>${opts(c.lastW)}</select></div>`;
   if (fxOf(c, 'swapPilis')) h += `<div class="selrow">Dernier pli : <select data-ch="lastW"><option value="">—</option>${opts(c.lastW)}</select> échange ses Pilis avec <select data-ch="swapWith"><option value="">personne</option>${opts(c.swapWith, c.lastW)}</select></div>`;
   h += `<div class="sgrid">${m.players.map(p => {
     const s = sc[p.id], sab = isSab(m, p.id);
     return `<div class="srow ${s.perfect ? 'perfect' : ''}">
-      <div class="who">${maskSVG(p.color)}<div><b>${esc(p.name)}</b>${sab ? ' <span class="rchip sab">Saboteur</span>' : ''}
-        ${fxOf(c, 'designate') ? `<div class="det">a désigné <select data-ch="designate" data-v="${p.id}"><option value="">—</option>${opts(c.designate[p.id], p.id)}</select></div>` : ''}
+      <div class="who">${avSVG(p)}<div><b>${esc(p.name)}</b>${sab ? ' <span class="rchip sab">Saboteur</span>' : ''}
+        ${fxOf(c, 'designate') ? `<div class="det">💘 a désigné <b>${c.designate[p.id] ? esc(nameOf(m, c.designate[p.id])) : '—'}</b> <button class="linkbtn" data-a="goPhase" data-v="bets">changer</button></div>` : ''}
         <div class="det">${s.lines.join(' · ')}</div></div></div>
       <div class="res"><span class="delta ${s.delta > 0 ? 'plus' : s.delta < 0 ? 'minus' : 'zero'}">${s.delta > 0 ? '+' + s.delta : s.delta}</span><span class="tot">${s.before} ➜ <b>${s.after}</b></span></div>
       <div class="flds"><div class="fld"><span>Pari</span><b class="bet">${sab ? '—' : (c.bets[p.id] ?? 0)}</b></div>
@@ -1414,7 +1556,7 @@ function scorePhase(m) {
     h += `<div class="warn">Total des plis saisis : <b>${sumWon}</b> (attendu : ${realTricks ?? N}). Vérifiez avant de valider.</div>`;
   if (showRecv) h += `<p class="muted small" style="margin:4px 0">${spicy ? '« 🌶 Piments » = Pilis donnés par les cartes Piment pendant la manche' : '« 🎯 Piégés » = plis contenant un numéro de la mission'} (déjà comptés si vous avez saisi les plis un par un).</p>`;
   if (showCheat) h += `<p class="muted small" style="margin:4px 0">« Triche » : −1 pour celui qui s’est débarrassé d’un Pili sans être vu, +1 pour celui qu’un Gardien a pris la main dans le sac.</p>`;
-  h += `<div class="actions"><button class="btn ghost sm" data-a="goPhase" data-v="${c.tricks.length ? 'play' : 'bets'}">← Retour</button>
+  h += `<div class="actions"><button class="btn ghost sm" data-a="goPhase" data-v="play">← Retour aux plis</button>
     <button class="btn big pink pulse" data-a="validate">Valider la manche 🌶</button></div>`;
   return h;
 }
@@ -1425,7 +1567,7 @@ function overPanel(m) {
   const w = winnersOf(m);
   return `<div class="victory"><div class="crown">👑</div><h2>¡Fin de la partida!</h2>
     <div class="vnames">${w.map(p => esc(p.name)).join(' & ')}</div>
-    <div class="rank" style="justify-content:center">${ranking(m).map((p, i) => `<div><span class="pos">${i + 1}</span>${maskSVG(p.color)}${esc(p.name)} · 🌶 ${m.totals[p.id]}</div>`).join('')}</div>
+    <div class="rank" style="justify-content:center">${ranking(m).map((p, i) => `<div><span class="pos">${i + 1}</span>${avSVG(p)}${esc(p.name)} · 🌶 ${m.totals[p.id]}</div>`).join('')}</div>
     <div class="actions" style="justify-content:center"><button class="btn ghost sm" data-a="undoRound">↶ Annuler la dernière manche</button>
     <button class="btn ghost sm" data-a="tab" data-v="log">📒 Historique</button>
     <button class="btn teal" data-a="quit">Nouveaux joueurs</button><button class="btn big pink" data-a="rematch">¡Revancha! 🌶</button></div></div>`;
@@ -1439,7 +1581,7 @@ function logView() {
   if (!m) return `<div class="view"><div class="panel fit anim"><div class="fitin"><h2>Historique</h2><p class="muted">Aucune partie en cours.</p>${histHTML}</div></div></div>`;
   const ids = m.players.map(p => p.id);
   return `<div class="view"><div class="panel fit anim"><div class="fitin"><h2>Historique de la partie</h2>
-    <div class="rank">${ranking(m).map((p, i) => `<div><span class="pos">${i + 1}</span>${maskSVG(p.color)}${esc(p.name)} · 🌶 ${m.totals[p.id]}</div>`).join('')}</div>
+    <div class="rank">${ranking(m).map((p, i) => `<div><span class="pos">${i + 1}</span>${avSVG(p)}${esc(p.name)} · 🌶 ${m.totals[p.id]}</div>`).join('')}</div>
     ${m.rounds.length ? `<div class="logwrap"><table class="log"><thead><tr><th>#</th><th>Donneur</th><th>Mission</th><th>Cartes</th>${m.players.map(p => `<th>${esc(p.name)}</th>`).join('')}</tr></thead>
     <tbody>${m.rounds.map(r => `<tr><td><b>${r.n}</b></td><td>${esc(nameOf(m, r.dealer))}</td>
       <td class="ms">${r.mission && CARD[r.mission] ? `<span data-a="card" data-v="${r.mission}" style="cursor:pointer;display:flex;gap:6px;align-items:center">${face(CARD[r.mission])}<span class="small">${esc(CARD[r.mission].t)}</span></span>` : '<span class="muted">—</span>'}</td>
@@ -1465,7 +1607,8 @@ function seatName(n) {
 }
 function startMatch() {
   const st = S.setup;
-  const players = st.players.map((n, i) => ({ id:'p' + i + '_' + Date.now().toString(36), name:n, color:COLORS[i % 8] }));
+  const avs = assignAvs(st.players);
+  const players = st.players.map((n, i) => ({ id:'p' + i + '_' + Date.now().toString(36), name:n, color:COLORS[i % 8], av:avs[i] }));
   const m = { game:S.game, players, dealer:Math.min(st.dealer, players.length - 1), totals:{}, rounds:[], missions:!!st.missions, over:false, started:Date.now() };
   players.forEach(p => (m.totals[p.id] = 0));
   m.cur = newRound(m);
@@ -1474,7 +1617,8 @@ function startMatch() {
 }
 function award(pid) {
   const m = M(), c = m.cur;
-  if (m.over || c.phase !== 'play' || c.pendingGive != null || c.tricks.length >= tricksTarget(m)) return;
+  if (m.over || c.phase !== 'play' || c.pendingGive != null) return;
+  if (c.tricks.length >= tricksTarget(m)) { c.extraTricks = (c.extraTricks || 0) + 1; toast('Pli en plus ajouté (' + tricksTarget(m) + ' plis)'); }
   const t = { winner:pid, piment:c.mod.piment || 0, trap:!!c.mod.trap };
   c.tricks.push(t); c.mod = {};
   if (fxOf(c, 'pgive') && livePilis(m, pid) > 0) c.pendingGive = c.tricks.length - 1;
@@ -1482,8 +1626,46 @@ function award(pid) {
   sfx.trick(); if (hot) sfx.burn(hot);
   render();
   const seat = $(`.seat[data-pid="${pid}"]`);
-  if (seat) { if (hot) burnSeat(seat, hot); else { burstAt(seat, '🃏', 3); floatText(seat, '+1 pli'); } }
+  if (seat && $('#modal').classList.contains('hidden')) { if (hot) burnSeat(seat, hot); else { burstAt(seat, '🃏', 3); floatText(seat, '+1 pli'); } }
   if (c.tricks.length >= tricksTarget(m) && c.pendingGive == null) toast('Tous les plis sont joués : passez à la fin de manche !');
+}
+function untrick(pid) {
+  const c = M().cur;
+  for (let i = c.tricks.length - 1; i >= 0; i--) if (c.tricks[i].winner === pid) {
+    c.tricks.splice(i, 1);
+    if (c.pendingGive === i) c.pendingGive = null; else if (c.pendingGive > i) c.pendingGive--;
+    break;
+  }
+  sfx.tap(); render();
+}
+const splitV = v => { const i = v.lastIndexOf('|'); return [v.slice(0, i), v.slice(i + 1)]; };
+// Fiche d'un joueur : corriger pari / plis / Pilis, changer de tête
+function openProfile(pid) {
+  const m = M(), p = m && pById(m, pid); if (!p) return;
+  const c = m.cur, g = G(), sab = isSab(m, pid);
+  let ctx = '';
+  if (!m.over) {
+    if (c.phase === 'bets' && !sab) ctx += `<div class="pf-sec"><div class="lbl">Son pari</div><div class="chips">${betOptions(m, pid).map(o => {
+      const on = c.bets[pid] === o.v, no = o.why && !on;
+      return `<button class="chip ${on ? 'on' : ''} ${no ? 'no' : ''}" ${no ? `data-a="betNo" data-v="${esc(o.why)}"` : `data-a="pBet" data-v="${pid}|${o.v}"`}>${o.v}</button>`; }).join('')}</div></div>`;
+    if (c.phase === 'play' || c.phase === 'score') {
+      const w = c.phase === 'play' ? wonLive(m)[pid] : (c.won[pid] || 0);
+      ctx += `<div class="pf-sec"><div class="lbl">Plis gagnés cette manche${sab ? '' : ` (pari : ${c.bets[pid] ?? 0})`}</div>
+        <span class="step big"><button data-a="pTrick" data-v="${pid}|-1">−</button><b>${w}</b><button data-a="pTrick" data-v="${pid}|1">+</button></span></div>`;
+    }
+    ctx += `<div class="pf-sec"><div class="lbl">Pilis au total (correction)</div>
+      <span class="step big"><button data-a="pPili" data-v="${pid}|-1">−</button><b>${m.totals[pid]}</b><button data-a="pPili" data-v="${pid}|1">+</button></span></div>`;
+  }
+  openModal(`<div class="sheet fit" style="max-width:820px"><button class="xbtn" data-a="closeModal">×</button><div class="fitin">
+    <div class="pf-head">${avSVG(p)}<div><h2 class="h2">${esc(p.name)}</h2><div class="muted">🌶 ${m.totals[pid]} / ${g.limit} Pilis</div></div></div>
+    <div class="pf-grid">${ctx ? `<div>${ctx}</div>` : ''}<div><div class="lbl">Changer de tête</div>${avPicker(p.av || 'lucha', p.color, 'setAv', pid)}</div></div></div></div>`);
+}
+function openSetupAv(k) {
+  const st = S.setup, name = st.players[k]; if (name == null) return;
+  const av = assignAvs(st.players)[k], col = COLORS[k % 8];
+  openModal(`<div class="sheet fit" style="max-width:720px"><button class="xbtn" data-a="closeModal">×</button><div class="fitin">
+    <div class="pf-head">${avatarSVG(av, col)}<div><h2 class="h2">${esc(name)}</h2><div class="muted">Choisis ta tête</div></div></div>
+    ${avPicker(av, col, 'setAvName', name)}</div></div>`);
 }
 function validateRound() {
   const m = M(), c = m.cur, sc = computeScore(m), g = G();
@@ -1610,6 +1792,20 @@ const ACT = {
   toPlay() { M().cur.phase = 'play'; sfx.flip(); render(); },
   toScoreDirect() { initScore(false); M().cur.phase = 'score'; render(); },
   trick(v) { award(v); },
+  untrick(v) { untrick(v); },
+  profile(v) { if (v) { sfx.tap(); openProfile(v); } },
+  pTrick(v) {
+    const [pid, d] = splitV(v), c = M().cur;
+    if (c.phase === 'play') { if (+d > 0) award(pid); else untrick(pid); }
+    else { c.won[pid] = Math.max(0, (c.won[pid] || 0) + +d); sfx.tap(); render(); }
+    openProfile(pid);
+  },
+  pBet(v) { const [pid, b] = splitV(v); M().cur.bets[pid] = +b; sfx.bet(); render(); openProfile(pid); },
+  pPili(v) { const [pid, d] = splitV(v), m = M(); m.totals[pid] = Math.max(0, m.totals[pid] + +d); if (+d > 0) sfx.burn(1); else sfx.tap(); render(); openProfile(pid); },
+  setAv(v) { const [pid, k] = splitV(v), p = pById(M(), pid); p.av = k; AVS[p.name] = k; LS.set('pp_avatars', AVS); sfx.flip(); render(); openProfile(pid); },
+  avSetup(v) { sfx.tap(); openSetupAv(+v); },
+  setAvName(v) { const [name, k] = splitV(v); AVS[name] = k; LS.set('pp_avatars', AVS); sfx.flip(); render(); openSetupAv(S.setup.players.indexOf(name)); },
+  desig(v) { const [a, b] = v.split('|'), c = M().cur; c.designate[a] = c.designate[a] === b ? null : b; sfx.tap(); render(); },
   discard() {
     const m = M(), c = m.cur; if (c.tricks.length >= tricksTarget(m)) return;
     c.tricks.push({ winner:null, discarded:true, piment:0 }); c.mod = {}; sfx.flip(); render();
