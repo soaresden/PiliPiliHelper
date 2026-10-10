@@ -512,6 +512,13 @@ table.log{border-collapse:collapse;width:100%;min-width:520px}
 .pm button{flex:1;border:0;background:#0005;font-size:26px;font-weight:900;padding:4px 0;cursor:pointer;color:#fff}
 .pm button+button{border-left:3px solid var(--line);background:#ffffff26}
 .pm button:disabled{opacity:.3}
+.px{display:flex;align-items:center;gap:6px;padding:3px 8px;border-top:2px solid #12040e88;background:#0003;font-size:12px;font-weight:900}
+.px span{flex:1}
+.px button{width:28px;height:28px;border-radius:8px;border:2px solid var(--line);background:var(--yellow);color:var(--line);font-weight:900;font-size:17px;line-height:1;padding:0;cursor:pointer}
+.px b{min-width:18px;text-align:center;font-family:var(--title);font-weight:400;font-size:18px}
+.pprev{display:flex;align-items:baseline;justify-content:space-between;gap:6px;padding:4px 10px;background:#12040ecc;border-top:2px solid var(--line)}
+.pprev .delta{font-size:22px}
+.pprev small{font-weight:900;color:var(--mute)} .pprev small b{color:var(--ink)}
 /* --- Amoureux --- */
 .lovers{background:#ff2e8822;border:3px dashed var(--pink);border-radius:16px;padding:10px;margin:10px 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:2px 14px}
 .lovers .lbl{grid-column:1/-1}
@@ -1097,7 +1104,7 @@ const tricksTarget = m => m.cur.cards + (fxOf(m.cur, 'extra') || 0) + (m.cur.ext
 
 function newRound(m) {
   return { phase: m.missions ? 'mission' : 'bets', mission:null, variant:{}, cards: m.lastCards || 5, extraTricks:0,
-    bets:{}, tricks:[], mod:{}, won:{}, recv:{}, adj:{}, designate:{}, firstW:null, lastW:null, swapWith:null, pendingGive:null };
+    bets:{}, tricks:[], mod:{}, won:{}, recv:{}, recvX:{}, adj:{}, designate:{}, firstW:null, lastW:null, swapLastW:null, swapWith:null, pendingGive:null };
 }
 function extremes(m, most) {
   const vals = m.players.map(p => m.totals[p.id]);
@@ -1164,7 +1171,17 @@ function initScore(fromTricks) {
   }
   m.players.forEach(p => { c.won[p.id] ??= 0; c.recv[p.id] ??= 0; c.adj[p.id] ??= 0; if (!isSab(m, p.id)) c.bets[p.id] ??= 0; });
 }
+// Les plis, piments et 1er/dernier pli se déduisent de la saisie pendant la manche
+function logRecv(c, id) { return c.tricks.reduce((a, t) => a + (t.winner === id ? (t.piment || 0) + (t.trap ? 1 : 0) : 0), 0); }
+function syncRound(m) {
+  const c = m.cur; c.recvX = c.recvX || {};
+  c.won = wonLive(m); c.recv = {};
+  m.players.forEach(p => { c.recv[p.id] = Math.max(0, logRecv(c, p.id) + (c.recvX[p.id] || 0)); });
+  c.firstW = c.tricks.length ? c.tricks[0].winner || null : null;
+  c.lastW = c.swapLastW || (c.tricks.length ? c.tricks[c.tricks.length - 1].winner || null : null);
+}
 function computeScore(m) {
+  syncRound(m);
   const c = m.cur, ids = m.players.map(p => p.id), mult = fxOf(c, 'x2') ? 2 : 1, out = {};
   const xfer = {}; ids.forEach(id => (xfer[id] = 0));
   c.tricks.forEach(t => { if (t.winner && t.giveTo) { xfer[t.winner]--; xfer[t.giveTo]++; } });
@@ -1433,7 +1450,7 @@ function gameTable(m) {
   });
 }
 function phaseNav(m) {
-  const order = ['mission','bets','play','score'], labels = { mission:'Mission', bets:'Paris', play:'Plis', score:'Fin de manche' };
+  const order = ['mission','bets','play'], labels = { mission:'Mission', bets:'Paris', play:'Plis & Pilis' };
   const list = m.missions ? order : order.slice(1), cur = order.indexOf(m.cur.phase);
   return `<div class="phases">${list.map(p => { const i = order.indexOf(p);
     return `<button class="${i === cur ? 'on' : i < cur ? 'done' : ''}" ${i < cur ? `data-a="goPhase" data-v="${p}"` : 'disabled'}>${labels[p]}</button>`; }).join('<span class="muted">›</span>')}</div>`;
@@ -1452,7 +1469,8 @@ function gameView() {
   const m = M(), c = m.cur;
   const key = m.over ? 'over' : c.phase + m.rounds.length;
   const anim = key !== lastPanelKey ? 'anim' : ''; lastPanelKey = key;
-  const body = m.over ? overPanel(m) : { mission:missionPhase, bets:betsPhase, play:playPhase, score:scorePhase }[c.phase](m);
+  if (c.phase === 'score') c.phase = 'play';
+  const body = m.over ? overPanel(m) : { mission:missionPhase, bets:betsPhase, play:playPhase }[c.phase](m);
   return `<div class="game-layout"><div class="left-col">${gameTable(m)}${m.over ? '' : phaseNav(m)}</div><div class="panel fit ${anim}"><div class="fitin">${body}</div></div></div>`;
 }
 
@@ -1506,7 +1524,8 @@ function betsPhase(m) {
 
 function playPhase(m) {
   const c = m.cur, N = tricksTarget(m), k = c.tricks.length, done = k >= N, spicy = S.game === 'spicy', wl = wonLive(m);
-  let h = `<h2>Les plis ${cardsBadge(c)}</h2>${missionBanner(m)}`;
+  const sc = computeScore(m), showRecv = spicy || fxOf(c, 'trap'), showCheat = fxOf(c, 'guard');
+  let h = `<h2>Plis & Pilis ${cardsBadge(c)}</h2>${missionBanner(m)}`;
   h += `<div class="pliprog"><span class="big">${Math.min(k, N)}</span><span>/ ${N} plis joués</span><span class="bar"><i style="width:${Math.min(100, k / N * 100)}%"></i></span></div>`;
   if (c.pendingGive != null) {
     const t = c.tricks[c.pendingGive];
@@ -1517,17 +1536,27 @@ function playPhase(m) {
       <button class="mod" data-a="discard">🗑 Pli défaussé<small>que des Spéciales</small></button></div>`;
     if (fxOf(c, 'trap')) h += `<div class="mods"><button class="mod ${c.mod.trap ? 'on' : ''}" data-a="trap">🎯 Numéro piégé<small>+1 Pili au prochain gagnant</small></button></div>`;
   }
+  const opts = (sel, ex) => m.players.filter(p => p.id !== ex).map(p => `<option value="${p.id}" ${sel === p.id ? 'selected' : ''}>${esc(p.name)}</option>`).join('');
+  if (fxOf(c, 'swapPilis')) h += `<div class="selrow">🔄 Dernier pli : <select data-ch="lastW"><option value="">—</option>${opts(c.lastW)}</select> échange ses Pilis avec <select data-ch="swapWith"><option value="">personne</option>${opts(c.swapWith, c.lastW)}</select></div>`;
+  if (fxOf(c, 'firstLast') && k) h += `<p class="muted small" style="margin:2px 0">+1 Pili : 1er pli <b>${c.firstW ? esc(nameOf(m, c.firstW)) : '—'}</b> · dernier pli <b>${c.lastW ? esc(nameOf(m, c.lastW)) : '—'}</b></p>`;
   h += `<div class="ptiles">${m.players.map(p => {
-    const sab = isSab(m, p.id), b = c.bets[p.id] ?? 0, w = wl[p.id], st = sab ? '' : (w === b ? 'ok' : w > b ? 'over' : '');
+    const sab = isSab(m, p.id), b = c.bets[p.id] ?? 0, w = wl[p.id], st = sab ? '' : (w === b ? 'ok' : w > b ? 'over' : ''), r = sc[p.id];
+    const extra = (lbl, field, val) => `<div class="px"><span>${lbl}</span><button data-a="stp" data-v="${field}|${p.id}|-1">−</button><b>${val}</b><button data-a="stp" data-v="${field}|${p.id}|1">+</button></div>`;
     return `<div class="ptile ${st}" style="--c:${p.color}"><button class="ptap" data-a="trick" data-v="${p.id}">${avSVG(p)}<span class="pn">${esc(p.name)}</span>
       <span class="pb">${sab ? 'saboteur' : 'pari ' + b}${st === 'ok' ? ' ✔' : ''}</span><span class="pc">${w}</span></button>
-      <div class="pm"><button data-a="untrick" data-v="${p.id}" ${w ? '' : 'disabled'} aria-label="un pli de moins">−</button><button data-a="trick" data-v="${p.id}" aria-label="un pli de plus">+</button></div></div>`;
+      <div class="pm"><button data-a="untrick" data-v="${p.id}" ${w ? '' : 'disabled'} aria-label="un pli de moins">−</button><button data-a="trick" data-v="${p.id}" aria-label="un pli de plus">+</button></div>
+      ${showRecv ? extra(spicy ? '🌶 Piments' : '🎯 Piégés', 'recv', c.recv[p.id] || 0) : ''}
+      ${showCheat ? extra('🤫 Triche', 'adj', c.adj[p.id] || 0) : ''}
+      <div class="pprev" title="${esc(r.lines.join(' · '))}"><span class="delta ${r.delta > 0 ? 'plus' : r.delta < 0 ? 'minus' : 'zero'}">${r.delta > 0 ? '+' + r.delta + ' 🌶' : r.delta < 0 ? r.delta + ' 🌶' : '0 🌶'}</span><small>${r.before} ➜ <b>${r.after}</b></small></div></div>`;
   }).join('')}</div>`;
-  h += `<p class="muted small" style="margin:4px 0">Touchez un joueur à chaque pli qu’il remporte, ou réglez directement son total avec − / +.${k === 0 ? ` 1er pli : <b>${esc(nameOf(m, leaderId(m)))}</b> commence.` : ''}</p>`;
+  h += `<p class="muted small" style="margin:4px 0">Touchez un joueur à chaque pli qu’il remporte, ou réglez directement son total avec − / +. Sous chaque joueur : les Pilis qu’il prendra.${k === 0 ? ` 1er pli : <b>${esc(nameOf(m, leaderId(m)))}</b> commence.` : ''}${showRecv ? (spicy ? ' « 🌶 Piments » : Pilis des cartes Piment (ajoutés tout seuls si vous touchez « Piment » avant le gagnant).' : ' « 🎯 Piégés » : plis contenant un numéro de la mission.') : ''}${showCheat ? ' « 🤫 Triche » : −1 pour un Pili lâché sans être vu, +1 pour un tricheur pris.' : ''}</p>`;
   if (k) h += `<ol class="tlog">${c.tricks.map(t => `<li>${t.winner ? esc(nameOf(m, t.winner)) : '🗑 défaussé'}${t.piment ? ` 🌶+${t.piment}` : ''}${t.trap ? ' 🎯+1' : ''}${t.giveTo ? ` 🎁→${esc(nameOf(m, t.giveTo))}` : ''}</li>`).join('')}</ol>`;
+  const won = m.players.reduce((a, p) => a + wl[p.id], 0), real = c.tricks.filter(t => t.winner).length;
+  if (done && won !== real) h += `<div class="warn">Total des plis : ${won} pour ${real} plis remportés.</div>`;
+  if (!done && k) h += `<div class="muted small">Encore ${N - k} pli${N - k > 1 ? 's' : ''} à jouer.</div>`;
   h += `<div class="actions"><button class="btn ghost sm" data-a="goPhase" data-v="bets">← Retour aux paris</button>
     ${k ? '<button class="btn ghost sm" data-a="undoTrick">↶ Dernier pli</button>' : ''}
-    <button class="btn big ${done ? 'pink pulse' : 'ghost'}" data-a="toScore">Fin de manche ➜</button></div>`;
+    <button class="btn big ${done ? 'pink pulse' : 'ghost'}" data-a="validate">Fin de manche : valider 🌶</button></div>`;
   return h;
 }
 
@@ -1653,6 +1682,7 @@ function openProfile(pid) {
       ctx += `<div class="pf-sec"><div class="lbl">Plis gagnés cette manche${sab ? '' : ` (pari : ${c.bets[pid] ?? 0})`}</div>
         <span class="step big"><button data-a="pTrick" data-v="${pid}|-1">−</button><b>${w}</b><button data-a="pTrick" data-v="${pid}|1">+</button></span></div>`;
     }
+    if (c.phase === 'play') { const r = computeScore(m)[pid]; ctx += `<div class="pf-sec"><div class="lbl">Cette manche : ${r.delta > 0 ? '+' + r.delta : r.delta} 🌶</div><div class="small">${r.lines.map(esc).join('<br>')}</div></div>`; }
     ctx += `<div class="pf-sec"><div class="lbl">Pilis au total (correction)</div>
       <span class="step big"><button data-a="pPili" data-v="${pid}|-1">−</button><b>${m.totals[pid]}</b><button data-a="pPili" data-v="${pid}|1">+</button></span></div>`;
   }
@@ -1714,10 +1744,10 @@ function undoRound() {
   const rec = m.rounds.pop();
   m.totals = { ...rec.before };
   m.dealer = Math.max(0, m.players.findIndex(p => p.id === rec.dealer));
-  m.cur = Object.assign(newRound(m), rec.cur, { phase:'score' });
+  m.cur = Object.assign(newRound(m), rec.cur, { phase:'play' });
   if (m.over && S.history[0] && S.history[0].game === S.game && S.history[0].rounds === rec.n) S.history.shift();
   m.over = false;
-  S.tab = 'game'; toast('Manche ' + rec.n + ' annulée : retour à la fin de manche'); render();
+  S.tab = 'game'; toast('Manche ' + rec.n + ' rouverte : corrigez puis revalidez'); render();
 }
 
 const ACT = {
@@ -1776,7 +1806,7 @@ const ACT = {
     if (f === 'cards') c.cards = Math.min(20, Math.max(1, c.cards + dd));
     else if (f === 'bet') c.bets[pid] = Math.min(N + 4, Math.max(0, (c.bets[pid] ?? 0) + dd));
     else if (f === 'won') c.won[pid] = Math.min(30, Math.max(0, (c.won[pid] || 0) + dd));
-    else if (f === 'recv') c.recv[pid] = Math.min(30, Math.max(0, (c.recv[pid] || 0) + dd));
+    else if (f === 'recv') { c.recvX = c.recvX || {}; c.recvX[pid] = Math.min(30, Math.max(-logRecv(c, pid), (c.recvX[pid] || 0) + dd)); }
     else if (f === 'adj') c.adj[pid] = Math.min(30, Math.max(-30, (c.adj[pid] || 0) + dd));
     sfx.tap(); render();
   },
@@ -1820,10 +1850,10 @@ const ACT = {
   },
   undoTrick() { const c = M().cur; c.tricks.pop(); c.pendingGive = null; sfx.tap(); render(); },
   moreTrick() { const c = M().cur; c.extraTricks = (c.extraTricks || 0) + 1; render(); },
-  toScore() { initScore(true); M().cur.phase = 'score'; sfx.flip(); render(); toTop(); },
+  toScore() { validateRound(); },
   goPhase(v) { const c = M().cur; if (v === 'score') initScore(false); c.phase = v; c.pendingGive = null; sfx.tap(); render(); },
   validate() { validateRound(); },
-  undoRound() { if (confirm('Annuler la dernière manche et revenir à sa fin de manche ?')) { closeModal(); undoRound(); } },
+  undoRound() { if (confirm('Rouvrir la manche précédente pour la corriger ?')) { closeModal(); undoRound(); } },
   rematch() {
     const m = M();
     S.setup.players = m.players.map(p => p.name);
@@ -1839,7 +1869,7 @@ const ACT = {
 };
 const CHG = {
   firstW(v) { M().cur.firstW = v || null; },
-  lastW(v) { M().cur.lastW = v || null; },
+  lastW(v) { M().cur.swapLastW = v || null; },
   swapWith(v) { M().cur.swapWith = v || null; },
   designate(v, pid) { M().cur.designate[pid] = v || null; }
 };
