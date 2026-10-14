@@ -2177,7 +2177,22 @@ document.addEventListener('pointerdown', () => {
 }, { passive:true });
 
 let rzT = null;
-addEventListener('resize', () => { clearTimeout(rzT); rzT = setTimeout(() => { buildPapel(); render(); }, 150); });
+// Sur téléphone, le clavier qui s'ouvre réduit la hauteur : on ne redessine surtout pas la page
+// (ça recréerait le champ de saisie et refermerait le clavier). Seule une vraie rotation /
+// un changement de largeur redessine tout.
+let lastVW = innerWidth, lastLand = innerWidth > innerHeight;
+addEventListener('resize', () => {
+  clearTimeout(rzT);
+  rzT = setTimeout(() => {
+    const typing = document.activeElement && /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+    const land = innerWidth > innerHeight;
+    if (innerWidth !== lastVW || (land !== lastLand && !typing)) {
+      lastVW = innerWidth; lastLand = land;
+      buildPapel();
+      if (!typing) render();
+    } else if (!typing) fitAll();
+  }, 150);
+});
 if (document.fonts) document.fonts.ready.then(fitAll);
 $$('img').forEach(i => i.complete || i.addEventListener('load', fitAll, { once:true }));
 buildPapel(); petals(); render();
